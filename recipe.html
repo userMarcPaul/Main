@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Book</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #f5f5dc;
+            color: #333;
+        }
+        .card {
+            border: none;
+            border-radius: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+        .card-title {
+            font-size: 2.5rem;
+            color: #8b4513;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .list-group-item {
+            background-color: #fffaf0;
+            border: none;
+            padding: 10px 20px;
+        }
+        .list-group-item::before {
+            content: "• ";
+            color: #8b4513;
+        }
+        .list-group-numbered .list-group-item::before {
+            content: counter(item) ". ";
+            counter-increment: item;
+            color: #8b4513;
+        }
+        .card-img-top {
+            height: 300px;
+            object-fit: cover;
+        }
+        .ingredients, .procedures {
+            margin-top: 20px;
+        }
+        .ingredients h2, .procedures h2 {
+            color: #8b4513;
+            border-bottom: 2px solid #8b4513;
+            padding-bottom: 5px;
+        }
+        .btn-custom {
+            background-color: #8b4513;
+            color: white;
+            border-radius: 50px;
+            padding: 10px 20px;
+            font-size: 1.2rem;
+        }
+        .btn-custom:hover {
+            background-color: #5a2e1a;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card">
+            <img src="recipe.jpg" class="card-img-top" alt="Recipe Image">
+            <div class="card-body">
+                <h1 class="card-title">Delicious Recipe</h1>
+                <div class="text-center mb-4">
+                    <button class="btn btn-custom">Save Recipe</button>
+                </div>
+                <div class="ingredients">
+                    <h2>Ingredients</h2>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">1 cup of flour</li>
+                        <li class="list-group-item">2 eggs</li>
+                        <li class="list-group-item">1/2 cup of milk</li>
+                        <li class="list-group-item">1 tbsp of sugar</li>
+                        <li class="list-group-item">1 tsp of baking powder</li>
+                        <li class="list-group-item">Pinch of salt</li>
+                    </ul>
+                </div>
+                <div class="procedures mt-4">
+                    <h2>Procedures</h2>
+                    <ol class="list-group list-group-numbered">
+                        <li class="list-group-item">Preheat your oven to 180°C (350°F).</li>
+                        <li class="list-group-item">Mix the flour, sugar, baking powder, and salt in a bowl.</li>
+                        <li class="list-group-item">In another bowl, beat the eggs and then add the milk.</li>
+                        <li class="list-group-item">Combine the wet and dry ingredients and mix until smooth.</li>
+                        <li class="list-group-item">Pour the mixture into a greased baking dish.</li>
+                        <li class="list-group-item">Bake for 25-30 minutes or until golden brown.</li>
+                        <li class="list-group-item">Let it cool before serving. Enjoy!</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
