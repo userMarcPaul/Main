@@ -153,7 +153,7 @@
     </div> 
   </div>
   <!--===== Video Modal =====-->
-  <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+ <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered"> 
       <div class="modal-content"> 
         <div class="modal-header"> 
@@ -162,7 +162,9 @@
         </div> 
         <div class="modal-body"> 
           <div class="ratio ratio-16x9"> 
-            <iframe id="video"src="https://youtu.be/s-x0JkY_0VQ?si=GIRE1xJVaFBhRixe/" title="video" allowfullscreen></iframe> 
+            <video id="recipeVideo" width="600" controls autoplay> 
+              <source src="assets/img/promo_vid.mp4" type="video/mp4">
+            </video>
           </div> 
         </div> 
       </div> 
@@ -177,13 +179,10 @@
 </footer>
 </body>
 <script> 
-  var videoSrc;
-  $('#videoModal').on('show.bs.modal', function (e) { 
-    videoSrc = $("#video").attr("src"); 
-    $("#video").attr("src", videoSrc + "&autoplay=1"); 
-  });
-  $('#videoModal').on('hide.bs.modal', function (e) { 
-      $("#video").attr("src", videoSrc); }); 
+  var videoModal = document.getElementById('videoModal'); 
+  var recipeVideo = document.getElementById('recipeVideo'); 
+  videoModal.addEventListener('shown.bs.modal', function () { recipeVideo.play(); }); 
+  videoModal.addEventListener('hidden.bs.modal', function () { recipeVideo.pause(); recipeVideo.currentTime = 0; });
 </script>
 
 <script> 
