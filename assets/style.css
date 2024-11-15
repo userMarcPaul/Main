@@ -195,6 +195,9 @@ h1{
     width: 100%;
     
   }
+  .footer p{
+    font-family: 'Roboto', sans-serif;
+  }
   .cover{
     box-shadow: 0px 6px 6px black;
   }
