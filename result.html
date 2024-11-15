@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECB</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/style.css">
+
+    <link href="https://fonts.cdnfonts.com/css/media-gothic" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/rexmone-demo" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">             
+
+    <link rel="icon" href="assets/img/Logo.png" type="image/png">
+</head>
+<body>
+<!-- Navigation bar -->
+<header>
+  <a href="index.html#home" class="logo"><i class="icon" ></i><span>ECB</span></a>
+  <ul class="navbar">
+    <li><a href="https://usermarcpaul.github.io/PocketDEV/carousel/index.html">PocketDEVS</a></li>
+    <li><a class=" " href="index.html#home" onclick="scrollToSection(event, 'home')">Home</a></li>
+    <li><a href="index.html#recipes" class="active" onclick="scrollToSection(event, 'recipes')">Recipes</a></li>
+    <li><a href="index.html#aboutUs" class=" " onclick="scrollToSection(event, 'aboutUs')">About us</a></li>
+
+  </ul>
+<div class="main">
+  <div class="fa fa-bars" id="menu-icon"></div>
+</div>
+</header>
+<!-- Search bar -->
+<div class="container d-flex justify-content-center">
+  <div class="row">
+      <div class="col-md-2"></div>
+      <div class="col-md-8">
+        <form action="result.html">
+            <div class="d-flex justify-content-center">
+              <div class="search-container">
+                <input type="text" placeholder="Search...">
+                <i type="submit" class="fa-solid fa-magnifying-glass"></i>
+              </div>
+          </div>
+        </form>
+      </div>
+  </div>
+</div>
+
+<!-- Result -->
+
+<div class="container" style="margin-top: 3%;">
+  <div class="row">
+      <h1>Search Results</h1>
+      <div id="results"></div>
+  </div>
+</div>
+<script>
+  const query = 'Example';
+  const searchResults = [
+  {
+      title: 'Rosemary Chicken',
+      url: 'recipe.html',
+      snippet: 'A delicious chicken dish seasoned with rosemary and garlic.',
+      image: 'assets/img/chicken_R.jpg'
+  },
+  {
+      title: 'Grilled Wagyu Ribeye',
+      url: 'recipe.html',
+      snippet: 'Juicy Wagyu ribeye steak grilled to perfection.',
+      image: 'assets/img/maet_R.jpg'
+  },
+  {
+      title: 'Roasted Vegetable Tartine',
+      url: 'recipe.html',
+      snippet: 'TA healthy tartine topped with roasted vegetables.',
+      image: 'assets/img/veggies_R.jpg'
+  }
+  ];
+  document.getElementById('results').innerHTML=`<p class="custom"> Your Search</p>`;
+  let resultHTML = '';
+  searchResults.forEach(result => {resultHTML+=`
+    <div class="result">
+      <div class="row">
+        <div class="col-md-2 align-items-center">
+          <img class="res_img" src="${result.image}" alt = "IMAGE">
+        </div>
+        <div class="col-md-10 mt-4">
+          <a href="${result.url}">${result.title}</a>
+          <div class="snippet">${result.snippet}
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    `});
+  document.getElementById('results').innerHTML+=resultHTML;
+</script>
+<footer class="footer">
+  <p>&copy; 2024 Your Company. All rights reserved.</p> 
+</footer>
+</body>
+<script src="assets/db.js"></script>
+<script src="assets/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="assets/bar.js"></script>
+</html>

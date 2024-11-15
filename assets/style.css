@@ -16,8 +16,7 @@
 body{
    /* display: flex;*/
     justify-content: center;
-    background-image: url('./img/bg.jpg');
-    background-size: cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)), url('./img/bg.jpg') no-repeat center center/cover;
     height: 100%;
 }
 header{
@@ -159,14 +158,23 @@ h1{
     margin-bottom: 5%;
   }
   .result{
-    margin-bottom: 20px;
+    margin-bottom: 50px;
 
   }
+  hr {
+      border: 0;
+      height: 3px;
+      background-color: #ccc;
+  }
+
   .result a{
     font-size: 28px;
     color: #96daab;
     text-decoration: none;
     text-shadow:0 2px 2px #696969;
+  }
+  .custom{
+    color: var(--text-color);
   }
   .result a:hover{
     text-decoration: underline;
@@ -178,15 +186,17 @@ h1{
     color: #daf1de;
 
   }
-  .result img{
-    max-width: 100px;
-    margin-right: 10px;
-  }
-  .footer{
-    background-color: transparent;
+  .res_img{
     border: 4px solid var(--bg-color);
     border-radius: 20px;
-    box-shadow: 0px -6px 6px rgba(0, 0, 0, 0.3);
+    box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.3);
+    height: 150px;
+    max-width: 150px;
+    margin-right: 5px;
+  }
+  .footer{
+    background-color: #213a57;
+    border: 4px solid var(--bg-color);
     color: white;
     text-align: center;
     padding: 1rem 0;
@@ -195,8 +205,12 @@ h1{
     width: 100%;
     
   }
+
   .footer p{
     font-family: 'Roboto', sans-serif;
+  }
+  .modal-content{
+    background:  url('./img/bg.jpg') no-repeat center center/cover;
   }
   .cover{
     box-shadow: 0px 6px 6px black;
@@ -206,13 +220,30 @@ h1{
     height: 120vh; 
     padding: 20px;
   }
+
   .card {
     margin: 20px; 
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
     transition: transform 0.3s; 
+    display: flex;
+    flex-direction: column; 
+    justify-content: space-between; 
+    height: 100%;
 } 
+.card-inner { 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; 
+} 
+.card-front, .card-back { 
+    flex: 1; 
+}
   .card:hover { 
     transform: translateY(-10px);
+}
+h6{
+    font-size:1rem;
 }
 
 @media (max-width: 1280px){
@@ -274,13 +305,16 @@ h1{
         right: 2%;
     }
 }
-@media (max-width:768px) {
+@media (max-width:770px) {
     header{
-      height: 10%;
+      height: 15%;
+    }
+    .card-title{
+        font-size: 10px;
     }
     section{
         margin-top: 5%;
-        height: 240vh; 
+        height: 150vh; 
       }
     .footer{
         padding: 0.5rem 0;
@@ -288,7 +322,12 @@ h1{
     }
     
     .card{
-        margin: 10px;
+        margin: 5%;
+        height:min-content;
+    }
+    .card.card-inner{
+
+        margin-bottom: 20px;
     }
     
     .containers{
@@ -315,10 +354,32 @@ h1{
     }
     .container{
         margin-top: 20%;
-      }
+    }
+    .result a{
+        font-size: 1rem;
+    }
+    .res_img{
+        height: 100px;
+    }
     
 }
-
+@media (max-width:430px) {
+    header{
+        height: 10%;
+    }
+    section{
+        height: fit-content;
+    }
+    h6{
+        font-size: .5rem;
+    }
+    .list-group-item{
+        font-size: .5rem;
+    }
+}
+.card-body{
+    background-color: var(--bg-);
+}
 .card {
     border: none;
     border-radius: 0;
@@ -326,19 +387,26 @@ h1{
     margin-bottom: 20px;
         }
 .card-title {
-    font-size: 2.5rem;
+    font-size: 40px;
     color: #8b4513;
     text-align: center;
     margin-bottom: 20px;
+    font-family: 'Rexmone Demo', serif;
 }
 .list-group-item {
+    font-size: 1.5rem;
     background-color: #fffaf0;
     border: none;
     padding: 10px 20px;
+    font-family: "EB Garamond", serif
 }
 .list-group-item::before {
     content: "• ";
     color: #8b4513;
+}
+.h2_font{
+    font-family: 'Rexmone Demo', serif;
+    
 }
 .list-group-numbered .list-group-item::before {
     content: counter(item) ". ";
@@ -347,6 +415,7 @@ h1{
 }
 .card-img-top {
     height: 300px;
+    max-width: 100%;
     object-fit: cover;
 }
 .ingredients, .procedures {
@@ -382,6 +451,7 @@ h1{
     font-size: 1.2rem;
     line-height: 1.6;
   }
+  
   
   @media (max-width: 768px) {
     .aboutUs .col-md-6 {
