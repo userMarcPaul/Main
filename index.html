@@ -164,7 +164,7 @@
         </div> 
         <div class="modal-body"> 
           <div class="ratio ratio-16x9"> 
-            <video id="recipeVideo" width="600" controls autoplay> 
+            <video id="recipeVideo" width="600" controls> 
               <source src="assets/img/promo_vid.mp4" type="video/mp4">
             </video>
           </div> 
@@ -183,7 +183,6 @@
 <script> 
   var videoModal = document.getElementById('videoModal'); 
   var recipeVideo = document.getElementById('recipeVideo'); 
-  videoModal.addEventListener('shown.bs.modal', function () { recipeVideo.play(); }); 
   videoModal.addEventListener('hidden.bs.modal', function () { recipeVideo.pause(); recipeVideo.currentTime = 0; });
 </script>
 
