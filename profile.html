@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About ECB Eats — Our Story</title>
+  <meta name="description" content="Learn about ECB Eats — our mission to inspire culinary creativity and make cooking accessible for everyone.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/img/Logo.png" type="image/png">
+  <style>
+    .about-hero {
+      background: var(--navy);
+      padding: 80px 0 64px;
+      text-align: center;
+    }
+    .about-hero h1 {
+      font-family: var(--font-heading);
+      font-size: 3rem;
+      color: var(--white);
+      margin-bottom: 12px;
+    }
+    .about-hero p {
+      font-size: 1.125rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+    .about-content {
+      max-width: 860px;
+      margin: -40px auto 0;
+      padding: 48px 56px 56px;
+      background: var(--white);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      z-index: 2;
+    }
+    .about-section {
+      margin-bottom: 40px;
+    }
+    .about-section:last-child {
+      margin-bottom: 0;
+    }
+    .about-section h2 {
+      font-family: var(--font-heading);
+      font-size: 1.75rem;
+      color: var(--text-dark);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--coral);
+      display: inline-block;
+    }
+    .about-section p {
+      font-size: 1.0625rem;
+      line-height: 1.8;
+      color: var(--text-body);
+      margin-bottom: 12px;
+    }
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 28px;
+      margin-top: 24px;
+    }
+    .team-card {
+      text-align: center;
+      padding: 28px 20px;
+      background: var(--cream);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+    }
+    .team-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+    .team-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--coral), #FF8F65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 1.75rem;
+      margin: 0 auto 16px;
+    }
+    .team-name {
+      font-family: var(--font-heading);
+      font-size: 1.125rem;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+    .team-role {
+      font-size: 0.8125rem;
+      color: var(--text-secondary);
+    }
+    .about-spacer {
+      height: 64px;
+    }
+    @media (max-width: 768px) {
+      .about-hero h1 { font-size: 2rem; }
+      .about-content { padding: 32px 20px; margin-left: 16px; margin-right: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== Site Header ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <i class="fas fa-utensils"></i>
+          </div>
+        </div>
+        <span class="logo-text">ECB Eats</span>
+      </a>
+      <div class="header-right">
+        <div class="search-bar">
+          <input type="text" placeholder="Search Recipes..." id="search-input">
+          <button aria-label="Search"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="social-icons">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Main Navigation ===== -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link"><i class="fas fa-heart heart-icon"></i> My RecipeTin</a></li>
+        <li><a href="index.html" class="nav-link">Recipes</a></li>
+        <li><a href="index.html#categories" class="nav-link">By Category</a></li>
+        <li><a href="#" class="nav-link"><span class="sparkle">✨</span>Iconic Dishes<span class="sparkle">✨</span></a></li>
+        <li><a href="index.html#latest" class="nav-link">Collections</a></li>
+        <li><a href="profile.html" class="nav-link active">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== About Hero ===== -->
+  <section class="about-hero">
+    <h1>About ECB Eats</h1>
+    <p>Our passion for food, one recipe at a time</p>
+  </section>
+
+  <!-- ===== About Content ===== -->
+  <div class="about-content">
+
+    <div class="about-section">
+      <h2>Our Mission</h2>
+      <p>Our mission is to inspire culinary creativity by providing a platform where food enthusiasts can discover, share, and learn new recipes. We aim to make cooking accessible and enjoyable for everyone, fostering a community of passionate home cooks and professional chefs alike.</p>
+    </div>
+
+    <div class="about-section">
+      <h2>Our Vision</h2>
+      <p>Our vision is to become the go-to destination for recipe discovery and culinary education, empowering individuals to explore their culinary potential and create delicious meals with confidence.</p>
+      <p>We strive to build a vibrant community where knowledge, creativity, and a love for cooking are shared and celebrated.</p>
+    </div>
+
+    <div class="about-section">
+      <h2>Meet the Team</h2>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">F</div>
+          <div class="team-name">Florencio</div>
+          <div class="team-role">Head Chef & Creator</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">E</div>
+          <div class="team-name">Endy Low</div>
+          <div class="team-role">Recipe Developer</div>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">L</div>
+          <div class="team-name">Lesian Kargo</div>
+          <div class="team-role">Food Photographer</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="about-spacer"></div>
+
+  <!-- ===== CTA Banner ===== -->
+  <section class="cta-banner">
+    <div class="cta-inner">
+      <p class="cta-text"><strong>Quick Dinner Recipes</strong> you can make tonight!</p>
+      <a href="index.html" class="cta-btn">Browse Recipes <i class="fas fa-chevron-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">ECB Eats</div>
+          <p>Inspiring culinary creativity — one recipe at a time.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Explore</h4>
+          <a href="index.html">Recipes</a>
+          <a href="index.html#categories">Categories</a>
+          <a href="index.html#latest">Collections</a>
+          <a href="profile.html">About Us</a>
+        </div>
+        <div class="footer-nav">
+          <h4>Popular</h4>
+          <a href="recipe.html">Chicken Pasta</a>
+          <a href="recipe.html">Beef Bourguignon</a>
+          <a href="recipe.html">Carrot Cake</a>
+          <a href="recipe.html">Wagyu Ribeye</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 ECB Eats. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
+</body>
+</html>

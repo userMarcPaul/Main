@@ -1,199 +1,258 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECB</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/style.css">
-<link href="https://fonts.cdnfonts.com/css/media-gothic" rel="stylesheet">
-<link href="https://fonts.cdnfonts.com/css/rexmone-demo" rel="stylesheet">
-
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">             
-
-<link rel="icon" href="assets/img/Logo.png" type="image/png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ECB — Discover Delicious Recipes</title>
+  <meta name="description" content="Discover the best recipes, from hearty stews to decadent desserts. Your go-to destination for culinary inspiration.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/img/Logo.png" type="image/png">
 </head>
-<body> 
-<!--===== Navigation bar =====-->
-<header>
-  <a href="#home" class="logo"><i class="icon" ></i><span>ECB</span></a>
-  <ul class="navbar">
-    <li><a href="https://usermarcpaul.github.io/PocketDEV/carousel/index.html">PocketDEVS</a></li>
-    <li><a class="active" href="#home" onclick="scrollToSection(event, 'home')">Home</a></li>
-    <li><a href="#recipes" class=" " onclick="scrollToSection(event, 'recipes')">Recipes</a></li>
-    <li><a href="#aboutUs" class=" " onclick="scrollToSection(event, 'aboutUs')">About us</a></li>
+<body>
 
-  </ul>
-<div class="main">
-  <div class="fa fa-bars" id="menu-icon"></div>
-</div>
-</header>
-
-<!--===== Home =====-->
-<section class="hoe" id="home">
-  <div class=" home container-fluid d-flex align-items-center justify-content-center">
-    <div class="text-center text-white">
-      <h1 class="display-4">Welcome to ECB</h1>
-      <p class="lead">Discover the best recipes, products, and more.</p>
-      <a href="#recipes" class="btn btn-primary btn-lg" onclick="scrollToSection(event, 'recipes')">Explore Recipes</a>
-    </div>
-  </div>
-</section>
-
-<!--===== Recipe =====-->
-<section class="recipes" id="recipes"> 
-  <div class="container"> 
-    <h1>Recipes</h1> 
-    <div class="container d-flex justify-content-center" style="margin-top: 3%;">
-      <div class="row">
-          <div class="col-md-2"></div>
-          <div class="col-md-8">
-            <form action="result.html">
-                <div class="d-flex justify-content-center">
-                  <div class="search-container">
-                    <input type="text" placeholder="Search...">
-                    <i type="submit" class="fa-solid fa-magnifying-glass"></i>
-                  </div>
-              </div>
-            </form>
+  <!-- ===== Site Header ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <i class="fas fa-utensils"></i>
           </div>
-      </div>
-  </div>
-    <div class="row"> 
-      <div class="col-md-4"> 
-        <div class="card">
-           <div class="card-inner"> 
-            <div class="card-front"> 
-              <a href="recipe.html">
-                <img src="assets/img/chicken_R.jpg" class="card-img-top" alt="Recipe 1"> 
-              </a>
-            </div> 
-            <div class="card-back"> 
-              <div class="card-body"> 
-                <h6 class="card-title">Rosemary Chicken</h6> 
-                <p class="card-text"></p> 
-              </div> 
-            </div> 
-          </div> 
-        </div> 
-      </div> 
-      <div class="col-md-4"> 
-        <div class="card"> 
-          <div class="card-inner"> 
-            <div class="card-front">
-              <a href="recipe.html">
-                <img src="assets/img/maet_R.jpg" class="card-img-top" alt="Recipe 2"> 
-              </a> 
-            </div> 
-            <div class="card-back"> 
-              <div class="card-body"> 
-                <h6 class="card-title">Grilled Wagyu Ribeye</h6> 
-                <p class="card-text"></p> 
-              </div> 
-            </div> 
-          </div> 
-        </div> 
-      </div> 
-      <div class="col-md-4"> 
-        <div class="card"> 
-          <div class="card-inner"> 
-            <div class="card-front"> 
-              <a href="recipe.html">
-                <img src="assets/img/veggies_R.jpg" class="card-img-top" alt="Recipe 3"> 
-              </a>
-              </div> 
-            <div class="card-back"> 
-              <div class="card-body"> 
-                <h6 class="card-title">Roasted Vegetable Tartine</h6> 
-                <p class="card-text"></p> 
-              </div> 
-            </div> 
-          </div> 
-        </div> 
-      </div> 
-    </div>
-  </div>
-</section>
+        </div>
+        <span class="logo-text">ECB Eats</span>
+      </a>
 
-<!--===== About Us =====-->
-<section class="aboutUs" id="aboutUs">
-  <div class="container py-5">
-    <h1 class="text-center mb-4">About Us</h1>
-    <div class="row">
-      <div class="col-md-6">
-        <h3 class="text-center">Mission</h3>
-        <p class="lead text-center">Our mission is to inspire culinary creativity by providing a platform where food enthusiasts can discove, share, and learn new recipes, weaim to make cooking accessible and enjoyable for everyone, fostering a community of passionate home coks and proffesional chefs alike.</p>
-      </div>
-      <div class="col-md-6">
-        <h3 class="text-center">Vission</h3>
-        <p class="lead text-center">Our vission is to become the go-to distination for recipe discovery and culinary education, empowering individuals to explore thier culinary potential and create delicious meals with confidence. We strive to build a vibrant community where knowledge, creativity, and a love for cooking are shared and celebrated.</p>
+      <div class="header-right">
+        <div class="search-bar">
+          <input type="text" placeholder="Search Recipes..." id="search-input">
+          <button aria-label="Search"><i class="fas fa-search"></i></button>
+        </div>
+
+        <div class="social-icons">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="d-flex col-md-6 justify-content-center">
-        <button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#imageModal"> View Poster </button>
+  </header>
+
+  <!-- ===== Main Navigation ===== -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link"><i class="fas fa-heart heart-icon"></i> My RecipeTin</a></li>
+        <li><a href="index.html" class="nav-link active">Recipes</a></li>
+        <li><a href="#categories" class="nav-link">By Category</a></li>
+        <li><a href="#" class="nav-link"><span class="sparkle">✨</span>Iconic Dishes<span class="sparkle">✨</span></a></li>
+        <li><a href="#latest" class="nav-link">Collections</a></li>
+        <li><a href="#about" class="nav-link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== Featured Recipes ===== -->
+  <section class="featured-section">
+    <div class="featured-grid">
+
+      <!-- Card 1 -->
+      <a href="recipe.html" class="recipe-card animate-on-scroll stagger-1">
+        <div class="recipe-card-image">
+          <span class="top-picks-badge">Top Picks!</span>
+          <img src="assets/img/Chicken.jpg" alt="Chicken Pasta of your Dreams">
+          <span class="category-badge badge-pasta">Pasta</span>
+        </div>
+        <div class="recipe-card-body">
+          <h3 class="recipe-card-title">Chicken Pasta of your Dreams</h3>
+          <p class="recipe-card-desc">For all those times you've just gotta have a creamy pasta!</p>
+        </div>
+      </a>
+
+      <!-- Card 2 -->
+      <a href="recipe.html" class="recipe-card animate-on-scroll stagger-2">
+        <div class="recipe-card-image">
+          <img src="assets/img/Meat.jpg" alt="Beef Bourguignon">
+          <span class="category-badge badge-stews">Stews</span>
+        </div>
+        <div class="recipe-card-body">
+          <h3 class="recipe-card-title">Beef Bourguignon</h3>
+          <p class="recipe-card-desc">The best beef stew in the world. Full stop!</p>
+        </div>
+      </a>
+
+      <!-- Card 3 -->
+      <a href="recipe.html" class="recipe-card animate-on-scroll stagger-3">
+        <div class="recipe-card-image">
+          <img src="assets/img/Veggies.jpg" alt="Carrot Cake">
+          <span class="category-badge badge-cakes">Cakes</span>
+        </div>
+        <div class="recipe-card-body">
+          <h3 class="recipe-card-title">Carrot Cake</h3>
+          <p class="recipe-card-desc">Can't get enough of this cake. The cream cheese frosting has something to do with it!</p>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ===== CTA Banner ===== -->
+  <section class="cta-banner">
+    <div class="cta-inner">
+      <p class="cta-text"><strong>Quick Dinner Recipes</strong> you can make tonight!</p>
+      <a href="#latest" class="cta-btn">Browse Recipes <i class="fas fa-chevron-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ===== Browse by Category ===== -->
+  <section class="categories-section" id="categories">
+    <div class="container">
+      <div class="section-header">
+        <h2>Browse by Category</h2>
+        <p>Find the perfect recipe for any occasion</p>
       </div>
-      <div class="d-flex col-md-6 justify-content-center">
-        <button type="button" class="btn btn-custom" data-bs-toggle="modal" data-bs-target="#videoModal"> View Video</button> 
+      <div class="category-grid">
+        <div class="category-card animate-on-scroll stagger-1">
+          <div class="category-card-emoji">🍝</div>
+          <div class="category-card-name">Pasta</div>
+          <div class="category-card-count">42 recipes</div>
+        </div>
+        <div class="category-card animate-on-scroll stagger-2">
+          <div class="category-card-emoji">🥩</div>
+          <div class="category-card-name">Meat</div>
+          <div class="category-card-count">38 recipes</div>
+        </div>
+        <div class="category-card animate-on-scroll stagger-3">
+          <div class="category-card-emoji">🦐</div>
+          <div class="category-card-name">Seafood</div>
+          <div class="category-card-count">27 recipes</div>
+        </div>
+        <div class="category-card animate-on-scroll">
+          <div class="category-card-emoji">🥗</div>
+          <div class="category-card-name">Salads</div>
+          <div class="category-card-count">19 recipes</div>
+        </div>
+        <div class="category-card animate-on-scroll">
+          <div class="category-card-emoji">🍰</div>
+          <div class="category-card-name">Desserts</div>
+          <div class="category-card-count">31 recipes</div>
+        </div>
+        <div class="category-card animate-on-scroll">
+          <div class="category-card-emoji">🍲</div>
+          <div class="category-card-name">Soups</div>
+          <div class="category-card-count">24 recipes</div>
+        </div>
       </div>
     </div>
-  </div>
+  </section>
 
-  <!--===== Image Modal =====-->
-  <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true"> 
-    <div class="modal-dialog modal-dialog-centered"> 
-      <div class="modal-content"> 
-        <div class="modal-header"> 
-          <h5 class="modal-title" id="imageModalLabel">Poster</h5> 
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
-        </div> 
-        <div class="modal-body"> 
-          <img src="assets/img/1731677708213.jpg" class="img-fluid" alt="Responsive image">
-        </div> 
-      </div> 
-    </div> 
-  </div>
-  <!--===== Video Modal =====-->
- <div class="modal fade" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered"> 
-      <div class="modal-content"> 
-        <div class="modal-header"> 
-          <h5 class="modal-title" id="videoModalLabel">Promotional Video</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> 
-        </div> 
-        <div class="modal-body"> 
-          <div class="ratio ratio-16x9"> 
-            <video id="recipeVideo" width="600" controls> 
-              <source src="assets/img/promo_vid.mp4" type="video/mp4">
-            </video>
-          </div> 
-        </div> 
-      </div> 
-    </div> 
-  </div> 
-</div>
-</section>
+  <!-- ===== Latest Recipes ===== -->
+  <section class="latest-section" id="latest">
+    <div class="container">
+      <div class="section-header">
+        <h2>Latest Recipes</h2>
+        <a href="#" class="see-all-link">View All →</a>
+      </div>
+      <div class="latest-grid">
 
-<!--===== Footer =====-->
-<footer class="footer">
-  <p>&copy; 2024 ECB. All rights reserved.</p>
-</footer>
+        <a href="recipe.html" class="latest-card animate-on-scroll stagger-1">
+          <div class="latest-card-image">
+            <img src="assets/img/chicken_R.jpg" alt="Rosemary Chicken">
+          </div>
+          <div class="latest-card-body">
+            <span class="latest-card-category">Poultry</span>
+            <h3 class="latest-card-title">Rosemary Chicken</h3>
+            <div class="latest-card-meta">
+              <span><i class="far fa-clock"></i> 45 min</span>
+              <span><i class="fas fa-fire-flame-curved"></i> Easy</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="recipe.html" class="latest-card animate-on-scroll stagger-2">
+          <div class="latest-card-image">
+            <img src="assets/img/maet_R.jpg" alt="Grilled Wagyu Ribeye">
+          </div>
+          <div class="latest-card-body">
+            <span class="latest-card-category">Beef</span>
+            <h3 class="latest-card-title">Grilled Wagyu Ribeye</h3>
+            <div class="latest-card-meta">
+              <span><i class="far fa-clock"></i> 30 min</span>
+              <span><i class="fas fa-fire-flame-curved"></i> Medium</span>
+            </div>
+          </div>
+        </a>
+
+        <a href="recipe.html" class="latest-card animate-on-scroll stagger-3">
+          <div class="latest-card-image">
+            <img src="assets/img/veggies_R.jpg" alt="Roasted Vegetable Tartine">
+          </div>
+          <div class="latest-card-body">
+            <span class="latest-card-category">Vegetarian</span>
+            <h3 class="latest-card-title">Roasted Vegetable Tartine</h3>
+            <div class="latest-card-meta">
+              <span><i class="far fa-clock"></i> 50 min</span>
+              <span><i class="fas fa-fire-flame-curved"></i> Easy</span>
+            </div>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== About Section ===== -->
+  <section class="categories-section" id="about" style="padding-top: 0;">
+    <div class="container">
+      <div class="section-header">
+        <h2>About ECB Eats</h2>
+        <p>Our mission is to inspire culinary creativity by providing a platform where food enthusiasts can discover, share, and learn new recipes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">ECB Eats</div>
+          <p>Inspiring culinary creativity — one recipe at a time. Making cooking accessible and enjoyable for everyone.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Explore</h4>
+          <a href="index.html">Recipes</a>
+          <a href="#categories">Categories</a>
+          <a href="#latest">Collections</a>
+          <a href="#about">About Us</a>
+        </div>
+        <div class="footer-nav">
+          <h4>Popular</h4>
+          <a href="recipe.html">Chicken Pasta</a>
+          <a href="recipe.html">Beef Bourguignon</a>
+          <a href="recipe.html">Carrot Cake</a>
+          <a href="recipe.html">Wagyu Ribeye</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 ECB Eats. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
 </body>
-<script> 
-  var videoModal = document.getElementById('videoModal'); 
-  var recipeVideo = document.getElementById('recipeVideo'); 
-  videoModal.addEventListener('hidden.bs.modal', function () { recipeVideo.pause(); recipeVideo.currentTime = 0; });
-</script>
-
-<script> 
-  function scrollToSection(event, sectionId) { event.preventDefault();
-   document.querySelectorAll('.navbar a').forEach(link => link.classList.remove('active'));
-   document.querySelector(`a[href="#${sectionId}"]`).classList.add('active');
-   document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' }); 
-  } 
-
-</script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/bar.js"></script>
 </html>

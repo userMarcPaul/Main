@@ -1,108 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECB</title>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/style.css">
-
-    <link href="https://fonts.cdnfonts.com/css/media-gothic" rel="stylesheet">
-    <link href="https://fonts.cdnfonts.com/css/rexmone-demo" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">             
-
-    <link rel="icon" href="assets/img/Logo.png" type="image/png">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Results — ECB Eats</title>
+  <meta name="description" content="Search results for recipes on ECB Eats.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/img/Logo.png" type="image/png">
+  <style>
+    .search-results-section {
+      padding: 48px 0 64px;
+    }
+    .search-results-header {
+      margin-bottom: 32px;
+    }
+    .search-results-header h1 {
+      font-family: var(--font-heading);
+      font-size: 2rem;
+      color: var(--text-dark);
+      margin-bottom: 8px;
+    }
+    .search-results-header p {
+      color: var(--text-secondary);
+      font-size: 0.9375rem;
+    }
+    .result-card {
+      display: flex;
+      gap: 24px;
+      padding: 24px 0;
+      border-bottom: 1px solid var(--border-light);
+      transition: var(--transition);
+    }
+    .result-card:hover {
+      transform: translateX(6px);
+    }
+    .result-card:last-child {
+      border-bottom: none;
+    }
+    .result-image {
+      width: 160px;
+      height: 120px;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .result-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition-slow);
+    }
+    .result-card:hover .result-image img {
+      transform: scale(1.05);
+    }
+    .result-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .result-category {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--coral);
+      margin-bottom: 6px;
+    }
+    .result-title {
+      font-family: var(--font-heading);
+      font-size: 1.25rem;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+      transition: var(--transition-fast);
+    }
+    .result-card:hover .result-title {
+      color: var(--coral);
+    }
+    .result-snippet {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+    @media (max-width: 768px) {
+      .result-card { flex-direction: column; gap: 12px; }
+      .result-image { width: 100%; height: 180px; }
+    }
+  </style>
 </head>
 <body>
-<!-- Navigation bar -->
-<header>
-  <a href="index.html#home" class="logo"><i class="icon" ></i><span>ECB</span></a>
-  <ul class="navbar">
-    <li><a href="https://usermarcpaul.github.io/PocketDEV/carousel/index.html">PocketDEVS</a></li>
-    <li><a class=" " href="index.html#home" onclick="scrollToSection(event, 'home')">Home</a></li>
-    <li><a href="index.html#recipes" class="active" onclick="scrollToSection(event, 'recipes')">Recipes</a></li>
-    <li><a href="index.html#aboutUs" class=" " onclick="scrollToSection(event, 'aboutUs')">About us</a></li>
 
-  </ul>
-<div class="main">
-  <div class="fa fa-bars" id="menu-icon"></div>
-</div>
-</header>
-
-<!-- Search bar -->
-<div class="container d-flex justify-content-center">
-  <div class="row">
-      <div class="col-md-2"></div>
-      <div class="col-md-8">
-        <form action="result.html">
-            <div class="d-flex justify-content-center">
-              <div class="search-container">
-                <input type="text" placeholder="Search...">
-                <i type="submit" class="fa-solid fa-magnifying-glass"></i>
-              </div>
+  <!-- ===== Site Header ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">
+          <div class="logo-icon-inner">
+            <i class="fas fa-utensils"></i>
           </div>
-        </form>
-      </div>
-  </div>
-</div>
-
-<!-- Result -->
-
-<div class="container" style="margin-top: 3%;">
-  <div class="row">
-      <h1>Search Results</h1>
-      <div id="results"></div>
-  </div>
-</div>
-<script>
-  const query = 'Example';
-  const searchResults = [
-  {
-      title: 'Rosemary Chicken',
-      url: 'recipe.html',
-      snippet: 'A delicious chicken dish seasoned with rosemary and garlic.',
-      image: 'assets/img/chicken_R.jpg'
-  },
-  {
-      title: 'Grilled Wagyu Ribeye',
-      url: 'recipe.html',
-      snippet: 'Juicy Wagyu ribeye steak grilled to perfection.',
-      image: 'assets/img/maet_R.jpg'
-  },
-  {
-      title: 'Roasted Vegetable Tartine',
-      url: 'recipe.html',
-      snippet: 'TA healthy tartine topped with roasted vegetables.',
-      image: 'assets/img/veggies_R.jpg'
-  }
-  ];
-  document.getElementById('results').innerHTML=`<p class="custom"> Your Search</p>`;
-  let resultHTML = '';
-  searchResults.forEach(result => {resultHTML+=`
-    <div class="result">
-      <div class="row">
-        <div class="col-md-2 align-items-center">
-          <img class="res_img" src="${result.image}" alt = "IMAGE">
         </div>
-        <div class="col-md-10 mt-4">
-          <a href="${result.url}">${result.title}</a>
-          <div class="snippet">${result.snippet}
-          </div>
+        <span class="logo-text">ECB Eats</span>
+      </a>
+      <div class="header-right">
+        <div class="search-bar">
+          <input type="text" placeholder="Search Recipes..." id="search-input">
+          <button aria-label="Search"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="social-icons">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
         </div>
       </div>
     </div>
-    <hr>
-    `});
-  document.getElementById('results').innerHTML+=resultHTML;
-</script>
-<footer class="footer">
-  <p>&copy; 2024 Your Company. All rights reserved.</p> 
-</footer>
+  </header>
+
+  <!-- ===== Main Navigation ===== -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <ul class="nav-links">
+        <li><a href="#" class="nav-link"><i class="fas fa-heart heart-icon"></i> My RecipeTin</a></li>
+        <li><a href="index.html" class="nav-link active">Recipes</a></li>
+        <li><a href="index.html#categories" class="nav-link">By Category</a></li>
+        <li><a href="#" class="nav-link"><span class="sparkle">✨</span>Iconic Dishes<span class="sparkle">✨</span></a></li>
+        <li><a href="index.html#latest" class="nav-link">Collections</a></li>
+        <li><a href="profile.html" class="nav-link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== Search Results ===== -->
+  <section class="search-results-section">
+    <div class="container">
+      <div class="search-results-header">
+        <h1>Search Results</h1>
+        <p>Showing 3 results for your search</p>
+      </div>
+
+      <div id="results">
+        <a href="recipe.html" class="result-card">
+          <div class="result-image">
+            <img src="assets/img/chicken_R.jpg" alt="Rosemary Chicken">
+          </div>
+          <div class="result-body">
+            <span class="result-category">Poultry</span>
+            <h3 class="result-title">Rosemary Chicken</h3>
+            <p class="result-snippet">A delicious chicken dish seasoned with rosemary and garlic, roasted to golden perfection.</p>
+          </div>
+        </a>
+
+        <a href="recipe.html" class="result-card">
+          <div class="result-image">
+            <img src="assets/img/maet_R.jpg" alt="Grilled Wagyu Ribeye">
+          </div>
+          <div class="result-body">
+            <span class="result-category">Beef</span>
+            <h3 class="result-title">Grilled Wagyu Ribeye</h3>
+            <p class="result-snippet">Juicy Wagyu ribeye steak grilled to perfection with a simple herb butter finish.</p>
+          </div>
+        </a>
+
+        <a href="recipe.html" class="result-card">
+          <div class="result-image">
+            <img src="assets/img/veggies_R.jpg" alt="Roasted Vegetable Tartine">
+          </div>
+          <div class="result-body">
+            <span class="result-category">Vegetarian</span>
+            <h3 class="result-title">Roasted Vegetable Tartine</h3>
+            <p class="result-snippet">A healthy tartine topped with beautifully roasted seasonal vegetables and goat cheese.</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">ECB Eats</div>
+          <p>Inspiring culinary creativity — one recipe at a time.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Explore</h4>
+          <a href="index.html">Recipes</a>
+          <a href="index.html#categories">Categories</a>
+          <a href="index.html#latest">Collections</a>
+          <a href="profile.html">About Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 ECB Eats. All rights reserved.</p>
+        <div class="footer-social">
+          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="assets/js/app.js"></script>
 </body>
-<script src="assets/db.js"></script>
-<script src="assets/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="assets/bar.js"></script>
 </html>
