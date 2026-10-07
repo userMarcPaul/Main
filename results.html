@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/style.css">
-  <link rel="icon" href="assets/img/Logo.png" type="image/png">
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
   <style>
     .search-results-section {
       padding: 48px 0 64px;
@@ -110,12 +110,7 @@
           <input type="text" placeholder="Search Recipes..." id="search-input">
           <button aria-label="Search"><i class="fas fa-search"></i></button>
         </div>
-        <div class="social-icons">
-          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
-          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        </div>
+        <!-- Social links hidden until the accounts exist (see plan Phase 1) -->
       </div>
     </div>
   </header>
@@ -127,11 +122,9 @@
         <i class="fas fa-bars"></i>
       </button>
       <ul class="nav-links">
-        <li><a href="https://usermarcpaul.github.io/PocketDEV/carousel/index.html" class="nav-link">PocketDEVS</a></li>
-        <li><a href="#" class="nav-link"><i class="fas fa-heart heart-icon"></i> My RecipeTin</a></li>
+        <!-- Enabled in Phase 5: <li><a href="saved.html" class="nav-link"><i class="fas fa-heart heart-icon"></i> Saved Recipes</a></li> -->
         <li><a href="index.html" class="nav-link active">Recipes</a></li>
         <li><a href="index.html#categories" class="nav-link">By Category</a></li>
-        <li><a href="#" class="nav-link"><span class="sparkle">✨</span>Iconic Dishes<span class="sparkle">✨</span></a></li>
         <li><a href="index.html#latest" class="nav-link">Collections</a></li>
         <li><a href="profile.html" class="nav-link">About</a></li>
       </ul>
@@ -143,13 +136,13 @@
     <div class="container">
       <div class="search-results-header">
         <h1>Search Results</h1>
-        <p>Showing 3 results for your search</p>
+        <p>Showing 3 recipes</p>
       </div>
 
       <div id="results">
         <a href="recipe.html" class="result-card">
           <div class="result-image">
-            <img src="assets/img/chicken_R.jpg" alt="Rosemary Chicken">
+            <img src="assets/img/rosemary-chicken.jpg" alt="Rosemary Chicken">
           </div>
           <div class="result-body">
             <span class="result-category">Poultry</span>
@@ -160,7 +153,7 @@
 
         <a href="recipe.html" class="result-card">
           <div class="result-image">
-            <img src="assets/img/maet_R.jpg" alt="Grilled Wagyu Ribeye">
+            <img src="assets/img/wagyu-ribeye.jpg" alt="Grilled Wagyu Ribeye">
           </div>
           <div class="result-body">
             <span class="result-category">Beef</span>
@@ -171,7 +164,7 @@
 
         <a href="recipe.html" class="result-card">
           <div class="result-image">
-            <img src="assets/img/veggies_R.jpg" alt="Roasted Vegetable Tartine">
+            <img src="assets/img/vegetable-tartine.jpg" alt="Roasted Vegetable Tartine">
           </div>
           <div class="result-body">
             <span class="result-category">Vegetarian</span>
@@ -200,13 +193,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 ECB Eats. All rights reserved.</p>
-        <div class="footer-social">
-          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
-          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        </div>
+        <p>&copy; <span class="footer-year">2024</span> ECB Eats. All rights reserved.</p>
+        <!-- Social links hidden until the accounts exist (see plan Phase 1) -->
       </div>
     </div>
   </footer>

@@ -1,5 +1,34 @@
+# Dependencies
+node_modules/
+
+# Local environment and database
+.env
+.env.local
+local.db
+local.db-journal
+
+# Vercel
+.vercel/
+
+# OS cruft
+.DS_Store
+
 # Added by code-review-graph
 .code-review-graph/
 .mcp.json
 CLAUDE.md
 .claude
+
+# Images (kept out of git; see README for where they come from)
+*.apng
+*.avif
+*.bmp
+*.gif
+*.ico
+*.jpeg
+*.jpg
+*.png
+*.svg
+*.tif
+*.tiff
+*.webp

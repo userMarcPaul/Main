@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileMenu();
   initScrollAnimations();
   initStickyNav();
+  initFooterYear();
 });
 
 /* --- Mobile Menu Toggle --- */
@@ -72,5 +73,13 @@ function initStickyNav() {
       });
       ticking = true;
     }
+  });
+}
+
+/* --- Footer Year --- */
+function initFooterYear() {
+  const year = String(new Date().getFullYear());
+  document.querySelectorAll('.footer-year').forEach(el => {
+    el.textContent = year;
   });
 }

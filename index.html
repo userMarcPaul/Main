@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ECB — Discover Delicious Recipes</title>
+  <title>ECB Eats — Discover Delicious Recipes</title>
   <meta name="description" content="Discover the best recipes, from hearty stews to decadent desserts. Your go-to destination for culinary inspiration.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/style.css">
-  <link rel="icon" href="assets/img/Logo.png" type="image/png">
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
 </head>
 <body>
 
@@ -32,12 +32,7 @@
           <button aria-label="Search"><i class="fas fa-search"></i></button>
         </div>
 
-        <div class="social-icons">
-          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
-          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        </div>
+        <!-- Social links hidden until the accounts exist (see plan Phase 1) -->
       </div>
     </div>
   </header>
@@ -49,13 +44,11 @@
         <i class="fas fa-bars"></i>
       </button>
       <ul class="nav-links">
-        <li><a href="https://usermarcpaul.github.io/PocketDEV/carousel/index.html" class="nav-link">PocketDEVS</a></li>
-        <li><a href="#" class="nav-link"><i class="fas fa-heart heart-icon"></i> My RecipeTin</a></li>
+        <!-- Enabled in Phase 5: <li><a href="saved.html" class="nav-link"><i class="fas fa-heart heart-icon"></i> Saved Recipes</a></li> -->
         <li><a href="index.html" class="nav-link active">Recipes</a></li>
         <li><a href="#categories" class="nav-link">By Category</a></li>
-        <li><a href="#" class="nav-link"><span class="sparkle">✨</span>Iconic Dishes<span class="sparkle">✨</span></a></li>
         <li><a href="#latest" class="nav-link">Collections</a></li>
-        <li><a href="#about" class="nav-link">About</a></li>
+        <li><a href="profile.html" class="nav-link">About</a></li>
       </ul>
     </div>
   </nav>
@@ -68,7 +61,7 @@
       <a href="recipe.html" class="recipe-card animate-on-scroll stagger-1">
         <div class="recipe-card-image">
           <span class="top-picks-badge">Top Picks!</span>
-          <img src="assets/img/Chicken.jpg" alt="Chicken Pasta of your Dreams">
+          <img src="assets/img/chicken-pasta.jpg" alt="Chicken Pasta of your Dreams">
           <span class="category-badge badge-pasta">Pasta</span>
         </div>
         <div class="recipe-card-body">
@@ -80,7 +73,7 @@
       <!-- Card 2 -->
       <a href="recipe.html" class="recipe-card animate-on-scroll stagger-2">
         <div class="recipe-card-image">
-          <img src="assets/img/Meat.jpg" alt="Beef Bourguignon">
+          <img src="assets/img/beef-bourguignon.jpg" alt="Beef Bourguignon">
           <span class="category-badge badge-stews">Stews</span>
         </div>
         <div class="recipe-card-body">
@@ -92,7 +85,7 @@
       <!-- Card 3 -->
       <a href="recipe.html" class="recipe-card animate-on-scroll stagger-3">
         <div class="recipe-card-image">
-          <img src="assets/img/Veggies.jpg" alt="Carrot Cake">
+          <img src="assets/img/carrot-cake.svg" alt="Carrot Cake">
           <span class="category-badge badge-cakes">Cakes</span>
         </div>
         <div class="recipe-card-body">
@@ -120,36 +113,30 @@
         <p>Find the perfect recipe for any occasion</p>
       </div>
       <div class="category-grid">
-        <div class="category-card animate-on-scroll stagger-1">
+        <a href="results.html?category=pasta" class="category-card animate-on-scroll stagger-1">
           <div class="category-card-emoji">🍝</div>
           <div class="category-card-name">Pasta</div>
-          <div class="category-card-count">42 recipes</div>
-        </div>
-        <div class="category-card animate-on-scroll stagger-2">
+        </a>
+        <a href="results.html?category=meat" class="category-card animate-on-scroll stagger-2">
           <div class="category-card-emoji">🥩</div>
           <div class="category-card-name">Meat</div>
-          <div class="category-card-count">38 recipes</div>
-        </div>
-        <div class="category-card animate-on-scroll stagger-3">
+        </a>
+        <a href="results.html?category=seafood" class="category-card animate-on-scroll stagger-3">
           <div class="category-card-emoji">🦐</div>
           <div class="category-card-name">Seafood</div>
-          <div class="category-card-count">27 recipes</div>
-        </div>
-        <div class="category-card animate-on-scroll">
+        </a>
+        <a href="results.html?category=salads" class="category-card animate-on-scroll">
           <div class="category-card-emoji">🥗</div>
           <div class="category-card-name">Salads</div>
-          <div class="category-card-count">19 recipes</div>
-        </div>
-        <div class="category-card animate-on-scroll">
+        </a>
+        <a href="results.html?category=desserts" class="category-card animate-on-scroll">
           <div class="category-card-emoji">🍰</div>
           <div class="category-card-name">Desserts</div>
-          <div class="category-card-count">31 recipes</div>
-        </div>
-        <div class="category-card animate-on-scroll">
+        </a>
+        <a href="results.html?category=soups" class="category-card animate-on-scroll">
           <div class="category-card-emoji">🍲</div>
           <div class="category-card-name">Soups</div>
-          <div class="category-card-count">24 recipes</div>
-        </div>
+        </a>
       </div>
     </div>
   </section>
@@ -159,13 +146,12 @@
     <div class="container">
       <div class="section-header">
         <h2>Latest Recipes</h2>
-        <a href="#" class="see-all-link">View All →</a>
       </div>
       <div class="latest-grid">
 
         <a href="recipe.html" class="latest-card animate-on-scroll stagger-1">
           <div class="latest-card-image">
-            <img src="assets/img/chicken_R.jpg" alt="Rosemary Chicken">
+            <img src="assets/img/rosemary-chicken.jpg" alt="Rosemary Chicken">
           </div>
           <div class="latest-card-body">
             <span class="latest-card-category">Poultry</span>
@@ -179,7 +165,7 @@
 
         <a href="recipe.html" class="latest-card animate-on-scroll stagger-2">
           <div class="latest-card-image">
-            <img src="assets/img/maet_R.jpg" alt="Grilled Wagyu Ribeye">
+            <img src="assets/img/wagyu-ribeye.jpg" alt="Grilled Wagyu Ribeye">
           </div>
           <div class="latest-card-body">
             <span class="latest-card-category">Beef</span>
@@ -193,7 +179,7 @@
 
         <a href="recipe.html" class="latest-card animate-on-scroll stagger-3">
           <div class="latest-card-image">
-            <img src="assets/img/veggies_R.jpg" alt="Roasted Vegetable Tartine">
+            <img src="assets/img/vegetable-tartine.jpg" alt="Roasted Vegetable Tartine">
           </div>
           <div class="latest-card-body">
             <span class="latest-card-category">Vegetarian</span>
@@ -205,16 +191,6 @@
           </div>
         </a>
 
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== About Section ===== -->
-  <section class="categories-section" id="about" style="padding-top: 0;">
-    <div class="container">
-      <div class="section-header">
-        <h2>About ECB Eats</h2>
-        <p>Our mission is to inspire culinary creativity by providing a platform where food enthusiasts can discover, share, and learn new recipes.</p>
       </div>
     </div>
   </section>
@@ -232,7 +208,7 @@
           <a href="index.html">Recipes</a>
           <a href="#categories">Categories</a>
           <a href="#latest">Collections</a>
-          <a href="#about">About Us</a>
+          <a href="profile.html">About Us</a>
         </div>
         <div class="footer-nav">
           <h4>Popular</h4>
@@ -243,13 +219,8 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; 2024 ECB Eats. All rights reserved.</p>
-        <div class="footer-social">
-          <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-          <a href="#" class="social-icon" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-          <a href="#" class="social-icon" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
-          <a href="#" class="social-icon" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-        </div>
+        <p>&copy; <span class="footer-year">2024</span> ECB Eats. All rights reserved.</p>
+        <!-- Social links hidden until the accounts exist (see plan Phase 1) -->
       </div>
     </div>
   </footer>

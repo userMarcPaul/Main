@@ -549,6 +549,7 @@ input {
 }
 
 .category-card {
+  display: block;
   background: var(--cream-light);
   border-radius: var(--radius-lg);
   padding: 28px 20px;
@@ -573,12 +574,6 @@ input {
   font-family: var(--font-heading);
   font-size: 1.125rem;
   color: var(--text-dark);
-  margin-bottom: 4px;
-}
-
-.category-card-count {
-  font-size: 0.8125rem;
-  color: var(--text-light);
 }
 
 /* --- Latest Recipes Grid --- */
