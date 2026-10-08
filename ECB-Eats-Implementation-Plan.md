@@ -381,26 +381,26 @@ Set up deployment in Phase 2 and keep it running; the packaging work is the last
 
 Deployment workflow (from Phase 2 onward):
 
-- [ ] Import the GitHub repo into Vercel; every push to `main` deploys to production
-- [ ] Work on feature branches (`feat/reviews`, `feat/auth`) and open a pull request for each; Vercel posts a preview URL on every PR
-- [ ] Use a separate Turso database for previews (`ecb-eats-dev`) so testing never touches real data; set it as the Preview environment variable in Vercel
-- [ ] Keep `db/migrations/` numbered and run them against production by hand before merging the PR that needs them
-- [ ] Optional: a GitHub Actions workflow that runs a few API tests (Vitest) on every PR
+- [ ] Import the GitHub repo into Vercel; every push to `main` deploys to production — **needs the Vercel UI**
+- [ ] Work on feature branches (`feat/reviews`, `feat/auth`) and open a pull request for each; Vercel posts a preview URL on every PR — **workflow only, no code change**
+- [ ] Use a separate Turso database for previews (`ecb-eats-dev`) so testing never touches real data; set it as the Preview environment variable in Vercel — **needs Turso + Vercel UI**
+- [x] Keep `db/migrations/` numbered and run them against production by hand before merging the PR that needs them
+- [x] ~~Optional: a GitHub Actions workflow that runs a few API tests (Vitest) on every PR~~ — `.github/workflows/ci.yml` runs `npm run test:all` (Node test runner) on every PR
 
 README:
 
-- [ ] Live link and a demo account (e.g. `demo@ecbeats.app`, a normal user, not admin) so recruiters can try the writable features without signing up
-- [ ] A screenshot or short GIF of search, reviewing and submitting
-- [ ] Tech stack, the architecture in one paragraph, and the database schema
-- [ ] Feature list, and how to run it locally (`vercel dev`, seed command, env vars)
-- [ ] "Challenges and what I learned": e.g. why SQLite needed Turso on serverless, session security, transactions for submissions
+- [x] Live link and a demo account (e.g. `demo@ecbeats.app`, a normal user, not admin) so recruiters can try the writable features without signing up — `db/seed-demo.js` + `npm run seed:demo`
+- [ ] A screenshot or short GIF of search, reviewing and submitting — **needs a deployed site or screen recording**
+- [x] Tech stack, the architecture in one paragraph, and the database schema
+- [x] Feature list, and how to run it locally (`vercel dev`, seed command, env vars)
+- [x] "Challenges and what I learned": e.g. why SQLite needed Turso on serverless, session security, transactions for submissions
 
 Portfolio case study:
 
-- [ ] Problem: a polished static mockup where most features were fake
-- [ ] What you built: a full-stack app with auth, reviews, user submissions and moderation
-- [ ] Before and after: Lighthouse scores, and a before/after screenshot of the recipe page
-- [ ] Link both the live site and the repo; add the project link to your GitHub profile README's Portfolio badge, which currently points to `#`
+- [ ] Problem: a polished static mockup where most features were fake — **separate document, not in the codebase**
+- [ ] What you built: a full-stack app with auth, reviews, user submissions and moderation — **separate document**
+- [ ] Before and after: Lighthouse scores, and a before/after screenshot of the recipe page — **needs a deployed site**
+- [ ] Link both the live site and the repo; add the project link to your GitHub profile README's Portfolio badge, which currently points to `#` — **needs the GitHub UI**
 
 Done when: someone with only your portfolio link can try the app, read the code, and understand what you built in under 2 minutes.
 

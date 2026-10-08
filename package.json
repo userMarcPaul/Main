@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "node --env-file=.env.local dev-server.js",
     "seed": "node --env-file=.env.local db/seed.js",
+    "seed:demo": "node --env-file=.env.local db/seed-demo.js",
     "test": "node --env-file=.env.local --test test/smoke.test.js",
     "test:auth": "node --env-file=.env.local --test test/auth.test.js",
     "test:all": "node --env-file=.env.local --test test/smoke.test.js test/auth.test.js test/reviews.test.js test/submissions.test.js test/hardening.test.js",
