@@ -1,0 +1,18 @@
+{
+  "name": "ecb-eats",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A recipe site with real recipe pages, search, accounts, reviews and user submissions.",
+  "scripts": {
+    "dev": "node --env-file=.env.local dev-server.js",
+    "seed": "node --env-file=.env.local db/seed.js",
+    "test": "node --env-file=.env.local --test test/smoke.test.js"
+  },
+  "dependencies": {
+    "@libsql/client": "0.15.4"
+  },
+  "devDependencies": {
+    "jsdom": "^30.1.2"
+  }
+}

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chicken Pasta of your Dreams — ECB Eats</title>
-  <meta name="description" content="A creamy, dreamy chicken pasta recipe that's perfect for any night of the week.">
+  <title>Recipe — ECB Eats</title>
+  <meta name="description" content="A recipe on ECB Eats.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -53,169 +53,10 @@
     </div>
   </nav>
 
-  <!-- ===== Recipe Hero Image ===== -->
-  <div class="recipe-detail-hero">
-    <img src="assets/img/chicken-pasta.jpg" alt="Chicken Pasta of your Dreams">
-    <div class="recipe-detail-hero-overlay"></div>
-  </div>
+  <!-- Filled by assets/js/recipe.js -->
+  <div class="recipe-detail-hero" id="recipe-hero"></div>
 
-  <!-- ===== Recipe Content Card ===== -->
-  <div class="recipe-detail-wrapper">
-
-    <!-- Breadcrumb -->
-    <div class="recipe-breadcrumb">
-      <a href="index.html">Home</a>
-      <span>/</span>
-      <a href="index.html">Recipes</a>
-      <span>/</span>
-      <span>Pasta</span>
-    </div>
-
-    <!-- Title -->
-    <h1 class="recipe-detail-title">Chicken Pasta of your Dreams</h1>
-
-    <!-- Meta -->
-    <div class="recipe-detail-meta">
-      <div class="meta-item">
-        <i class="far fa-clock"></i>
-        <span><strong>55</strong> mins</span>
-      </div>
-      <div class="meta-item">
-        <i class="fas fa-utensils"></i>
-        <span><strong>4</strong> servings</span>
-      </div>
-      <div class="meta-item">
-        <i class="fas fa-signal"></i>
-        <span>Medium</span>
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="recipe-actions">
-      <button class="recipe-action-btn primary"><i class="far fa-bookmark"></i> Save Recipe</button>
-      <button class="recipe-action-btn secondary"><i class="fas fa-print"></i> Print</button>
-      <button class="recipe-action-btn secondary"><i class="fas fa-share-nodes"></i> Share</button>
-    </div>
-
-    <!-- Author -->
-    <div class="author-bar">
-      <div class="author-avatar">F</div>
-      <div class="author-details">
-        <h4>Florencio</h4>
-        <p>Food Creator</p>
-      </div>
-    </div>
-
-    <!-- Description -->
-    <p class="recipe-description">
-      For all those times you've just gotta have a creamy pasta! This chicken pasta combines tender, juicy chicken breast with a rich, creamy garlic parmesan sauce that coats every single strand of fettuccine. It's the kind of comfort food that makes you close your eyes and savour every single bite. Ready in under an hour with ingredients you probably already have.
-    </p>
-
-    <!-- Ingredients -->
-    <h2 class="recipe-section-heading">Ingredients</h2>
-    <div class="ingredients-list">
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🍗</span>
-          <span class="ingredient-name">Chicken Breast</span>
-        </div>
-        <span class="ingredient-amount">500 g</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🍝</span>
-          <span class="ingredient-name">Fettuccine Pasta</span>
-        </div>
-        <span class="ingredient-amount">400 g</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🧄</span>
-          <span class="ingredient-name">Garlic (minced)</span>
-        </div>
-        <span class="ingredient-amount">4 cloves</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🧀</span>
-          <span class="ingredient-name">Parmesan Cheese</span>
-        </div>
-        <span class="ingredient-amount">1 cup</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🥛</span>
-          <span class="ingredient-name">Heavy Cream</span>
-        </div>
-        <span class="ingredient-amount">250 ml</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🧈</span>
-          <span class="ingredient-name">Butter</span>
-        </div>
-        <span class="ingredient-amount">2 tbsp</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🌿</span>
-          <span class="ingredient-name">Fresh Basil</span>
-        </div>
-        <span class="ingredient-amount">handful</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🫒</span>
-          <span class="ingredient-name">Olive Oil</span>
-        </div>
-        <span class="ingredient-amount">2 tbsp</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🌶️</span>
-          <span class="ingredient-name">Paprika</span>
-        </div>
-        <span class="ingredient-amount">1 tsp</span>
-      </div>
-      <div class="ingredient-row">
-        <div class="ingredient-left">
-          <span class="ingredient-emoji">🧂</span>
-          <span class="ingredient-name">Salt & Pepper</span>
-        </div>
-        <span class="ingredient-amount">to taste</span>
-      </div>
-    </div>
-
-    <!-- Procedures -->
-    <h2 class="recipe-section-heading">Instructions</h2>
-    <div class="procedures-list">
-      <div class="step-item">
-        <div class="step-number">1</div>
-        <p class="step-text">Season the chicken breasts with salt, pepper, and a pinch of paprika. Heat olive oil in a large skillet over medium-high heat.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-number">2</div>
-        <p class="step-text">Cook the chicken for 6–7 minutes per side until golden and cooked through. Remove from the pan and let rest, then slice into strips.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-number">3</div>
-        <p class="step-text">While the chicken rests, cook the fettuccine in a large pot of salted boiling water according to package directions. Drain, reserving 1 cup of pasta water.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-number">4</div>
-        <p class="step-text">In the same skillet, melt butter over medium heat. Add minced garlic and sauté for 1 minute until fragrant.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-number">5</div>
-        <p class="step-text">Pour in the heavy cream and bring to a gentle simmer. Stir in the parmesan cheese until melted and smooth. Add pasta water as needed for consistency.</p>
-      </div>
-      <div class="step-item">
-        <div class="step-number">6</div>
-        <p class="step-text">Toss the cooked pasta in the creamy sauce. Top with sliced chicken and fresh basil. Serve immediately with extra parmesan. Enjoy!</p>
-      </div>
-    </div>
-
-  </div>
+  <div class="recipe-detail-wrapper" id="recipe-root"></div>
 
   <!-- ===== CTA Banner ===== -->
   <section class="cta-banner" style="margin-top: 48px;">
@@ -240,13 +81,6 @@
           <a href="index.html#latest">Collections</a>
           <a href="profile.html">About Us</a>
         </div>
-        <div class="footer-nav">
-          <h4>Popular</h4>
-          <a href="recipe.html">Chicken Pasta</a>
-          <a href="recipe.html">Beef Bourguignon</a>
-          <a href="recipe.html">Carrot Cake</a>
-          <a href="recipe.html">Wagyu Ribeye</a>
-        </div>
       </div>
       <div class="footer-bottom">
         <p>&copy; <span class="footer-year">2024</span> ECB Eats. All rights reserved.</p>
@@ -255,6 +89,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/recipe.js"></script>
 </body>
 </html>

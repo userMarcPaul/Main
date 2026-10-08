@@ -135,44 +135,11 @@
   <section class="search-results-section">
     <div class="container">
       <div class="search-results-header">
-        <h1>Search Results</h1>
-        <p>Showing 3 recipes</p>
+        <h1 id="results-heading">Search Results</h1>
+        <p id="results-summary"></p>
       </div>
 
-      <div id="results">
-        <a href="recipe.html" class="result-card">
-          <div class="result-image">
-            <img src="assets/img/rosemary-chicken.jpg" alt="Rosemary Chicken">
-          </div>
-          <div class="result-body">
-            <span class="result-category">Poultry</span>
-            <h3 class="result-title">Rosemary Chicken</h3>
-            <p class="result-snippet">A delicious chicken dish seasoned with rosemary and garlic, roasted to golden perfection.</p>
-          </div>
-        </a>
-
-        <a href="recipe.html" class="result-card">
-          <div class="result-image">
-            <img src="assets/img/wagyu-ribeye.jpg" alt="Grilled Wagyu Ribeye">
-          </div>
-          <div class="result-body">
-            <span class="result-category">Beef</span>
-            <h3 class="result-title">Grilled Wagyu Ribeye</h3>
-            <p class="result-snippet">Juicy Wagyu ribeye steak grilled to perfection with a simple herb butter finish.</p>
-          </div>
-        </a>
-
-        <a href="recipe.html" class="result-card">
-          <div class="result-image">
-            <img src="assets/img/vegetable-tartine.jpg" alt="Roasted Vegetable Tartine">
-          </div>
-          <div class="result-body">
-            <span class="result-category">Vegetarian</span>
-            <h3 class="result-title">Roasted Vegetable Tartine</h3>
-            <p class="result-snippet">A healthy tartine topped with beautifully roasted seasonal vegetables and goat cheese.</p>
-          </div>
-        </a>
-      </div>
+      <div id="results"></div>
     </div>
   </section>
 
@@ -199,6 +166,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/results.js"></script>
 </body>
 </html>

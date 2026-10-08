@@ -10,13 +10,18 @@ user-submitted recipes.
 
 ## What works today
 
-- Home page with featured recipes, category tiles and a latest-recipes grid
-- A full recipe page (Chicken Pasta) with ingredients and step-by-step instructions
-- Search results and About pages
+Every page renders from the API — nothing on the site is hardcoded.
+
+- **Home:** featured recipes, category tiles with real counts, and the six latest recipes
+- **Recipe pages:** six real recipes, each at its own `recipe.html?slug=…`, with full
+  ingredients and instructions, a servings scaler, print layout and share button
+- **Search:** the header search goes to `results.html?q=…` and shows a live dropdown of
+  the top five matches; category tiles go to `results.html?category=…`
+- Loading skeletons, empty states and an error state with a working retry
 - Responsive layout, sticky navigation and scroll-in animations
 
-Features that are not built yet are hidden rather than faked: there are no placeholder
-ratings, follower counts or recipe counts anywhere on the site, and no link points to `#`.
+Features that are not built yet are hidden rather than faked: ratings appear only once a
+recipe has real reviews, every count comes from the database, and no link points to `#`.
 
 ## Coming next
 
@@ -25,8 +30,8 @@ The build is planned in 8 phases (see `ECB-Eats-Implementation-Plan.md`):
 | Phase | What it adds |
 | --- | --- |
 | 1 ✅ | Repo cleanup, honest content, no dead links |
-| 2 | Turso (SQLite) database, seed data, read API |
-| 3 | Data-driven pages — every card opens its own recipe, real search |
+| 2 ✅ | SQLite schema, seed data, read API (Turso hosting still to set up) |
+| 3 ✅ | Data-driven pages — every card opens its own recipe, real search |
 | 4 | User accounts and sessions |
 | 5 | Reviews, ratings and saved recipes |
 | 6 | Recipe submissions with admin moderation |
@@ -40,26 +45,43 @@ The build is planned in 8 phases (see `ECB-Eats-Implementation-Plan.md`):
 
 ## Running it locally
 
-The site is static today, so any static server works:
+No database to provision — `@libsql/client` reads a local SQLite file, and only
+deployment needs a Turso instance.
 
 ```bash
-python3 -m http.server 8000
-# then open http://localhost:8000
+npm install
+cp .env.local.example .env.local   # TURSO_DATABASE_URL=file:local.db
+npm run seed                       # creates local.db and inserts the six recipes
+npm run dev                        # http://localhost:3000
+npm test                           # 11 smoke tests over the API and all three pages
 ```
 
-From Phase 2 onward this becomes `vercel dev`, which serves the pages and the `/api`
-functions together.
+`npm run dev` runs `dev-server.js`, which maps the files under `api/` the same way
+Vercel does, so the site runs without the Vercel CLI. `vercel dev` also works and is
+what production mirrors.
 
 ## Project layout
 
 ```
-index.html        Home
-recipe.html       Recipe detail
-results.html      Search results
-profile.html      About
+index.html  recipe.html  results.html  profile.html
+api/
+  recipes/index.js     GET list + search
+  recipes/[slug].js    GET one recipe
+  categories.js        GET categories with real counts
+lib/
+  db.js                the one place the database client is created
+  http.js              JSON responses, method checks, error wrapping
+db/
+  schema.sql           full schema, including the Phase 4–6 tables
+  recipes.js           the six starter recipes
+  seed.js              applies the schema and seeds (re-runnable)
 assets/
-  style.css       Design system and page styles
-  css/            Bootstrap
-  js/app.js       Navigation, scroll animations, footer year
-  img/            Recipe photography and the logo
+  style.css            design system and page styles
+  js/api.js            fetch helpers
+  js/render.js         templates, escapeHtml, loading/empty/error states
+  js/app.js            shared chrome: nav, animations, header search
+  js/home.js  recipe.js  results.js  about.js   one module per page
+  img/                 recipe photography and the logo
+dev-server.js          local server that mirrors Vercel's api/ routing
+test/smoke.test.js     API + page tests (node:test + jsdom)
 ```

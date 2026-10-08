@@ -98,9 +98,9 @@ Done when: no link on the site points to `#`, and no number on the site is inven
 
 Setup:
 
-- [ ] Install the Vercel CLI and Turso CLI; run `npm init -y` and `npm i @libsql/client zod bcryptjs @vercel/blob`
-- [ ] Create the Turso database (`turso db create ecb-eats`) and an auth token
-- [ ] Write `lib/db.js`, the single place that creates the database client
+- [x] ~~Install the Vercel CLI and Turso CLI~~; run `npm init -y` and `npm i @libsql/client` (`zod`, `bcryptjs` and `@vercel/blob` are installed when Phases 4 and 6 first need them)
+- [ ] Create the Turso database (`turso db create ecb-eats`) and an auth token — **not done: needs a Turso account.** Development runs against `file:local.db`, which the same client supports
+- [x] Write `lib/db.js`, the single place that creates the database client
 
 ```js
 // lib/db.js
@@ -188,10 +188,10 @@ CREATE INDEX idx_reviews_recipe ON reviews(recipe_id);
 
 Seed and read API:
 
-- [ ] Write `db/seed.js` that inserts your 6 recipes as `published`, with full ingredients and steps for every one (not just Chicken Pasta)
-- [ ] `GET /api/recipes` returns published recipes; supports `?q=`, `?category=`, `?featured=1` and `?limit=`
-- [ ] `GET /api/recipes/[slug]` returns one recipe with ingredients, steps, average rating and review count; 404 if missing or not published
-- [ ] Use parameterized queries everywhere, never string-built SQL
+- [x] Write `db/seed.js` that inserts your 6 recipes as `published`, with full ingredients and steps for every one (not just Chicken Pasta)
+- [x] `GET /api/recipes` returns published recipes; supports `?q=`, `?category=`, `?featured=1` and `?limit=`
+- [x] `GET /api/recipes/[slug]` returns one recipe with ingredients, steps, average rating and review count; 404 if missing or not published
+- [x] Use parameterized queries everywhere, never string-built SQL
 
 ```js
 // search: parameters, not string concatenation
@@ -213,23 +213,23 @@ Done when: `curl /api/recipes?q=chicken` returns real JSON from Turso on the dep
 
 Shared code:
 
-- [ ] Split `app.js` into ES modules: `api.js` (fetch helpers), `render.js` (card and recipe templates), and one small file per page
-- [ ] Escape all user-facing text when building HTML (use `textContent`, or one `escapeHtml()` helper) so submitted recipes cannot inject scripts
-- [ ] Add loading skeletons, an empty state ("No recipes match") and an error state with a retry button
+- [x] Split `app.js` into ES modules: `api.js` (fetch helpers), `render.js` (card and recipe templates), and one small file per page
+- [x] Escape all user-facing text when building HTML (use `textContent`, or one `escapeHtml()` helper) so submitted recipes cannot inject scripts
+- [x] Add loading skeletons, an empty state ("No recipes match") and an error state with a retry button
 
 Pages:
 
-- [ ] **Home:** featured from `?featured=1`, latest from `?limit=6`, category tiles with real counts
-- [ ] **Recipe** (`recipe.html?slug=beef-bourguignon`): read the slug from the URL, fetch, render; show a friendly 404 if it does not exist; set `document.title` per recipe
-- [ ] **Results:** the header search submits to `results.html?q=pasta`; tiles go to `results.html?category=pasta`; show the real count ("4 results for pasta")
-- [ ] Debounce live search in the header (300 ms) with a small dropdown of top 5 matches
+- [x] **Home:** featured from `?featured=1`, latest from `?limit=6`, category tiles with real counts (counts come from a new `GET /api/categories`)
+- [x] **Recipe** (`recipe.html?slug=beef-bourguignon`): read the slug from the URL, fetch, render; show a friendly 404 if it does not exist; set `document.title` per recipe
+- [x] **Results:** the header search submits to `results.html?q=pasta`; tiles go to `results.html?category=pasta`; show the real count ("4 results for pasta")
+- [x] Debounce live search in the header (300 ms) with a small dropdown of top 5 matches
 
 Recipe page tools:
 
-- [ ] **Servings scaler:** +/− buttons recalculate every ingredient quantity (`qty × newServings ÷ baseServings`), rounded sensibly
-- [ ] **Print:** a `@media print` stylesheet that hides nav, hero, footer and buttons
-- [ ] **Share:** `navigator.share()` on phones, copy-link with a "Link copied" toast as the fallback
-- [ ] **Breadcrumb:** Home / Category / Recipe, with the category linking to its results page
+- [x] **Servings scaler:** +/− buttons recalculate every ingredient quantity (`qty × newServings ÷ baseServings`), rounded sensibly
+- [x] **Print:** a `@media print` stylesheet that hides nav, hero, footer and buttons
+- [x] **Share:** `navigator.share()` on phones, copy-link with a "Link copied" toast as the fallback
+- [x] **Breadcrumb:** Home / Category / Recipe, with the category linking to its results page
 
 ```js
 // recipe.js

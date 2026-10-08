@@ -55,46 +55,7 @@
 
   <!-- ===== Featured Recipes ===== -->
   <section class="featured-section">
-    <div class="featured-grid">
-
-      <!-- Card 1 -->
-      <a href="recipe.html" class="recipe-card animate-on-scroll stagger-1">
-        <div class="recipe-card-image">
-          <span class="top-picks-badge">Top Picks!</span>
-          <img src="assets/img/chicken-pasta.jpg" alt="Chicken Pasta of your Dreams">
-          <span class="category-badge badge-pasta">Pasta</span>
-        </div>
-        <div class="recipe-card-body">
-          <h3 class="recipe-card-title">Chicken Pasta of your Dreams</h3>
-          <p class="recipe-card-desc">For all those times you've just gotta have a creamy pasta!</p>
-        </div>
-      </a>
-
-      <!-- Card 2 -->
-      <a href="recipe.html" class="recipe-card animate-on-scroll stagger-2">
-        <div class="recipe-card-image">
-          <img src="assets/img/beef-bourguignon.jpg" alt="Beef Bourguignon">
-          <span class="category-badge badge-stews">Stews</span>
-        </div>
-        <div class="recipe-card-body">
-          <h3 class="recipe-card-title">Beef Bourguignon</h3>
-          <p class="recipe-card-desc">The best beef stew in the world. Full stop!</p>
-        </div>
-      </a>
-
-      <!-- Card 3 -->
-      <a href="recipe.html" class="recipe-card animate-on-scroll stagger-3">
-        <div class="recipe-card-image">
-          <img src="assets/img/carrot-cake.svg" alt="Carrot Cake">
-          <span class="category-badge badge-cakes">Cakes</span>
-        </div>
-        <div class="recipe-card-body">
-          <h3 class="recipe-card-title">Carrot Cake</h3>
-          <p class="recipe-card-desc">Can't get enough of this cake. The cream cheese frosting has something to do with it!</p>
-        </div>
-      </a>
-
-    </div>
+    <div class="featured-grid" id="featured-grid"></div>
   </section>
 
   <!-- ===== CTA Banner ===== -->
@@ -112,32 +73,7 @@
         <h2>Browse by Category</h2>
         <p>Find the perfect recipe for any occasion</p>
       </div>
-      <div class="category-grid">
-        <a href="results.html?category=pasta" class="category-card animate-on-scroll stagger-1">
-          <div class="category-card-emoji">🍝</div>
-          <div class="category-card-name">Pasta</div>
-        </a>
-        <a href="results.html?category=meat" class="category-card animate-on-scroll stagger-2">
-          <div class="category-card-emoji">🥩</div>
-          <div class="category-card-name">Meat</div>
-        </a>
-        <a href="results.html?category=seafood" class="category-card animate-on-scroll stagger-3">
-          <div class="category-card-emoji">🦐</div>
-          <div class="category-card-name">Seafood</div>
-        </a>
-        <a href="results.html?category=salads" class="category-card animate-on-scroll">
-          <div class="category-card-emoji">🥗</div>
-          <div class="category-card-name">Salads</div>
-        </a>
-        <a href="results.html?category=desserts" class="category-card animate-on-scroll">
-          <div class="category-card-emoji">🍰</div>
-          <div class="category-card-name">Desserts</div>
-        </a>
-        <a href="results.html?category=soups" class="category-card animate-on-scroll">
-          <div class="category-card-emoji">🍲</div>
-          <div class="category-card-name">Soups</div>
-        </a>
-      </div>
+      <div class="category-grid" id="category-grid"></div>
     </div>
   </section>
 
@@ -147,51 +83,7 @@
       <div class="section-header">
         <h2>Latest Recipes</h2>
       </div>
-      <div class="latest-grid">
-
-        <a href="recipe.html" class="latest-card animate-on-scroll stagger-1">
-          <div class="latest-card-image">
-            <img src="assets/img/rosemary-chicken.jpg" alt="Rosemary Chicken">
-          </div>
-          <div class="latest-card-body">
-            <span class="latest-card-category">Poultry</span>
-            <h3 class="latest-card-title">Rosemary Chicken</h3>
-            <div class="latest-card-meta">
-              <span><i class="far fa-clock"></i> 45 min</span>
-              <span><i class="fas fa-fire-flame-curved"></i> Easy</span>
-            </div>
-          </div>
-        </a>
-
-        <a href="recipe.html" class="latest-card animate-on-scroll stagger-2">
-          <div class="latest-card-image">
-            <img src="assets/img/wagyu-ribeye.jpg" alt="Grilled Wagyu Ribeye">
-          </div>
-          <div class="latest-card-body">
-            <span class="latest-card-category">Beef</span>
-            <h3 class="latest-card-title">Grilled Wagyu Ribeye</h3>
-            <div class="latest-card-meta">
-              <span><i class="far fa-clock"></i> 30 min</span>
-              <span><i class="fas fa-fire-flame-curved"></i> Medium</span>
-            </div>
-          </div>
-        </a>
-
-        <a href="recipe.html" class="latest-card animate-on-scroll stagger-3">
-          <div class="latest-card-image">
-            <img src="assets/img/vegetable-tartine.jpg" alt="Roasted Vegetable Tartine">
-          </div>
-          <div class="latest-card-body">
-            <span class="latest-card-category">Vegetarian</span>
-            <h3 class="latest-card-title">Roasted Vegetable Tartine</h3>
-            <div class="latest-card-meta">
-              <span><i class="far fa-clock"></i> 50 min</span>
-              <span><i class="fas fa-fire-flame-curved"></i> Easy</span>
-            </div>
-          </div>
-        </a>
-
-      </div>
+      <div class="latest-grid" id="latest-grid"></div>
     </div>
   </section>
 
@@ -210,13 +102,6 @@
           <a href="#latest">Collections</a>
           <a href="profile.html">About Us</a>
         </div>
-        <div class="footer-nav">
-          <h4>Popular</h4>
-          <a href="recipe.html">Chicken Pasta</a>
-          <a href="recipe.html">Beef Bourguignon</a>
-          <a href="recipe.html">Carrot Cake</a>
-          <a href="recipe.html">Wagyu Ribeye</a>
-        </div>
       </div>
       <div class="footer-bottom">
         <p>&copy; <span class="footer-year">2024</span> ECB Eats. All rights reserved.</p>
@@ -225,6 +110,6 @@
     </div>
   </footer>
 
-  <script src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/home.js"></script>
 </body>
 </html>
