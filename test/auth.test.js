@@ -214,7 +214,7 @@ test("the signup page logs in and the header then shows the display name", async
     requestAnimationFrame: (fn) => setTimeout(fn, 0),
   })) Object.defineProperty(globalThis, k, { value: v, configurable: true, writable: true });
 
-  await import(`../assets/js/account.js?t=${Math.random()}`);
+  await import(`../assets/js/pages/account.js?t=${Math.random()}`);
   await new Promise((r) => setTimeout(r, 400));
 
   const form = dom.window.document.getElementById("signup-form");

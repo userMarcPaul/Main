@@ -1,11 +1,12 @@
-import { handler, json, fail, methodAllowed } from "../../lib/http.js";
-import { getUser } from "../../lib/auth.js";
+import { handler, json, methodAllowed } from "../../lib/http.js";
+import { getActor } from "../../lib/auth.js";
+import { unauthorized } from "../../lib/errors.js";
 
+/** GET /api/auth/me — the current user, or 401. */
 export default handler(async (req, res) => {
   if (!methodAllowed(req, res, ["GET"])) return;
 
-  const user = await getUser(req);
-  if (!user) return fail(res, 401, "Not logged in");
-
-  json(res, 200, { id: user.id, displayName: user.displayName, role: user.role });
+  const actor = await getActor(req);
+  if (!actor) throw unauthorized("Not logged in");
+  json(res, 200, { id: actor.id, displayName: actor.displayName, role: actor.role });
 });

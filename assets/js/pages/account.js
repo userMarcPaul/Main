@@ -1,8 +1,8 @@
 /* Login and signup forms. One module serves both pages; it picks its behaviour
    from whichever form is present. */
 
-import { initChrome, safeNext } from "./app.js";
-import { signup, login, me } from "./api.js";
+import { initChrome, safeNext } from "../ui/chrome.js";
+import { signup, login, me } from "../data/api.js";
 
 initChrome();
 

@@ -1,8 +1,8 @@
 /* Results page: driven entirely by ?q= and ?category= in the URL. */
 
-import { initChrome } from "./app.js";
-import { listRecipes } from "./api.js";
-import { resultCard, skeletonCards, emptyState, renderInto } from "./render.js";
+import { initChrome } from "../ui/chrome.js";
+import { listRecipes } from "../data/api.js";
+import { resultCard, skeletonCards, emptyState, renderInto } from "../ui/render.js";
 
 initChrome();
 

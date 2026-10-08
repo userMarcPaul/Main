@@ -1,11 +1,11 @@
 /* Home page: featured recipes, category tiles with real counts, latest recipes. */
 
-import { initChrome, initScrollAnimations } from "./app.js";
-import { listRecipes, listCategories } from "./api.js";
+import { initChrome, initScrollAnimations } from "../ui/chrome.js";
+import { listRecipes, listCategories } from "../data/api.js";
 import {
   featuredCard, latestCard, categoryTile,
   skeletonCards, emptyState, renderInto,
-} from "./render.js";
+} from "../ui/render.js";
 
 initChrome();
 

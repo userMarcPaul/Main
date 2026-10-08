@@ -1,11 +1,11 @@
 /* Recipe page: reads ?slug= from the URL and renders one recipe. */
 
-import { initChrome } from "./app.js";
-import { getRecipe, me, isSaved, saveRecipe, unsaveRecipe, ApiError } from "./api.js";
+import { initChrome } from "../ui/chrome.js";
+import { getRecipe, me, isSaved, saveRecipe, unsaveRecipe, ApiError } from "../data/api.js";
 import {
   escapeHtml, formatMinutes, categoryUrl, errorState,
-} from "./render.js";
-import { initReviews } from "./reviews.js";
+} from "../ui/render.js";
+import { initReviews } from "../features/reviews.js";
 
 initChrome();
 

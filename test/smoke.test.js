@@ -14,7 +14,7 @@ import { JSDOM } from "jsdom";
 
 import {
   escapeHtml, formatMinutes, featuredCard, categoryTile, recipeUrl,
-} from "../assets/js/render.js";
+} from "../assets/js/ui/render.js";
 
 const PORT = 3210;
 const ORIGIN = `http://127.0.0.1:${PORT}`;

@@ -1,11 +1,11 @@
 /* Saved Recipes page. Requires login: a signed-out visitor is sent to log in
    and returned here afterwards. */
 
-import { initChrome, safeNext } from "./app.js";
-import { listSaved, unsaveRecipe, ApiError } from "./api.js";
+import { initChrome, safeNext } from "../ui/chrome.js";
+import { listSaved, unsaveRecipe, ApiError } from "../data/api.js";
 import {
   escapeHtml, latestCard, skeletonCards, emptyState,
-} from "./render.js";
+} from "../ui/render.js";
 
 initChrome();
 

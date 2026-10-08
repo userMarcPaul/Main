@@ -3,8 +3,8 @@
 
 import {
   getReviews, postReview, deleteReview, ApiError,
-} from "./api.js";
-import { escapeHtml, starsDisplay, formatDate } from "./render.js";
+} from "../data/api.js";
+import { escapeHtml, starsDisplay, formatDate } from "../ui/render.js";
 
 /**
  * @param {HTMLElement} container

@@ -1,23 +1,13 @@
-import { db } from "../../lib/db.js";
-import { handler, json, fail, methodAllowed, enforceSameOrigin } from "../../lib/http.js";
-import { requireUser } from "../../lib/auth.js";
+import * as saved from "../../lib/services/saved.js";
+import { handler, json, methodAllowed, enforceSameOrigin } from "../../lib/http.js";
+import { getActor } from "../../lib/auth.js";
 
-/** DELETE /api/saved/:slug — unsave a recipe (idempotent). */
+/** DELETE /api/saved/:slug — unsave a recipe. */
 export default handler(async (req, res) => {
   if (!methodAllowed(req, res, ["DELETE"])) return;
   if (!enforceSameOrigin(req, res)) return;
 
-  const user = await requireUser(req, res);
-  if (!user) return;
-
+  const actor = await getActor(req);
   const slug = req.query?.slug ?? decodeURIComponent(new URL(req.url, "http://localhost").pathname.split("/").pop());
-
-  await db.execute({
-    sql: `DELETE FROM saved_recipes
-          WHERE user_id = ?
-            AND recipe_id = (SELECT id FROM recipes WHERE slug = ?)`,
-    args: [user.id, slug],
-  });
-
-  json(res, 200, { ok: true, saved: false });
+  json(res, 200, await saved.remove(actor, slug));
 });

@@ -77,36 +77,49 @@ what production mirrors.
 
 ## Project layout
 
+The backend is layered so each file has one job, and dependencies point inward
+(**handler → service → repository → db**):
+
+- **`api/`** — thin HTTP handlers. Parse the request, call a service, send JSON.
+  No SQL and no business rules live here.
+- **`lib/services/`** — the rules: who may do what, validation, rate limits.
+  They take a resolved `actor`, not a request, and throw domain errors
+  (`lib/errors.js`) that the HTTP layer turns into status codes. No SQL, no `req`/`res`.
+- **`lib/repositories/`** — the only place SQL lives. Returns plain data via
+  `lib/mappers.js`.
+
+The frontend mirrors this: **`data/`** talks to the API, **`ui/`** is pure
+rendering, **`features/`** are widgets, and **`pages/`** are per-page controllers.
+
 ```
-index.html  recipe.html  results.html  profile.html
-api/
-  recipes/index.js     GET list + search
-  recipes/[slug].js    GET one recipe
-  categories.js        GET categories with real counts
-  auth/                signup.js  login.js  logout.js  me.js
-  recipes/[slug]/reviews.js   GET/POST/DELETE reviews
-  saved/               index.js (GET/POST)  [slug].js (DELETE)
+index.html recipe.html results.html profile.html login.html signup.html saved.html
+api/                         HTTP handlers (thin)
+  recipes/index.js  [slug].js  [slug]/reviews.js
+  categories.js
+  auth/   signup.js login.js logout.js me.js
+  saved/  index.js  [slug].js
 lib/
-  db.js                the one place the database client is created
-  http.js              JSON responses, cookies, same-origin + body parsing
-  auth.js              sessions: create, read (getUser), requireUser/requireAdmin
-  validate.js          zod schemas for request bodies
-  rateLimit.js         fixed-window limiter backed by the rate_limits table
+  services/     recipes.js reviews.js saved.js accounts.js   business rules
+  repositories/ recipes.js reviews.js saved.js users.js sessions.js   all SQL
+  mappers.js    row -> API shape, in one place
+  errors.js     AppError + factories (notFound, forbidden, ...)
+  db.js         the one place the database client is created
+  http.js       JSON responses, cookies, same-origin, body parsing, AppError mapping
+  auth.js       session adapter: getActor(req), createSessionFor, cookies
+  validate.js   zod schemas for request bodies
+  rateLimit.js  fixed-window limiter backed by the rate_limits table
 db/
-  schema.sql           full schema, including the Phase 4–6 tables
-  recipes.js           the six starter recipes
-  seed.js              applies the schema and seeds (re-runnable)
+  schema.sql    full schema, including the later-phase tables
+  recipes.js    the six starter recipes
+  seed.js       applies the schema and seeds (re-runnable)
 assets/
-  style.css            design system and page styles
-  js/api.js            fetch helpers (reads + auth)
-  js/render.js         templates, escapeHtml, loading/empty/error states
-  js/app.js            shared chrome: nav, animations, header search, auth menu
-  js/reviews.js        the recipe page's review widget
-  js/home.js  recipe.js  results.js  about.js  account.js  saved.js   one per page
-login.html  signup.html  saved.html            account + saved pages
-  img/                 recipe photography and the logo
-dev-server.js          local server that mirrors Vercel's api/ routing
-test/smoke.test.js     Phase 3 API + page tests (node:test + jsdom)
-test/auth.test.js      Phase 4 auth flow + protection tests
-test/reviews.test.js   Phase 5 reviews + saved-recipe tests
+  style.css     design system and page styles
+  js/data/      api.js        fetch client (reads, auth, reviews, saved)
+  js/ui/        render.js     templates, escapeHtml, loading/empty/error states
+                chrome.js     shared chrome: nav, animations, search, auth menu
+  js/features/  reviews.js    the recipe page's review widget
+  js/pages/     home.js recipe.js results.js about.js account.js saved.js
+  img/          recipe photography and the logo
+dev-server.js   local server that mirrors Vercel's api/ routing
+test/           smoke.test.js (pages) · auth.test.js · reviews.test.js
 ```

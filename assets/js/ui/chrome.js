@@ -3,8 +3,8 @@
    Imported by every page module: nav, animations, footer year, header search.
    ========================================= */
 
-import { listRecipes, me, logout } from "./api.js";
-import { escapeHtml, recipeUrl } from "./render.js";
+import { listRecipes, me, logout } from "../data/api.js";
+import { escapeHtml, recipeUrl } from "../ui/render.js";
 
 export function initChrome() {
   initMobileMenu();
