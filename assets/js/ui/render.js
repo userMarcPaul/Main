@@ -65,7 +65,7 @@ export function featuredCard(recipe, index = 0) {
     <a href="${escapeHtml(recipeUrl(recipe.slug))}" class="recipe-card animate-on-scroll${stagger}">
       <div class="recipe-card-image">
         ${topPick}
-        <img src="${escapeHtml(recipe.imageUrl)}" alt="${escapeHtml(recipe.title)}" loading="lazy">
+        <img src="${escapeHtml(recipe.imageUrl)}" alt="${escapeHtml(recipe.title)}" loading="lazy" width="400" height="260">
         <span class="category-badge ${badgeClass(recipe.category)}">${escapeHtml(recipe.category)}</span>
       </div>
       <div class="recipe-card-body">
@@ -82,7 +82,7 @@ export function latestCard(recipe, index = 0) {
   return `
     <a href="${escapeHtml(recipeUrl(recipe.slug))}" class="latest-card animate-on-scroll${stagger}">
       <div class="latest-card-image">
-        <img src="${escapeHtml(recipe.imageUrl)}" alt="${escapeHtml(recipe.title)}" loading="lazy">
+        <img src="${escapeHtml(recipe.imageUrl)}" alt="${escapeHtml(recipe.title)}" loading="lazy" width="400" height="180">
       </div>
       <div class="latest-card-body">
         <span class="latest-card-category">${escapeHtml(recipe.category)}</span>
@@ -100,7 +100,7 @@ export function resultCard(recipe) {
   return `
     <a href="${escapeHtml(recipeUrl(recipe.slug))}" class="result-card">
       <div class="result-image">
-        <img src="${escapeHtml(recipe.imageUrl)}" alt="${escapeHtml(recipe.title)}" loading="lazy">
+        <img src="${escapeHtml(recipe.imageUrl)}" alt="${escapeHtml(recipe.title)}" loading="lazy" width="160" height="120">
       </div>
       <div class="result-body">
         <span class="result-category">${escapeHtml(recipe.category)}</span>

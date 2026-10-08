@@ -40,3 +40,6 @@ uploads/
 test-submissions.db
 test-submissions.db-journal
 test-uploads/
+test-hardening.db
+test-hardening.db-journal
+test-uploads-h/

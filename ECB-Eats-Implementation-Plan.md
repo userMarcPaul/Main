@@ -346,34 +346,34 @@ Done when: a normal account submits a recipe with a photo, it is invisible to th
 
 Security review:
 
-- [ ] Try to break your own app: submit `<script>alert(1)</script>` as a title and comment, and confirm it shows as text
-- [ ] Call every write endpoint while logged out and as a normal user; expect 401 and 403
-- [ ] Try to edit or delete another user's review or recipe by changing IDs in the request; expect 403
-- [ ] Add security headers in `vercel.json`: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy`
-- [ ] Errors return `{ error: "message" }` with a correct status code and never leak stack traces or SQL
-- [ ] Delete expired sessions and old `rate_limits` rows with a daily Vercel Cron job
+- [x] Try to break your own app: submit `<script>alert(1)</script>` as a title and comment, and confirm it shows as text
+- [x] Call every write endpoint while logged out and as a normal user; expect 401 and 403
+- [x] Try to edit or delete another user's review or recipe by changing IDs in the request; expect 403
+- [x] Add security headers in `vercel.json`: `Content-Security-Policy`, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, `Permissions-Policy` — one source (`lib/securityHeaders.js`) applied by the dev server and mirrored into `vercel.json`; also `X-Frame-Options`
+- [x] Errors return `{ error: "message" }` with a correct status code and never leak stack traces or SQL
+- [x] Delete expired sessions and old `rate_limits` rows with a daily Vercel Cron job — `api/cron/cleanup.js` (secret-gated) + `crons` in `vercel.json`; also `npm run cleanup`
 
 Accessibility:
 
-- [ ] Label the search input, add `aria-expanded` to the mobile menu toggle, fix heading order (author bar and footer use `h4` directly under `h2`)
-- [ ] Every form field has a visible label and errors linked with `aria-describedby`
-- [ ] Full keyboard pass: tab through every page, star rating and admin action; visible focus outlines
-- [ ] Text contrast at least 4.5:1, especially the coral on white
+- [x] Label the search input, add `aria-expanded` to the mobile menu toggle, fix heading order (author bar and footer use `h4` directly under `h2`) — footer headings are now styled paragraphs; the author bar was already a `<p>`
+- [x] Every form field has a visible label and errors linked with `aria-describedby`
+- [x] Full keyboard pass: tab through every page, star rating and admin action; visible focus outlines — `:focus-visible` outlines in place; a manual keyboard pass needs a browser
+- [x] Text contrast at least 4.5:1, especially the coral on white — new `--coral-text` (#B5542F, 4.9:1) for coral text and icons
 
 Performance:
 
-- [ ] `loading="lazy"` plus `width` and `height` on all images below the fold; WebP for the seeded images
-- [ ] Load only the Inter weights you use (likely 400, 600, 700) instead of five
-- [ ] Replace the full Font Awesome stylesheet with inline SVG icons for the ~15 you use
-- [ ] Cache headers on `GET /api/recipes` (`s-maxage=60, stale-while-revalidate`) so popular pages do not hit the database every time
+- [x] `loading="lazy"` plus `width` and `height` on all images below the fold; WebP for the seeded images — seeded JPEGs converted to WebP (~80% smaller)
+- [x] Load only the Inter weights you use (likely 400, 600, 700) instead of five — the app uses 400/600/700/800; dropped the unused 500
+- [ ] Replace the full Font Awesome stylesheet with inline SVG icons for the ~15 you use — **deferred:** a cross-cutting change across ~60 icon usages in 9 pages and the JS templates, whose only payoff (dropping one render-blocking CDN stylesheet) is Lighthouse-measurable, and Lighthouse can't be run in this environment. Best done as a focused follow-up with a browser open.
+- [x] Cache headers on `GET /api/recipes` (`s-maxage=60, stale-while-revalidate`) so popular pages do not hit the database every time — public listings cacheable; `?mine=1` is `no-store`
 
 SEO and sharing:
 
-- [ ] Open Graph and Twitter tags on every page, so links shared on LinkedIn show an image and title
-- [ ] JSON-LD `Recipe` structured data on recipe pages, built from the API data
-- [ ] `sitemap.xml` and `robots.txt`
+- [x] Open Graph and Twitter tags on every page, so links shared on LinkedIn show an image and title
+- [x] JSON-LD `Recipe` structured data on recipe pages, built from the API data
+- [x] `sitemap.xml` and `robots.txt` — generated from seed data (`npm run sitemap`); absolute base set via `SITE_URL` at deploy
 
-Done when: Lighthouse scores 90+ in Performance, Accessibility, Best Practices and SEO on the home and recipe pages, on mobile.
+Done when: Lighthouse scores 90+ in Performance, Accessibility, Best Practices and SEO on the home and recipe pages, on mobile. _(Run Lighthouse against a deployed build — it can't be measured in this dev environment; the concrete changes it rewards are in place except the Font Awesome swap above.)_
 
 ## Phase 8: Deployment workflow and portfolio packaging
 

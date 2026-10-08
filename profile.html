@@ -5,9 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>About — ECB Eats</title>
   <meta name="description" content="Learn about ECB Eats — our mission to inspire culinary creativity and make cooking accessible for everyone.">
+  <!-- Open Graph / Twitter (og:url + absolute image set at deploy, Phase 8) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ECB Eats">
+  <meta property="og:title" content="About — ECB Eats">
+  <meta property="og:description" content="Learn about ECB Eats — our mission to inspire culinary creativity and make cooking accessible for everyone.">
+  <meta property="og:image" content="assets/img/chicken-pasta.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About — ECB Eats">
+  <meta name="twitter:description" content="Learn about ECB Eats — our mission to inspire culinary creativity and make cooking accessible for everyone.">
+  <meta name="twitter:image" content="assets/img/chicken-pasta.webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="assets/style.css">
   <link rel="icon" href="assets/img/logo.png" type="image/png">
@@ -124,7 +134,7 @@
       </a>
       <div class="header-right">
         <div class="search-bar">
-          <input type="text" placeholder="Search Recipes..." id="search-input">
+          <input type="text" placeholder="Search Recipes..." id="search-input" aria-label="Search recipes">
           <button aria-label="Search"><i class="fas fa-search"></i></button>
         </div>
         <!-- Social links hidden until the accounts exist (see plan Phase 1) -->
@@ -211,14 +221,14 @@
           <p>Inspiring culinary creativity — one recipe at a time.</p>
         </div>
         <div class="footer-nav">
-          <h4>Explore</h4>
+          <p class="footer-heading">Explore</p>
           <a href="index.html">Recipes</a>
           <a href="index.html#categories">Categories</a>
           <a href="index.html#latest">Collections</a>
           <a href="profile.html">About Us</a>
         </div>
         <div class="footer-nav">
-          <h4>Popular</h4>
+          <p class="footer-heading">Popular</p>
           <a href="recipe.html">Chicken Pasta</a>
           <a href="recipe.html">Beef Bourguignon</a>
           <a href="recipe.html">Carrot Cake</a>

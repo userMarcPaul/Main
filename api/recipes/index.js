@@ -17,6 +17,8 @@ export default handler(async (req, res) => {
   if (req.method === "GET") {
     const params = new URL(req.url, "http://localhost").searchParams;
     const mine = params.get("mine") === "1";
+    // Public listings may be cached briefly; a user's own list must not be.
+    res.setHeader("Cache-Control", mine ? "private, no-store" : "public, max-age=60, stale-while-revalidate=300");
     return json(res, 200, await recipes.list({
       q: (params.get("q") ?? "").trim(),
       category: (params.get("category") ?? "").trim(),

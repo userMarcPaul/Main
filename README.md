@@ -6,7 +6,7 @@ user-submitted recipes.
 
 **Live site:** _not deployed yet — a Vercel link goes here in Phase 2._
 
-![ECB Eats home page](assets/img/chicken-pasta.jpg)
+![ECB Eats home page](assets/img/chicken-pasta.webp)
 
 ## What works today
 
@@ -44,6 +44,7 @@ The build is planned in 8 phases (see `ECB-Eats-Implementation-Plan.md`):
 | 4 ✅ | Email/password accounts with server-side sessions |
 | 5 ✅ | Reviews & ratings, and save-a-recipe across devices |
 | 6 ✅ | Recipe submissions with photo upload and admin moderation |
+| 7 ◻ | Security headers, a11y, perf & SEO (Font Awesome swap pending) |
 | 4 | User accounts and sessions |
 | 5 | Reviews, ratings and saved recipes |
 | 6 | Recipe submissions with admin moderation |
@@ -79,6 +80,16 @@ database cannot be used to log in as anyone. Sign-up and login are rate-limited
 (5 per IP per 15 minutes) and every write endpoint checks the request's `Origin`
 against the site's own, as a CSRF defence. Set `ADMIN_EMAIL` so that account
 becomes an admin on sign-up.
+
+Every response carries a strict set of security headers (CSP with `script-src
+'self'`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`,
+`X-Frame-Options`), defined once in `lib/securityHeaders.js` and mirrored into
+`vercel.json`. A daily Vercel Cron hits `/api/cron/cleanup` (secret-gated) to
+drop expired sessions and stale rate-limit rows; run it by hand with
+`npm run cleanup`. User text is escaped on render, so a submitted
+`<script>` shows as text. Recipe pages carry Open Graph / Twitter tags and
+JSON-LD `Recipe` data; `npm run sitemap` regenerates `sitemap.xml` / `robots.txt`
+(set `SITE_URL` for the absolute base).
 
 `npm run dev` runs `dev-server.js`, which maps the files under `api/` the same way
 Vercel does, so the site runs without the Vercel CLI. `vercel dev` also works and is

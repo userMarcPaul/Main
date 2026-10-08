@@ -10,7 +10,7 @@ export const recipes = [
     category: "Pasta",
     description:
       "For all those times you've just gotta have a creamy pasta! Tender chicken breast in a rich garlic parmesan sauce that coats every strand of fettuccine — the kind of comfort food that makes you close your eyes on the first bite.",
-    image_url: "assets/img/chicken-pasta.jpg",
+    image_url: "assets/img/chicken-pasta.webp",
     time_minutes: 55,
     servings: 4,
     difficulty: "Medium",
@@ -42,7 +42,7 @@ export const recipes = [
     category: "Stews",
     description:
       "The best beef stew in the world. Full stop! Beef chuck braised slowly in red Burgundy with bacon, pearl onions and mushrooms, until the sauce turns glossy and the meat gives way to a fork.",
-    image_url: "assets/img/beef-bourguignon.jpg",
+    image_url: "assets/img/beef-bourguignon.webp",
     time_minutes: 210,
     servings: 6,
     difficulty: "Hard",
@@ -114,7 +114,7 @@ export const recipes = [
     category: "Poultry",
     description:
       "Bone-in thighs roasted over baby potatoes with rosemary, garlic and lemon. Everything cooks in one tin, the skin goes crisp, and the potatoes soak up all the juices.",
-    image_url: "assets/img/rosemary-chicken.jpg",
+    image_url: "assets/img/rosemary-chicken.webp",
     time_minutes: 45,
     servings: 4,
     difficulty: "Easy",
@@ -143,7 +143,7 @@ export const recipes = [
     category: "Beef",
     description:
       "A thick ribeye, a very hot grill and almost nothing else — the marbling does the work. Finished with thyme butter and rested properly, which matters more than anything you do to it in the pan.",
-    image_url: "assets/img/wagyu-ribeye.jpg",
+    image_url: "assets/img/wagyu-ribeye.webp",
     time_minutes: 30,
     servings: 2,
     difficulty: "Medium",
@@ -171,7 +171,7 @@ export const recipes = [
     category: "Vegetarian",
     description:
       "Thick sourdough piled with sweet, properly caramelised roasted vegetables and whipped goat cheese, finished with honey and torn basil. Best eaten with your hands.",
-    image_url: "assets/img/vegetable-tartine.jpg",
+    image_url: "assets/img/vegetable-tartine.webp",
     time_minutes: 50,
     servings: 4,
     difficulty: "Easy",

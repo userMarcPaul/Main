@@ -55,6 +55,7 @@ function render() {
   document
     .querySelector('meta[name="description"]')
     ?.setAttribute("content", recipe.description);
+  updateSeo();
 
   hero.innerHTML = `
     <img src="${escapeHtml(recipe.imageUrl)}" alt="${escapeHtml(recipe.title)}">
@@ -202,6 +203,55 @@ function setSaveButton(next) {
   button.setAttribute("aria-pressed", String(saved));
   button.querySelector("span").textContent = saved ? "Saved" : "Save Recipe";
   button.querySelector("i").className = `${saved ? "fas" : "far"} fa-bookmark`;
+}
+
+/* ---------- SEO ---------- */
+
+/** Per-recipe Open Graph tags and JSON-LD Recipe structured data. */
+function updateSeo() {
+  const abs = new URL(recipe.imageUrl, location.href).href;
+  setMeta('meta[property="og:title"]', `${recipe.title} — ECB Eats`);
+  setMeta('meta[property="og:description"]', recipe.description);
+  setMeta('meta[property="og:image"]', abs);
+  setMeta('meta[name="twitter:title"]', `${recipe.title} — ECB Eats`);
+  setMeta('meta[name="twitter:description"]', recipe.description);
+  setMeta('meta[name="twitter:image"]', abs);
+
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "Recipe",
+    name: recipe.title,
+    description: recipe.description,
+    image: abs,
+    recipeCategory: recipe.category,
+    totalTime: `PT${recipe.timeMinutes}M`,
+    recipeYield: `${recipe.servings} servings`,
+    recipeIngredient: recipe.ingredients.map((i) =>
+      [i.qty, i.unit, i.name].filter(Boolean).join(" ")
+    ),
+    recipeInstructions: recipe.steps.map((text, i) => ({
+      "@type": "HowToStep",
+      position: i + 1,
+      text,
+    })),
+    ...(recipe.authorName ? { author: { "@type": "Person", name: recipe.authorName } } : {}),
+    ...(recipe.reviewCount
+      ? { aggregateRating: { "@type": "AggregateRating", ratingValue: recipe.avgRating, reviewCount: recipe.reviewCount } }
+      : {}),
+  };
+
+  let script = document.getElementById("recipe-jsonld");
+  if (!script) {
+    script = document.createElement("script");
+    script.type = "application/ld+json";
+    script.id = "recipe-jsonld";
+    document.head.appendChild(script);
+  }
+  script.textContent = JSON.stringify(data);
+}
+
+function setMeta(selector, content) {
+  document.querySelector(selector)?.setAttribute("content", content);
 }
 
 /* ---------- Servings scaler ---------- */

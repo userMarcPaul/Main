@@ -8,6 +8,7 @@
  */
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
+import { applySecurityHeaders } from "./lib/securityHeaders.js";
 import path from "node:path";
 
 const PORT = Number(process.env.PORT ?? 3000);
@@ -41,6 +42,7 @@ const routes = [
   { pattern: /^\/api\/categories$/, module: "./api/categories.js", params: [] },
   { pattern: /^\/api\/upload$/, module: "./api/upload.js", params: [] },
   { pattern: /^\/api\/admin\/submissions$/, module: "./api/admin/submissions.js", params: [] },
+  { pattern: /^\/api\/cron\/cleanup$/, module: "./api/cron/cleanup.js", params: [] },
   { pattern: /^\/api\/saved\/([^/]+)$/, module: "./api/saved/[slug].js", params: ["slug"] },
   { pattern: /^\/api\/saved$/, module: "./api/saved/index.js", params: [] },
 ];
@@ -54,6 +56,8 @@ const server = createServer(async (req, res) => {
     res.statusCode = 400;
     return res.end("Bad request");
   }
+
+  applySecurityHeaders(res);
 
   for (const route of routes) {
     const match = pathname.match(route.pattern);

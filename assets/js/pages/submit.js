@@ -35,53 +35,53 @@ function renderForm() {
 
       <label class="field">
         <span class="field-label">Title</span>
-        <input type="text" name="title" minlength="3" maxlength="80" required>
-        <span class="field-error" data-error="title" hidden></span>
+        <input type="text" name="title" minlength="3" maxlength="80" required aria-describedby="err-title">
+        <span class="field-error" id="err-title" data-error="title" hidden></span>
       </label>
 
       <div class="field-row">
         <label class="field">
           <span class="field-label">Category</span>
-          <select name="category" required>
+          <select name="category" required aria-describedby="err-category">
             <option value="">Choose…</option>
             ${CATEGORIES.map((c) => `<option>${c}</option>`).join("")}
           </select>
-          <span class="field-error" data-error="category" hidden></span>
+          <span class="field-error" id="err-category" data-error="category" hidden></span>
         </label>
         <label class="field">
           <span class="field-label">Difficulty</span>
-          <select name="difficulty" required>
+          <select name="difficulty" required aria-describedby="err-difficulty">
             <option value="">Choose…</option>
             <option>Easy</option><option>Medium</option><option>Hard</option>
           </select>
-          <span class="field-error" data-error="difficulty" hidden></span>
+          <span class="field-error" id="err-difficulty" data-error="difficulty" hidden></span>
         </label>
       </div>
 
       <div class="field-row">
         <label class="field">
           <span class="field-label">Time (minutes)</span>
-          <input type="number" name="timeMinutes" min="1" max="1440" required>
-          <span class="field-error" data-error="timeMinutes" hidden></span>
+          <input type="number" name="timeMinutes" min="1" max="1440" required aria-describedby="err-timeMinutes">
+          <span class="field-error" id="err-timeMinutes" data-error="timeMinutes" hidden></span>
         </label>
         <label class="field">
           <span class="field-label">Servings</span>
-          <input type="number" name="servings" min="1" max="50" required>
-          <span class="field-error" data-error="servings" hidden></span>
+          <input type="number" name="servings" min="1" max="50" required aria-describedby="err-servings">
+          <span class="field-error" id="err-servings" data-error="servings" hidden></span>
         </label>
       </div>
 
       <label class="field">
         <span class="field-label">Description</span>
-        <textarea name="description" rows="3" maxlength="2000" required></textarea>
-        <span class="field-error" data-error="description" hidden></span>
+        <textarea name="description" rows="3" maxlength="2000" required aria-describedby="err-description"></textarea>
+        <span class="field-error" id="err-description" data-error="description" hidden></span>
       </label>
 
       <fieldset class="field">
         <legend class="field-label">Photo</legend>
-        <input type="file" id="photo" accept="image/jpeg,image/png,image/webp">
+        <input type="file" id="photo" accept="image/jpeg,image/png,image/webp" aria-describedby="err-imageUrl">
         <div class="photo-preview" id="photo-preview" hidden><img alt="Preview"></div>
-        <span class="field-error" data-error="imageUrl" hidden></span>
+        <span class="field-error" id="err-imageUrl" data-error="imageUrl" hidden></span>
       </fieldset>
 
       <fieldset class="field">
