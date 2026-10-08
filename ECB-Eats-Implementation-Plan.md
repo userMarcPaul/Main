@@ -258,24 +258,24 @@ Storing only the hash means a leaked database cannot be used to log in as anyone
 
 Endpoints:
 
-- [ ] `POST /api/auth/signup`: validate with zod (valid email, display name 2–40 chars, password 8+ chars), hash with `bcryptjs` (cost 10), create the user and session; 409 if the email exists
-- [ ] `POST /api/auth/login`: same generic error ("Invalid email or password") for unknown email and wrong password
-- [ ] `POST /api/auth/logout`: delete the session, clear the cookie
-- [ ] `GET /api/auth/me`: return `{ id, displayName, role }` or 401
-- [ ] `lib/auth.js` exports `getUser(req)`, `requireUser(req, res)` and `requireAdmin(req, res)`
-- [ ] The account whose email matches `ADMIN_EMAIL` gets `role = 'admin'` on sign-up
+- [x] `POST /api/auth/signup`: validate with zod (valid email, display name 2–40 chars, password 8+ chars), hash with `bcryptjs` (cost 10), create the user and session; 409 if the email exists
+- [x] `POST /api/auth/login`: same generic error ("Invalid email or password") for unknown email and wrong password
+- [x] `POST /api/auth/logout`: delete the session, clear the cookie
+- [x] `GET /api/auth/me`: return `{ id, displayName, role }` or 401
+- [x] `lib/auth.js` exports `getUser(req)`, `requireUser(req, res)` and `requireAdmin(req, res)`
+- [x] The account whose email matches `ADMIN_EMAIL` gets `role = 'admin'` on sign-up
 
 Protection:
 
-- [ ] Rate-limit login and sign-up: 5 attempts per IP per 15 minutes, stored in `rate_limits`
-- [ ] CSRF: `SameSite=Lax` cookies, plus write endpoints accept only `Content-Type: application/json` and reject requests whose `Origin` header is not your domain
-- [ ] Never return `password_hash` in any response; select only the columns you need
+- [x] Rate-limit login and sign-up: 5 attempts per IP per 15 minutes, stored in `rate_limits`
+- [x] CSRF: `SameSite=Lax` cookies, plus write endpoints accept only `Content-Type: application/json` and reject requests whose `Origin` header is not your domain
+- [x] Never return `password_hash` in any response; select only the columns you need
 
 Frontend:
 
-- [ ] `login.html` and `signup.html` styled with your existing card design; inline field errors
-- [ ] Header calls `/api/auth/me` on load: shows "Log in" when signed out, or the display name with a menu (Saved Recipes, Submit a Recipe, Admin for admins, Log out)
-- [ ] After login, return the user to the page they came from (`?next=` parameter, same-site paths only)
+- [x] `login.html` and `signup.html` styled with your existing card design; inline field errors
+- [x] Header calls `/api/auth/me` on load: shows "Log in" when signed out, or the display name with a menu (Saved Recipes, Submit a Recipe, Admin for admins, Log out) — **menu shows only Log out for now**; Saved Recipes / Submit / Admin are added in Phases 5–6 when those pages exist, to keep the "everything clickable works" rule
+- [x] After login, return the user to the page they came from (`?next=` parameter, same-site paths only)
 
 Done when: you can sign up, refresh, stay logged in, log out, and a wrong password 6 times in a row gets a 429.
 
@@ -285,14 +285,14 @@ Done when: you can sign up, refresh, stay logged in, log out, and a wrong passwo
 
 Reviews and ratings:
 
-- [ ] `GET /api/recipes/[slug]/reviews?page=1`: newest first, 10 per page, with reviewer display name
-- [ ] `POST /api/recipes/[slug]/reviews` (logged in): rating 1–5 required, comment optional, max 1,000 characters
-- [ ] One review per user per recipe; posting again **updates** the existing one (`INSERT ... ON CONFLICT (recipe_id, user_id) DO UPDATE`)
-- [ ] `DELETE` on your own review; admins can delete any review
-- [ ] Users cannot review recipes they submitted themselves
-- [ ] Rate-limit to 10 review posts per user per hour
-- [ ] Recipe page shows the real average (one decimal) and count from `AVG(rating)` and `COUNT(*)`; shows "No reviews yet" at zero
-- [ ] Review form with clickable stars (keyboard accessible: radio inputs styled as stars); signed-out users see "Log in to review"
+- [x] `GET /api/recipes/[slug]/reviews?page=1`: newest first, 10 per page, with reviewer display name
+- [x] `POST /api/recipes/[slug]/reviews` (logged in): rating 1–5 required, comment optional, max 1,000 characters
+- [x] One review per user per recipe; posting again **updates** the existing one (`INSERT ... ON CONFLICT (recipe_id, user_id) DO UPDATE`)
+- [x] `DELETE` on your own review; admins can delete any review
+- [x] Users cannot review recipes they submitted themselves
+- [x] Rate-limit to 10 review posts per user per hour
+- [x] Recipe page shows the real average (one decimal) and count from `AVG(rating)` and `COUNT(*)`; shows "No reviews yet" at zero
+- [x] Review form with clickable stars (keyboard accessible: radio inputs styled as stars); signed-out users see "Log in to review"
 
 ```sql
 SELECT ROUND(AVG(rating), 1) AS avg_rating, COUNT(*) AS review_count
@@ -301,10 +301,10 @@ FROM reviews WHERE recipe_id = ?;
 
 Saved recipes:
 
-- [ ] `GET /api/saved`, `POST /api/saved` with `{ slug }`, `DELETE /api/saved/[slug]` (all logged in)
-- [ ] Save button toggles between "Save Recipe" and "Saved" and updates instantly (optimistic UI), rolling back if the request fails
-- [ ] Signed-out users who click Save are sent to login with `?next=` back to the recipe
-- [ ] `saved.html` lists the user's saved recipes as cards, with an empty state that links to browse
+- [x] `GET /api/saved`, `POST /api/saved` with `{ slug }`, `DELETE /api/saved/[slug]` (all logged in)
+- [x] Save button toggles between "Save Recipe" and "Saved" and updates instantly (optimistic UI), rolling back if the request fails
+- [x] Signed-out users who click Save are sent to login with `?next=` back to the recipe
+- [x] `saved.html` lists the user's saved recipes as cards, with an empty state that links to browse
 
 Done when: two different accounts can review the same recipe, the average updates, and a saved recipe still appears after logging in on another browser.
 

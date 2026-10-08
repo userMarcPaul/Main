@@ -3,7 +3,7 @@
    Imported by every page module: nav, animations, footer year, header search.
    ========================================= */
 
-import { listRecipes } from "./api.js";
+import { listRecipes, me, logout } from "./api.js";
 import { escapeHtml, recipeUrl } from "./render.js";
 
 export function initChrome() {
@@ -12,6 +12,72 @@ export function initChrome() {
   initStickyNav();
   initFooterYear();
   initHeaderSearch();
+  initAuthArea();
+}
+
+/**
+ * A `next` target is only safe if it is a path on this site: it must start with
+ * a single slash. "//evil.com" and "https://evil.com" are rejected, so the
+ * ?next= parameter cannot be used as an open redirect.
+ */
+export function safeNext(value, fallback = "index.html") {
+  if (typeof value === "string" && value.startsWith("/") && !value.startsWith("//")) {
+    return value;
+  }
+  return fallback;
+}
+
+/* --- Header auth area ---
+   Asks /api/auth/me who is logged in, then shows either a "Log in" link that
+   remembers the current page, or the display name with a small menu. */
+async function initAuthArea() {
+  const area = document.getElementById("auth-area");
+  if (!area) return;
+
+  const user = await me().catch(() => null);
+
+  if (!user) {
+    const next = encodeURIComponent(location.pathname + location.search);
+    area.innerHTML = `<a class="auth-login-link" href="login.html?next=${next}">Log in</a>`;
+    area.hidden = false;
+    return;
+  }
+
+  const initial = escapeHtml(user.displayName.charAt(0).toUpperCase());
+  // Only links to pages that exist today. Submit a Recipe and Admin join this
+  // menu in Phase 6, when those pages are real.
+  area.innerHTML = `
+    <div class="auth-menu">
+      <button type="button" class="auth-trigger" aria-haspopup="true" aria-expanded="false">
+        <span class="auth-avatar">${initial}</span>
+        <span class="auth-name">${escapeHtml(user.displayName)}</span>
+        <i class="fas fa-chevron-down" aria-hidden="true"></i>
+      </button>
+      <div class="auth-dropdown" hidden>
+        <a href="saved.html"><i class="fas fa-heart" aria-hidden="true"></i> Saved Recipes</a>
+        <button type="button" class="auth-logout">Log out</button>
+      </div>
+    </div>`;
+  area.hidden = false;
+
+  const trigger = area.querySelector(".auth-trigger");
+  const dropdown = area.querySelector(".auth-dropdown");
+
+  const close = () => { dropdown.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
+  const open = () => { dropdown.hidden = false; trigger.setAttribute("aria-expanded", "true"); };
+
+  trigger.addEventListener("click", () => (dropdown.hidden ? open() : close()));
+  document.addEventListener("click", (event) => { if (!area.contains(event.target)) close(); });
+  document.addEventListener("keydown", (event) => { if (event.key === "Escape") close(); });
+
+  area.querySelector(".auth-logout").addEventListener("click", async () => {
+    try {
+      await logout();
+    } finally {
+      // Reload so every page element re-reads the now-signed-out state.
+      location.reload();
+    }
+  });
 }
 
 /* --- Mobile Menu Toggle --- */

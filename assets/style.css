@@ -1490,3 +1490,444 @@ input:focus-visible {
 
   a[href]::after { content: ""; }
 }
+
+/* ===========================
+   Phase 4 — Accounts
+   =========================== */
+
+/* --- Header auth area --- */
+.auth-area { display: flex; align-items: center; }
+
+.auth-login-link {
+  font-weight: 700;
+  font-size: 0.875rem;
+  color: var(--navy);
+  padding: 8px 18px;
+  border: 2px solid var(--navy);
+  border-radius: var(--radius-full);
+  transition: var(--transition-fast);
+  white-space: nowrap;
+}
+
+.auth-login-link:hover { background: var(--navy); color: var(--white); }
+
+.auth-menu { position: relative; }
+
+.auth-trigger {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 4px;
+}
+
+.auth-trigger .fa-chevron-down { font-size: 0.7rem; color: var(--text-light); }
+
+.auth-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--coral), #FF8F65);
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+.auth-name { max-width: 140px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.auth-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 180px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: 6px;
+  z-index: 200;
+}
+
+.auth-dropdown button,
+.auth-dropdown a {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.875rem;
+  color: var(--text-body);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-fast);
+}
+
+.auth-dropdown button:hover,
+.auth-dropdown a:hover { background: var(--cream); color: var(--coral); }
+
+/* --- Auth pages (login / signup) --- */
+.auth-page {
+  min-height: calc(100vh - 220px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 56px 16px;
+  background: var(--cream);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 40px 36px;
+}
+
+.auth-title {
+  font-family: var(--font-heading);
+  font-size: 1.875rem;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.auth-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.9375rem;
+  margin-bottom: 28px;
+}
+
+.auth-form-error {
+  background: #FDECEA;
+  border: 1px solid #F5C6C0;
+  color: #9B2C25;
+  border-radius: var(--radius-md);
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  margin-bottom: 20px;
+}
+
+.auth-field { margin-bottom: 18px; }
+
+.auth-field label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 6px;
+}
+
+.auth-field input {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text-dark);
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--cream-light);
+  transition: var(--transition-fast);
+}
+
+.auth-field input:focus {
+  outline: none;
+  border-color: var(--coral);
+  background: var(--white);
+  box-shadow: 0 0 0 3px rgba(224, 123, 93, 0.15);
+}
+
+.auth-field input[aria-invalid="true"] { border-color: #C0392B; }
+
+.auth-field-hint { font-size: 0.75rem; color: var(--text-light); margin-top: 6px; }
+
+.auth-field-error { font-size: 0.8125rem; color: #C0392B; margin-top: 6px; }
+
+.auth-submit {
+  width: 100%;
+  background: var(--coral);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-full);
+  padding: 13px;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: var(--transition-fast);
+}
+
+.auth-submit:hover:not(:disabled) { background: var(--coral-hover); }
+.auth-submit:disabled { opacity: 0.6; cursor: progress; }
+
+.auth-alt {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 24px;
+}
+
+.auth-alt a { color: var(--coral); font-weight: 600; }
+.auth-alt a:hover { text-decoration: underline; }
+
+@media (max-width: 480px) {
+  .auth-card { padding: 32px 22px; }
+  .auth-name { display: none; }
+}
+
+@media print {
+  .auth-area { display: none !important; }
+}
+
+/* ===========================
+   Phase 5 — Reviews & saved recipes
+   =========================== */
+
+/* --- Save button pressed state --- */
+.recipe-action-btn[aria-pressed="true"] {
+  background: var(--coral);
+  color: var(--white);
+  border-color: var(--coral);
+}
+
+/* --- Static star display --- */
+.stars { color: var(--coral); letter-spacing: 1px; white-space: nowrap; }
+.stars .far { color: var(--coral-light); }
+
+/* --- Reviews section --- */
+.reviews-section { margin-top: 48px; }
+
+.reviews-summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.reviews-avg { font-weight: 800; font-size: 1.25rem; color: var(--text-dark); }
+.reviews-count { color: var(--text-secondary); font-size: 0.9375rem; }
+.reviews-none { color: var(--text-secondary); font-size: 0.9375rem; }
+.reviews-error { color: #C0392B; font-size: 0.9375rem; }
+
+/* --- Review form --- */
+.review-form {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  margin-bottom: 28px;
+}
+
+.review-form-title {
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+}
+
+/* Clickable stars from radio inputs. row-reverse so the CSS sibling selector
+   can light up the hovered/checked star and all those before it. Keyboard
+   accessible: the radios are really there, just visually replaced. */
+.star-input {
+  border: none;
+  padding: 0;
+  margin: 0 0 4px;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  gap: 4px;
+}
+
+.star-input legend {
+  float: left;
+  width: 100%;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+}
+
+.star-input input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.star-input label {
+  font-size: 1.6rem;
+  color: var(--coral-light);
+  cursor: pointer;
+  transition: var(--transition-fast);
+  line-height: 1;
+}
+
+.star-input input:checked ~ label,
+.star-input label:hover,
+.star-input label:hover ~ label {
+  color: var(--coral);
+}
+
+.star-input input:focus-visible + label {
+  outline: 3px solid var(--coral);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+.review-comment-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 14px 0 6px;
+}
+
+.review-comment-label span { font-weight: 400; color: var(--text-light); }
+
+.review-form textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text-dark);
+  padding: 11px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  resize: vertical;
+}
+
+.review-form textarea:focus {
+  outline: none;
+  border-color: var(--coral);
+  box-shadow: 0 0 0 3px rgba(224, 123, 93, 0.15);
+}
+
+.review-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.review-submit { width: auto; padding: 11px 26px; margin-top: 0; }
+
+.review-delete {
+  background: none;
+  border: none;
+  color: #C0392B;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.review-delete:hover { text-decoration: underline; }
+
+.review-signed-out {
+  background: var(--cream-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  font-size: 0.9375rem;
+  color: var(--text-secondary);
+  margin-bottom: 28px;
+}
+
+.review-signed-out a { color: var(--coral); font-weight: 600; }
+.review-signed-out a:hover { text-decoration: underline; }
+
+/* --- Review list --- */
+.review {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.review:last-child { border-bottom: none; }
+
+.review-head { display: flex; align-items: center; gap: 12px; }
+
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: var(--white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.review-author { font-weight: 700; color: var(--text-dark); font-size: 0.9375rem; }
+
+.review-you {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--coral);
+  background: var(--coral-light);
+  padding: 1px 7px;
+  border-radius: var(--radius-full);
+  margin-left: 4px;
+}
+
+.review-date { font-size: 0.75rem; color: var(--text-light); }
+.review-head .stars { margin-left: auto; }
+.review-comment { margin-top: 10px; color: var(--text-body); line-height: 1.6; font-size: 0.9375rem; }
+
+.review-more {
+  display: block;
+  margin: 24px auto 0;
+  background: none;
+  border: 2px solid var(--border);
+  border-radius: var(--radius-full);
+  padding: 10px 24px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.review-more:hover { border-color: var(--coral); color: var(--coral); }
+
+/* --- Saved page cards --- */
+.saved-card { position: relative; }
+
+.saved-remove {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-full);
+  background: rgba(27, 42, 74, 0.72);
+  color: var(--white);
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  z-index: 2;
+}
+
+.saved-remove:hover { background: var(--coral); }
+
+.saved-card--removing { opacity: 0.4; pointer-events: none; }
+
+@media print {
+  .reviews-section, .recipe-action-btn[data-save] { display: none !important; }
+}

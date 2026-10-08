@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ECB Eats — Discover Delicious Recipes</title>
-  <meta name="description" content="Discover the best recipes, from hearty stews to decadent desserts. Your go-to destination for culinary inspiration.">
+  <title>Sign up — ECB Eats</title>
+  <meta name="description" content="Sign up to ECB Eats.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -31,8 +31,6 @@
           <input type="text" placeholder="Search Recipes..." id="search-input">
           <button aria-label="Search"><i class="fas fa-search"></i></button>
         </div>
-
-        <!-- Social links hidden until the accounts exist (see plan Phase 1) -->
         <div class="auth-area" id="auth-area" hidden></div>
       </div>
     </div>
@@ -45,48 +43,45 @@
         <i class="fas fa-bars"></i>
       </button>
       <ul class="nav-links">
-        <!-- Enabled in Phase 5: <li><a href="saved.html" class="nav-link"><i class="fas fa-heart heart-icon"></i> Saved Recipes</a></li> -->
-        <li><a href="index.html" class="nav-link active">Recipes</a></li>
-        <li><a href="#categories" class="nav-link">By Category</a></li>
-        <li><a href="#latest" class="nav-link">Collections</a></li>
+        <li><a href="index.html" class="nav-link">Recipes</a></li>
+        <li><a href="index.html#categories" class="nav-link">By Category</a></li>
+        <li><a href="index.html#latest" class="nav-link">Collections</a></li>
         <li><a href="profile.html" class="nav-link">About</a></li>
       </ul>
     </div>
   </nav>
 
-  <!-- ===== Featured Recipes ===== -->
-  <section class="featured-section">
-    <div class="featured-grid" id="featured-grid"></div>
-  </section>
+  <!-- ===== Auth Card ===== -->
+  <main class="auth-page">
+    <div class="auth-card">
+      <h1 class="auth-title">Create your account</h1>
+      <p class="auth-subtitle">It takes a moment, and everything you add is yours.</p>
 
-  <!-- ===== CTA Banner ===== -->
-  <section class="cta-banner">
-    <div class="cta-inner">
-      <p class="cta-text"><strong>Quick Dinner Recipes</strong> you can make tonight!</p>
-      <a href="#latest" class="cta-btn">Browse Recipes <i class="fas fa-chevron-right"></i></a>
-    </div>
-  </section>
+      <p class="auth-form-error" id="form-error" role="alert" hidden></p>
 
-  <!-- ===== Browse by Category ===== -->
-  <section class="categories-section" id="categories">
-    <div class="container">
-      <div class="section-header">
-        <h2>Browse by Category</h2>
-        <p>Find the perfect recipe for any occasion</p>
+      <form id="signup-form" novalidate>
+      <div class="auth-field">
+        <label for="displayName">Display name</label>
+        <input type="text" id="displayName" name="displayName" autocomplete="nickname" minlength="2" maxlength="40" required aria-describedby="displayName-error">
+        <p class="auth-field-error" id="displayName-error" hidden></p>
       </div>
-      <div class="category-grid" id="category-grid"></div>
-    </div>
-  </section>
-
-  <!-- ===== Latest Recipes ===== -->
-  <section class="latest-section" id="latest">
-    <div class="container">
-      <div class="section-header">
-        <h2>Latest Recipes</h2>
+      <div class="auth-field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="email" required aria-describedby="email-error">
+        <p class="auth-field-error" id="email-error" hidden></p>
       </div>
-      <div class="latest-grid" id="latest-grid"></div>
+      <div class="auth-field">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" autocomplete="new-password" minlength="8" required aria-describedby="password-error">
+        <p class="auth-field-hint" id="password-hint">At least 8 characters.</p>
+        <p class="auth-field-error" id="password-error" hidden></p>
+      </div>
+        <button type="submit" class="auth-submit">Create account</button>
+      </form>
+
+      <p class="auth-alt">Already have an account? <a href="login.html">Log in</a></p>
     </div>
-  </section>
+  </main>
 
   <!-- ===== Footer ===== -->
   <footer class="site-footer">
@@ -94,23 +89,22 @@
       <div class="footer-top">
         <div class="footer-brand">
           <div class="logo-text">ECB Eats</div>
-          <p>Inspiring culinary creativity — one recipe at a time. Making cooking accessible and enjoyable for everyone.</p>
+          <p>Inspiring culinary creativity — one recipe at a time.</p>
         </div>
         <div class="footer-nav">
           <h4>Explore</h4>
           <a href="index.html">Recipes</a>
-          <a href="#categories">Categories</a>
-          <a href="#latest">Collections</a>
+          <a href="index.html#categories">Categories</a>
+          <a href="index.html#latest">Collections</a>
           <a href="profile.html">About Us</a>
         </div>
       </div>
       <div class="footer-bottom">
         <p>&copy; <span class="footer-year">2024</span> ECB Eats. All rights reserved.</p>
-        <!-- Social links hidden until the accounts exist (see plan Phase 1) -->
       </div>
     </div>
   </footer>
 
-  <script type="module" src="assets/js/home.js"></script>
+  <script type="module" src="assets/js/account.js"></script>
 </body>
 </html>

@@ -28,10 +28,19 @@ const MIME = {
 };
 
 // Mirrors Vercel's file-based routing for the endpoints that exist today.
+// More specific patterns go first; /api/recipes/:slug must not swallow
+// /api/auth/* etc.
 const routes = [
+  { pattern: /^\/api\/auth\/signup$/, module: "./api/auth/signup.js", params: [] },
+  { pattern: /^\/api\/auth\/login$/, module: "./api/auth/login.js", params: [] },
+  { pattern: /^\/api\/auth\/logout$/, module: "./api/auth/logout.js", params: [] },
+  { pattern: /^\/api\/auth\/me$/, module: "./api/auth/me.js", params: [] },
+  { pattern: /^\/api\/recipes\/([^/]+)\/reviews$/, module: "./api/recipes/[slug]/reviews.js", params: ["slug"] },
   { pattern: /^\/api\/recipes\/([^/]+)$/, module: "./api/recipes/[slug].js", params: ["slug"] },
   { pattern: /^\/api\/recipes$/, module: "./api/recipes/index.js", params: [] },
   { pattern: /^\/api\/categories$/, module: "./api/categories.js", params: [] },
+  { pattern: /^\/api\/saved\/([^/]+)$/, module: "./api/saved/[slug].js", params: ["slug"] },
+  { pattern: /^\/api\/saved$/, module: "./api/saved/index.js", params: [] },
 ];
 
 const server = createServer(async (req, res) => {

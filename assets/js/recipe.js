@@ -1,10 +1,11 @@
 /* Recipe page: reads ?slug= from the URL and renders one recipe. */
 
 import { initChrome } from "./app.js";
-import { getRecipe, ApiError } from "./api.js";
+import { getRecipe, me, isSaved, saveRecipe, unsaveRecipe, ApiError } from "./api.js";
 import {
   escapeHtml, formatMinutes, categoryUrl, errorState,
 } from "./render.js";
+import { initReviews } from "./reviews.js";
 
 initChrome();
 
@@ -15,6 +16,8 @@ const slug = new URLSearchParams(location.search).get("slug");
 /** Current servings, and the recipe's own baseline. Set once loaded. */
 let recipe = null;
 let servings = 0;
+let user = null;
+let saved = false;
 
 load();
 
@@ -24,7 +27,9 @@ async function load() {
   root.innerHTML = skeleton();
 
   try {
-    recipe = await getRecipe(slug);
+    // The recipe is essential; who is logged in and whether it is saved are
+    // best-effort, so a failure there must not blank the page.
+    [recipe, user] = await Promise.all([getRecipe(slug), me().catch(() => null)]);
   } catch (error) {
     if (error instanceof ApiError && error.status === 404) {
       return showNotFound(`We couldn't find a recipe called "${slug}".`);
@@ -35,8 +40,14 @@ async function load() {
     return;
   }
 
+  saved = user ? await isSaved(slug).catch(() => false) : false;
   servings = recipe.servings;
   render();
+
+  initReviews(document.getElementById("reviews"), {
+    slug,
+    onSummary: updateRatingMeta,
+  });
 }
 
 function render() {
@@ -77,6 +88,9 @@ function render() {
     </div>
 
     <div class="recipe-actions">
+      <button class="recipe-action-btn primary" data-save aria-pressed="${saved}">
+        <i class="${saved ? "fas" : "far"} fa-bookmark"></i> <span>${saved ? "Saved" : "Save Recipe"}</span>
+      </button>
       <button class="recipe-action-btn secondary" data-print><i class="fas fa-print"></i> Print</button>
       <button class="recipe-action-btn secondary" data-share><i class="fas fa-share-nodes"></i> Share</button>
     </div>
@@ -109,25 +123,85 @@ function render() {
           <div class="step-number">${i + 1}</div>
           <p class="step-text">${escapeHtml(text)}</p>
         </div>`).join("")}
-    </div>`;
+    </div>
+
+    <section class="reviews-section" id="reviews"></section>`;
 
   root.querySelector("[data-print]").addEventListener("click", () => window.print());
   root.querySelector("[data-share]").addEventListener("click", share);
+  root.querySelector("[data-save]").addEventListener("click", toggleSave);
   root.querySelectorAll("[data-servings]").forEach((button) => {
     button.addEventListener("click", () => changeServings(Number(button.dataset.servings)));
   });
 }
 
-/** Real rating or nothing — never a placeholder. Reviews arrive in Phase 5. */
+/** Real rating or nothing — never a placeholder. */
 function ratingMeta() {
   if (!recipe.reviewCount) return "";
   return `
-    <div class="meta-item">
+    <div class="meta-item" id="rating-meta">
       <i class="fas fa-star"></i>
       <span class="recipe-rating-text">${escapeHtml(recipe.avgRating)} (${recipe.reviewCount} ${
         recipe.reviewCount === 1 ? "review" : "reviews"
       })</span>
     </div>`;
+}
+
+/** Keep the meta star in sync when a review is posted or deleted. */
+function updateRatingMeta(summary) {
+  const metaRow = document.querySelector(".recipe-detail-meta");
+  if (!metaRow) return;
+  let node = document.getElementById("rating-meta");
+
+  if (!summary.reviewCount) {
+    node?.remove();
+    return;
+  }
+
+  const text = `${summary.avgRating} (${summary.reviewCount} ${
+    summary.reviewCount === 1 ? "review" : "reviews"
+  })`;
+
+  if (!node) {
+    node = document.createElement("div");
+    node.className = "meta-item";
+    node.id = "rating-meta";
+    node.innerHTML = `<i class="fas fa-star"></i> <span class="recipe-rating-text"></span>`;
+    metaRow.appendChild(node);
+  }
+  node.querySelector(".recipe-rating-text").textContent = text;
+}
+
+/* ---------- Save ---------- */
+
+async function toggleSave() {
+  // Signed out: send them to log in, and come back to this recipe.
+  if (!user) {
+    const next = encodeURIComponent(location.pathname + location.search);
+    location.href = `login.html?next=${next}`;
+    return;
+  }
+
+  const button = root.querySelector("[data-save]");
+  const wasSaved = saved;
+  // Optimistic: flip immediately, roll back if the request fails.
+  setSaveButton(!saved);
+
+  try {
+    if (wasSaved) await unsaveRecipe(slug);
+    else await saveRecipe(slug);
+  } catch (error) {
+    setSaveButton(wasSaved);
+    toast(error.message ?? "Could not update your saved recipes");
+  }
+}
+
+function setSaveButton(next) {
+  saved = next;
+  const button = root.querySelector("[data-save]");
+  button.setAttribute("aria-pressed", String(saved));
+  button.querySelector("span").textContent = saved ? "Saved" : "Save Recipe";
+  button.querySelector("i").className = `${saved ? "fas" : "far"} fa-bookmark`;
 }
 
 /* ---------- Servings scaler ---------- */

@@ -7,10 +7,15 @@
   "scripts": {
     "dev": "node --env-file=.env.local dev-server.js",
     "seed": "node --env-file=.env.local db/seed.js",
-    "test": "node --env-file=.env.local --test test/smoke.test.js"
+    "test": "node --env-file=.env.local --test test/smoke.test.js",
+    "test:auth": "node --env-file=.env.local --test test/auth.test.js",
+    "test:all": "node --env-file=.env.local --test test/smoke.test.js test/auth.test.js test/reviews.test.js",
+    "test:reviews": "node --env-file=.env.local --test test/reviews.test.js"
   },
   "dependencies": {
-    "@libsql/client": "0.15.4"
+    "@libsql/client": "0.15.4",
+    "bcryptjs": "^2.4.3",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "jsdom": "^30.1.2"

@@ -144,6 +144,27 @@ function ratingSnippet(recipe) {
   return `<span><i class="fas fa-star"></i> ${escapeHtml(recipe.avgRating)} (${recipe.reviewCount})</span>`;
 }
 
+/* ---------- Ratings and dates ---------- */
+
+/** Five star icons for a numeric average: full, half, or empty. */
+export function starsDisplay(rating) {
+  const value = Number(rating) || 0;
+  let html = "";
+  for (let i = 1; i <= 5; i++) {
+    if (value >= i) html += '<i class="fas fa-star"></i>';
+    else if (value >= i - 0.5) html += '<i class="fas fa-star-half-alt"></i>';
+    else html += '<i class="far fa-star"></i>';
+  }
+  return `<span class="stars" aria-hidden="true">${html}</span>`;
+}
+
+/** "3 Oct 2026" from an ISO / SQLite datetime string. */
+export function formatDate(value) {
+  const date = new Date(String(value).replace(" ", "T") + (String(value).includes("Z") ? "" : "Z"));
+  if (Number.isNaN(date.getTime())) return "";
+  return date.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+}
+
 /* ---------- Loading, empty and error states ---------- */
 
 export function skeletonCards(count, variant = "latest") {
