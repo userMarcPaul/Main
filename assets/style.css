@@ -1931,3 +1931,158 @@ input:focus-visible {
 @media print {
   .reviews-section, .recipe-action-btn[data-save] { display: none !important; }
 }
+
+/* ===========================
+   Phase 6 — Submissions & admin
+   =========================== */
+
+/* --- Status badges --- */
+.status-badge {
+  display: inline-block;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+}
+.status-badge--pending { background: #FDF0D5; color: #8A6D1A; }
+.status-badge--published { background: #DCF0E4; color: #1F7A4D; }
+.status-badge--rejected { background: #FDE3E0; color: #9B2C25; }
+
+/* --- Submit page --- */
+.submit-page { background: var(--cream); padding: 40px 16px 64px; }
+.submit-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 40px;
+}
+.submit-title { font-family: var(--font-heading); font-size: 2rem; color: var(--text-dark); }
+.submit-intro { color: var(--text-secondary); margin: 6px 0 28px; }
+
+.submit-form .field { display: block; margin-bottom: 20px; border: none; padding: 0; }
+.field-label { display: block; font-size: 0.8125rem; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+.field-row { display: flex; gap: 16px; }
+.field-row .field { flex: 1; }
+
+.submit-form input[type="text"],
+.submit-form input[type="number"],
+.submit-form select,
+.submit-form textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: 0.9375rem;
+  color: var(--text-dark);
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--cream-light);
+}
+.submit-form input:focus, .submit-form select:focus, .submit-form textarea:focus {
+  outline: none; border-color: var(--coral); background: var(--white);
+  box-shadow: 0 0 0 3px rgba(224, 123, 93, 0.15);
+}
+.field-error { display: block; font-size: 0.8125rem; color: #C0392B; margin-top: 6px; }
+
+.photo-preview { margin-top: 12px; }
+.photo-preview img { max-width: 220px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
+
+.dyn-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+.dyn-row .dyn-emoji { width: 56px; text-align: center; flex: none; }
+.dyn-row .dyn-qty { width: 72px; flex: none; }
+.dyn-row .dyn-unit { width: 96px; flex: none; }
+.dyn-row .dyn-name { flex: 1; }
+.dyn-row--step { align-items: center; }
+.dyn-row--step .step-num {
+  width: 26px; height: 26px; flex: none; border-radius: var(--radius-full);
+  background: var(--navy); color: var(--white); display: flex; align-items: center;
+  justify-content: center; font-size: 0.75rem; font-weight: 700;
+}
+.dyn-row--step .dyn-step { flex: 1; }
+.row-remove {
+  flex: none; width: 36px; height: 36px; border: none; cursor: pointer;
+  border-radius: var(--radius-md); background: var(--cream-dark); color: var(--text-secondary);
+}
+.row-remove:hover { background: #FDE3E0; color: #9B2C25; }
+.row-add {
+  background: none; border: 1px dashed var(--border); color: var(--coral);
+  font-family: inherit; font-size: 0.875rem; font-weight: 600; cursor: pointer;
+  padding: 8px 16px; border-radius: var(--radius-md); margin-top: 4px;
+}
+.row-add:hover { border-color: var(--coral); background: var(--cream-light); }
+.submit-send { width: 100%; margin-top: 10px; }
+
+/* --- My Submissions --- */
+.my-submissions { max-width: 720px; margin: 28px auto 0; }
+.submission-row {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: var(--radius-md); padding: 14px 18px; margin-bottom: 10px;
+}
+.submission-title { font-weight: 700; color: var(--text-dark); }
+a.submission-title:hover { color: var(--coral); }
+.submission-category { font-size: 0.8125rem; color: var(--text-light); margin-left: 10px; }
+.submission-status { text-align: right; }
+.submission-reason { font-size: 0.8125rem; color: #9B2C25; margin-top: 4px; max-width: 320px; }
+
+/* --- Admin --- */
+.admin-page { padding: 40px 0 64px; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 24px; }
+.admin-header h1 { font-family: var(--font-heading); font-size: 2rem; color: var(--text-dark); }
+.admin-tabs { display: flex; gap: 8px; }
+.admin-tab {
+  background: var(--white); border: 1px solid var(--border); border-radius: var(--radius-full);
+  padding: 8px 18px; font-family: inherit; font-size: 0.875rem; font-weight: 600;
+  color: var(--text-secondary); cursor: pointer;
+}
+.admin-tab.active { background: var(--navy); color: var(--white); border-color: var(--navy); }
+
+.admin-card {
+  background: var(--white); border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg); padding: 18px 20px; margin-bottom: 16px; box-shadow: var(--shadow-sm);
+}
+.admin-card-head { display: flex; align-items: center; gap: 16px; }
+.admin-thumb { width: 72px; height: 72px; border-radius: var(--radius-md); object-fit: cover; flex: none; }
+.admin-card-meta { flex: 1; }
+.admin-card-meta h3 { font-family: var(--font-heading); font-size: 1.1rem; color: var(--text-dark); }
+.admin-card-meta p { font-size: 0.8125rem; color: var(--text-secondary); margin: 2px 0 6px; }
+.admin-preview-toggle {
+  background: none; border: 1px solid var(--border); border-radius: var(--radius-full);
+  padding: 7px 16px; font-family: inherit; font-size: 0.8125rem; font-weight: 600;
+  color: var(--text-dark); cursor: pointer; flex: none;
+}
+.admin-preview-toggle:hover { border-color: var(--coral); color: var(--coral); }
+.admin-preview { margin-top: 16px; padding-top: 16px; border-top: 1px dashed var(--border); }
+.admin-preview-desc { color: var(--text-body); line-height: 1.6; margin-bottom: 8px; }
+.admin-preview .recipe-section-heading { font-size: 1.1rem; margin: 16px 0 10px; }
+
+.admin-actions { display: flex; align-items: center; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.admin-approve {
+  background: #1F7A4D; color: var(--white); border: none; border-radius: var(--radius-full);
+  padding: 10px 22px; font-family: inherit; font-weight: 700; cursor: pointer;
+}
+.admin-approve:hover { background: #19613D; }
+.admin-reject { display: flex; gap: 8px; flex: 1; min-width: 240px; }
+.admin-reason {
+  flex: 1; font-family: inherit; font-size: 0.875rem; padding: 9px 13px;
+  border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--cream-light);
+}
+.admin-reject-btn {
+  background: none; border: 1px solid #C0392B; color: #C0392B; border-radius: var(--radius-full);
+  padding: 9px 20px; font-family: inherit; font-weight: 700; cursor: pointer; flex: none;
+}
+.admin-reject-btn:hover { background: #C0392B; color: var(--white); }
+.admin-reason-shown { margin-top: 12px; font-size: 0.875rem; color: #9B2C25; }
+
+@media (max-width: 640px) {
+  .submit-wrapper { padding: 28px 20px; }
+  .field-row { flex-direction: column; gap: 0; }
+  .admin-card-head { flex-wrap: wrap; }
+}
+
+@media print {
+  .submit-page, .admin-page { background: var(--white); }
+}

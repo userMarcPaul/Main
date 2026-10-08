@@ -44,8 +44,8 @@ async function initAuthArea() {
   }
 
   const initial = escapeHtml(user.displayName.charAt(0).toUpperCase());
-  // Only links to pages that exist today. Submit a Recipe and Admin join this
-  // menu in Phase 6, when those pages are real.
+  // Saved Recipes and Submit a Recipe for everyone signed in; Admin only for
+  // admins. All three pages exist, so every link here goes somewhere real.
   area.innerHTML = `
     <div class="auth-menu">
       <button type="button" class="auth-trigger" aria-haspopup="true" aria-expanded="false">
@@ -55,6 +55,8 @@ async function initAuthArea() {
       </button>
       <div class="auth-dropdown" hidden>
         <a href="saved.html"><i class="fas fa-heart" aria-hidden="true"></i> Saved Recipes</a>
+        <a href="submit.html"><i class="fas fa-plus" aria-hidden="true"></i> Submit a Recipe</a>
+        ${user.role === "admin" ? '<a href="admin.html"><i class="fas fa-shield-halved" aria-hidden="true"></i> Admin</a>' : ""}
         <button type="button" class="auth-logout">Log out</button>
       </div>
     </div>`;

@@ -36,3 +36,7 @@ test-auth.db
 test-auth.db-journal
 test-reviews.db
 test-reviews.db-journal
+uploads/
+test-submissions.db
+test-submissions.db-journal
+test-uploads/

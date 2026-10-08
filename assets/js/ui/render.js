@@ -165,6 +165,12 @@ export function formatDate(value) {
   return date.toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
 }
 
+/** A coloured status pill for a submission (pending / published / rejected). */
+export function statusBadge(status) {
+  const label = { pending: "Pending", published: "Published", rejected: "Rejected" }[status] ?? status;
+  return `<span class="status-badge status-badge--${escapeHtml(status)}">${escapeHtml(label)}</span>`;
+}
+
 /* ---------- Loading, empty and error states ---------- */
 
 export function skeletonCards(count, variant = "latest") {

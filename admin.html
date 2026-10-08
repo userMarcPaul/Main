@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin — ECB Eats</title>
+  <meta name="description" content="Moderate recipe submissions.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><div class="logo-icon-inner"><i class="fas fa-utensils"></i></div></div>
+        <span class="logo-text">ECB Eats</span>
+      </a>
+      <div class="header-right">
+        <div class="search-bar">
+          <input type="text" placeholder="Search Recipes..." id="search-input">
+          <button aria-label="Search"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="auth-area" id="auth-area" hidden></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <button class="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+      <ul class="nav-links">
+        <li><a href="admin.html" class="nav-link active"><i class="fas fa-shield-halved"></i> Admin</a></li>
+        <li><a href="index.html" class="nav-link">Recipes</a></li>
+        <li><a href="profile.html" class="nav-link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="admin-page">
+    <div class="container">
+      <div class="admin-header">
+        <h1>Moderation</h1>
+        <div class="admin-tabs" id="admin-tabs">
+          <button type="button" class="admin-tab active" data-status="pending">Pending</button>
+          <button type="button" class="admin-tab" data-status="published">Published</button>
+          <button type="button" class="admin-tab" data-status="rejected">Rejected</button>
+        </div>
+      </div>
+      <div id="admin-queue"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-bottom" style="border:none;">
+        <p>&copy; <span class="footer-year">2024</span> ECB Eats. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/js/pages/admin.js"></script>
+</body>
+</html>

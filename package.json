@@ -9,8 +9,10 @@
     "seed": "node --env-file=.env.local db/seed.js",
     "test": "node --env-file=.env.local --test test/smoke.test.js",
     "test:auth": "node --env-file=.env.local --test test/auth.test.js",
-    "test:all": "node --env-file=.env.local --test test/smoke.test.js test/auth.test.js test/reviews.test.js",
-    "test:reviews": "node --env-file=.env.local --test test/reviews.test.js"
+    "test:all": "node --env-file=.env.local --test test/smoke.test.js test/auth.test.js test/reviews.test.js test/submissions.test.js",
+    "test:reviews": "node --env-file=.env.local --test test/reviews.test.js",
+    "migrate": "node --env-file=.env.local db/migrate.js",
+    "test:submissions": "node --env-file=.env.local --test test/submissions.test.js"
   },
   "dependencies": {
     "@libsql/client": "0.15.4",

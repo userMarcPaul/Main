@@ -323,20 +323,20 @@ Submission flow:
 
 Backend:
 
-- [ ] Migration: `ALTER TABLE recipes ADD COLUMN rejection_reason TEXT;` (keep migrations as numbered files in `db/migrations/`)
-- [ ] `POST /api/upload` (logged in): accept only JPEG, PNG and WebP, check the file's actual type not just its name, max 2 MB, rate limit 20 uploads per user per day
-- [ ] `POST /api/recipes` (logged in): zod validation (title 3–80 chars, 2–40 ingredients, 1–30 steps, time 1–1,440 min, servings 1–50); generate a unique slug from the title (`chicken-adobo`, then `chicken-adobo-2`)
-- [ ] Write the recipe, ingredients and steps with `db.batch([...], "write")` so a failure leaves nothing half-saved
-- [ ] Rate-limit to 5 submissions per user per day
-- [ ] `GET /api/admin/submissions?status=pending` and `PATCH /api/admin/submissions` with `{ id, action: "approve" | "reject", reason }`, both behind `requireAdmin`
-- [ ] `GET /api/recipes?mine=1` lists the current user's own recipes in every status
+- [x] Migration: `ALTER TABLE recipes ADD COLUMN rejection_reason TEXT;` (keep migrations as numbered files in `db/migrations/`) — plus `db/migrate.js`, an idempotent runner (`npm run migrate`)
+- [x] `POST /api/upload` (logged in): accept only JPEG, PNG and WebP, check the file's actual type not just its name, max 2 MB, rate limit 20 uploads per user per day — stores to disk via a storage adapter (`lib/storage.js`); the Vercel Blob swap lives there
+- [x] `POST /api/recipes` (logged in): zod validation (title 3–80 chars, 2–40 ingredients, 1–30 steps, time 1–1,440 min, servings 1–50); generate a unique slug from the title (`chicken-adobo`, then `chicken-adobo-2`)
+- [x] Write the recipe, ingredients and steps with `db.batch([...], "write")` so a failure leaves nothing half-saved
+- [x] Rate-limit to 5 submissions per user per day
+- [x] `GET /api/admin/submissions?status=pending` and `PATCH /api/admin/submissions` with `{ id, action: "approve" | "reject", reason }`, both behind `requireAdmin`
+- [x] `GET /api/recipes?mine=1` lists the current user's own recipes in every status
 
 Frontend:
 
-- [ ] `submit.html`: dynamic ingredient and step rows (add, remove, reorder), photo preview, client-side validation that mirrors the server rules, and a draft auto-saved to `localStorage` so a refresh does not lose work
-- [ ] "My Submissions" list with status badges: Pending, Published, Rejected (with the reason)
-- [ ] `admin.html`: queue of pending recipes, a full preview using the real recipe template, Approve and Reject buttons, and a reason box for rejections
-- [ ] Published user recipes show "Submitted by {display name}" in place of the old fake author bar
+- [x] `submit.html`: dynamic ingredient and step rows (add, remove, reorder), photo preview, client-side validation that mirrors the server rules, and a draft auto-saved to `localStorage` so a refresh does not lose work — add/remove rows (no drag-reorder)
+- [x] "My Submissions" list with status badges: Pending, Published, Rejected (with the reason)
+- [x] `admin.html`: queue of pending recipes, a full preview using the real recipe template, Approve and Reject buttons, and a reason box for rejections
+- [x] Published user recipes show "Submitted by {display name}" in place of the old fake author bar
 
 Done when: a normal account submits a recipe with a photo, it is invisible to the public, the admin approves it, and it then appears in search and its category.
 

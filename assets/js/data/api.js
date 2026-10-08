@@ -123,3 +123,35 @@ export async function isSaved(slug) {
 
 export const saveRecipe = (slug) => send("POST", "/api/saved", { slug });
 export const unsaveRecipe = (slug) => send("DELETE", `/api/saved/${encodeURIComponent(slug)}`);
+
+/* ---------- Submissions & moderation (Phase 6) ---------- */
+
+/** Upload a recipe photo (a Blob). Returns { url }. */
+export async function uploadImage(blob) {
+  let response;
+  try {
+    response = await fetch(new URL("/api/upload", location.origin), {
+      method: "POST",
+      headers: { "Content-Type": blob.type || "application/octet-stream" },
+      credentials: "same-origin",
+      body: blob,
+    });
+  } catch {
+    throw new ApiError("Could not reach the server. Check your connection.", 0);
+  }
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new ApiError(data.error ?? `Upload failed (${response.status})`, response.status);
+  return data;
+}
+
+export const submitRecipe = (body) => send("POST", "/api/recipes", body);
+
+/** The caller's own recipes in every status. */
+export const listMySubmissions = () => send("GET", "/api/recipes?mine=1");
+
+/* Admin */
+export const adminListSubmissions = (status = "pending") =>
+  send("GET", `/api/admin/submissions?status=${encodeURIComponent(status)}`);
+export const adminGetSubmission = (id) =>
+  send("GET", `/api/admin/submissions?id=${encodeURIComponent(id)}`);
+export const adminModerate = (body) => send("PATCH", "/api/admin/submissions", body);

@@ -24,6 +24,9 @@ Every page renders from the API — nothing on the site is hardcoded.
   page shows the real average, or "No reviews yet" at zero — never a placeholder
 - **Saved recipes:** a Save button that persists server-side, and a Saved Recipes
   page; both reachable from the signed-in menu
+- **Submissions & moderation:** signed-in users submit recipes with a photo
+  (resized to WebP in the browser); nothing goes public until an admin approves
+  it, and rejections carry a reason the author sees on "My Submissions"
 - Responsive layout, sticky navigation and scroll-in animations
 
 Features that are not built yet are hidden rather than faked: ratings appear only once a
@@ -40,6 +43,7 @@ The build is planned in 8 phases (see `ECB-Eats-Implementation-Plan.md`):
 | 3 ✅ | Data-driven pages — every card opens its own recipe, real search |
 | 4 ✅ | Email/password accounts with server-side sessions |
 | 5 ✅ | Reviews & ratings, and save-a-recipe across devices |
+| 6 ✅ | Recipe submissions with photo upload and admin moderation |
 | 4 | User accounts and sessions |
 | 5 | Reviews, ratings and saved recipes |
 | 6 | Recipe submissions with admin moderation |
@@ -60,9 +64,14 @@ deployment needs a Turso instance.
 npm install
 cp .env.local.example .env.local   # TURSO_DATABASE_URL=file:local.db
 npm run seed                       # creates local.db and inserts the six recipes
+npm run migrate                    # apply pending db/migrations (safe to re-run)
 npm run dev                        # http://localhost:3000
-npm run test:all                   # all 34 tests across phases 3–5
+npm run test:all                   # all 42 tests across phases 3–6
 ```
+
+Uploaded photos are written under `UPLOAD_DIR` (default `uploads/`, gitignored)
+and served at `/uploads`. `lib/storage.js` is the single swap point for Vercel
+Blob in a serverless deployment, where the filesystem is read-only.
 
 Accounts are email + password. A session is a random token in an HttpOnly,
 SameSite=Lax cookie; the database stores only its SHA-256 hash, so a leaked
@@ -98,18 +107,22 @@ api/                         HTTP handlers (thin)
   categories.js
   auth/   signup.js login.js logout.js me.js
   saved/  index.js  [slug].js
+  admin/  submissions.js   GET queue + PATCH approve/reject
+  upload.js                recipe photo upload
 lib/
-  services/     recipes.js reviews.js saved.js accounts.js   business rules
+  services/     recipes.js reviews.js saved.js accounts.js admin.js uploads.js   rules
   repositories/ recipes.js reviews.js saved.js users.js sessions.js   all SQL
   mappers.js    row -> API shape, in one place
   errors.js     AppError + factories (notFound, forbidden, ...)
+  storage.js    image storage adapter (disk now, Vercel Blob later)
   db.js         the one place the database client is created
-  http.js       JSON responses, cookies, same-origin, body parsing, AppError mapping
+  http.js       JSON responses, cookies, same-origin, body/raw parsing, AppError mapping
   auth.js       session adapter: getActor(req), createSessionFor, cookies
   validate.js   zod schemas for request bodies
   rateLimit.js  fixed-window limiter backed by the rate_limits table
 db/
   schema.sql    full schema, including the later-phase tables
+  migrations/   numbered incremental changes; migrate.js applies them
   recipes.js    the six starter recipes
   seed.js       applies the schema and seeds (re-runnable)
 assets/
@@ -119,7 +132,8 @@ assets/
                 chrome.js     shared chrome: nav, animations, search, auth menu
   js/features/  reviews.js    the recipe page's review widget
   js/pages/     home.js recipe.js results.js about.js account.js saved.js
+                submit.js admin.js
   img/          recipe photography and the logo
 dev-server.js   local server that mirrors Vercel's api/ routing
-test/           smoke.test.js (pages) · auth.test.js · reviews.test.js
+test/           smoke · auth · reviews · submissions  (42 tests)
 ```

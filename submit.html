@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit a Recipe — ECB Eats</title>
+  <meta name="description" content="Share one of your own recipes on ECB Eats.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/style.css">
+  <link rel="icon" href="assets/img/logo.png" type="image/png">
+</head>
+<body>
+
+  <!-- ===== Site Header ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon"><div class="logo-icon-inner"><i class="fas fa-utensils"></i></div></div>
+        <span class="logo-text">ECB Eats</span>
+      </a>
+      <div class="header-right">
+        <div class="search-bar">
+          <input type="text" placeholder="Search Recipes..." id="search-input">
+          <button aria-label="Search"><i class="fas fa-search"></i></button>
+        </div>
+        <div class="auth-area" id="auth-area" hidden></div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ===== Main Navigation ===== -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <button class="mobile-menu-toggle" aria-label="Toggle menu"><i class="fas fa-bars"></i></button>
+      <ul class="nav-links">
+        <li><a href="submit.html" class="nav-link active"><i class="fas fa-plus"></i> Submit a Recipe</a></li>
+        <li><a href="index.html" class="nav-link">Recipes</a></li>
+        <li><a href="index.html#categories" class="nav-link">By Category</a></li>
+        <li><a href="profile.html" class="nav-link">About</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ===== Submit ===== -->
+  <main class="submit-page">
+    <div class="submit-wrapper">
+      <h1 class="submit-title">Submit a Recipe</h1>
+      <p class="submit-intro">Share one of your own. An admin reviews it before it goes public.</p>
+
+      <!-- submit.js renders the form here once it knows you're logged in -->
+      <div id="submit-root"></div>
+
+      <section class="my-submissions" id="my-submissions" hidden>
+        <h2 class="recipe-section-heading">My Submissions</h2>
+        <div id="my-submissions-list"></div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ===== Footer ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="logo-text">ECB Eats</div>
+          <p>Inspiring culinary creativity — one recipe at a time.</p>
+        </div>
+        <div class="footer-nav">
+          <h4>Explore</h4>
+          <a href="index.html">Recipes</a>
+          <a href="index.html#categories">Categories</a>
+          <a href="profile.html">About Us</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; <span class="footer-year">2024</span> ECB Eats. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script type="module" src="assets/js/pages/submit.js"></script>
+</body>
+</html>

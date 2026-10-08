@@ -26,6 +26,7 @@ CREATE TABLE recipes (
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending','published','rejected')),
   author_id INTEGER REFERENCES users(id),
   featured INTEGER NOT NULL DEFAULT 0,
+  rejection_reason TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 

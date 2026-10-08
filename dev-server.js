@@ -39,6 +39,8 @@ const routes = [
   { pattern: /^\/api\/recipes\/([^/]+)$/, module: "./api/recipes/[slug].js", params: ["slug"] },
   { pattern: /^\/api\/recipes$/, module: "./api/recipes/index.js", params: [] },
   { pattern: /^\/api\/categories$/, module: "./api/categories.js", params: [] },
+  { pattern: /^\/api\/upload$/, module: "./api/upload.js", params: [] },
+  { pattern: /^\/api\/admin\/submissions$/, module: "./api/admin/submissions.js", params: [] },
   { pattern: /^\/api\/saved\/([^/]+)$/, module: "./api/saved/[slug].js", params: ["slug"] },
   { pattern: /^\/api\/saved$/, module: "./api/saved/index.js", params: [] },
 ];
@@ -80,14 +82,24 @@ server.on("request", (req, res) => {
 });
 process.on("uncaughtException", (err) => console.error("uncaught:", err));
 
-async function serveStatic(pathname, res) {
-  const relative = pathname === "/" ? "index.html" : pathname.slice(1);
-  const filePath = path.join(ROOT, relative);
+const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || "uploads");
 
-  // Never serve anything outside the project directory.
-  if (!filePath.startsWith(ROOT)) {
-    res.statusCode = 403;
-    return res.end("Forbidden");
+async function serveStatic(pathname, res) {
+  // Uploaded images live in UPLOAD_DIR (which storage.js writes to and may sit
+  // outside the project), served under /uploads. In production this path is a
+  // Vercel Blob URL instead, so this mapping is dev-only.
+  let filePath;
+  if (pathname.startsWith("/uploads/")) {
+    const name = path.basename(pathname); // no traversal past the filename
+    filePath = path.join(UPLOAD_DIR, name);
+  } else {
+    const relative = pathname === "/" ? "index.html" : pathname.slice(1);
+    filePath = path.join(ROOT, relative);
+    // Never serve anything outside the project directory.
+    if (!filePath.startsWith(ROOT)) {
+      res.statusCode = 403;
+      return res.end("Forbidden");
+    }
   }
 
   try {
