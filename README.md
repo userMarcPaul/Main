@@ -2,7 +2,7 @@
 
 A full-stack recipe app with real accounts, reviews, saved recipes and user submissions — built with plain HTML, CSS and JavaScript on the frontend, and Vercel serverless functions backed by a Turso (SQLite) database on the backend.
 
-**Live site:** https://ecb-eats.vercel.app
+**Live site:** _not deployed yet_ — will be at `https://ecb-eats.vercel.app` once the repo is imported into Vercel (see [Deployment](#deployment)).
 
 **Demo account:** `demo@ecbeats.app` / `DemoPass123!`
 Log in to try reviewing a recipe, saving favourites and submitting your own — all without signing up.
@@ -37,7 +37,7 @@ Every feature below is real and backed by the database. If something isn't built
 | Database | Turso (libSQL / SQLite-compatible) |
 | Auth | `bcryptjs` hashing, `crypto.randomBytes` sessions, SHA-256 stored hashes |
 | Validation | `zod` — one schema per request body |
-| Image uploads | Disk adapter locally (`lib/storage.js`), swappable to Vercel Blob |
+| Image uploads | `lib/storage.js` — disk locally, Vercel Blob in production (switched by `BLOB_READ_WRITE_TOKEN`) |
 | CI | GitHub Actions — runs all tests on every PR |
 
 ## Architecture
@@ -111,6 +111,7 @@ npm run dev                        # http://localhost:3000
 | `ADMIN_EMAIL` | Your email | Your email |
 | `DEMO_PASSWORD` | `DemoPass123!` | _(set in Vercel)_ |
 | `SITE_URL` | _(empty)_ | `https://ecb-eats.vercel.app` |
+| `BLOB_READ_WRITE_TOKEN` | _(empty → disk)_ | Set when Vercel Blob is linked |
 
 ### Available scripts
 
@@ -136,7 +137,7 @@ The site deploys to **Vercel** with every push to `main`.
 
 ### Vercel environment variables
 
-Set `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `ADMIN_EMAIL`, and `DEMO_PASSWORD` in the Vercel project settings. For preview environments, point `TURSO_DATABASE_URL` at the dev database.
+Set `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `ADMIN_EMAIL`, `DEMO_PASSWORD` and `CRON_SECRET` in the Vercel project settings. Link **Vercel Blob** so `BLOB_READ_WRITE_TOKEN` is injected (uploads need it — the serverless filesystem is read-only). For preview environments, point `TURSO_DATABASE_URL` at the dev database. The daily cleanup cron is declared in `vercel.json`.
 
 ## Project layout
 

@@ -223,9 +223,15 @@ test("the signup page logs in and the header then shows the display name", async
   form.elements.password.value = "supersecret";
   form.dispatchEvent(new dom.window.Event("submit", { cancelable: true, bubbles: true }));
 
-  await new Promise((r) => setTimeout(r, 700));
-
-  const me = await nativeFetch(`${ORIGIN}/api/auth/me`, { headers: { Cookie: jar } });
-  assert.equal(me.status, 200, "the signup actually created a session");
+  // Wait for the async submit to complete (the session cookie lands in the jar)
+  // rather than guessing at a fixed delay, so the test isn't timing-flaky.
+  let me;
+  for (let i = 0; i < 40; i++) {
+    await new Promise((r) => setTimeout(r, 50));
+    if (!jar) continue;
+    me = await nativeFetch(`${ORIGIN}/api/auth/me`, { headers: { Cookie: jar } });
+    if (me.status === 200) break;
+  }
+  assert.ok(me && me.status === 200, "the signup actually created a session");
   assert.equal((await me.json()).displayName, "Jess");
 });
