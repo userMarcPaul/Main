@@ -10,7 +10,7 @@
     "seed:demo": "node --env-file=.env.local db/seed-demo.js",
     "test": "node --env-file=.env.local --test test/smoke.test.js",
     "test:auth": "node --env-file=.env.local --test test/auth.test.js",
-    "test:all": "node --env-file=.env.local --test test/smoke.test.js test/auth.test.js test/reviews.test.js test/submissions.test.js test/hardening.test.js",
+    "test:all": "node --env-file=.env.local --test --test-concurrency=1 test/smoke.test.js test/auth.test.js test/reviews.test.js test/submissions.test.js test/hardening.test.js",
     "test:reviews": "node --env-file=.env.local --test test/reviews.test.js",
     "migrate": "node --env-file=.env.local db/migrate.js",
     "test:submissions": "node --env-file=.env.local --test test/submissions.test.js",
@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@libsql/client": "0.15.4",
+    "@vercel/blob": "^0.27.0",
     "bcryptjs": "^2.4.3",
     "zod": "^3.23.8"
   },

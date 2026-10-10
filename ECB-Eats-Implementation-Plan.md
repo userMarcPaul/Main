@@ -324,7 +324,7 @@ Submission flow:
 Backend:
 
 - [x] Migration: `ALTER TABLE recipes ADD COLUMN rejection_reason TEXT;` (keep migrations as numbered files in `db/migrations/`) — plus `db/migrate.js`, an idempotent runner (`npm run migrate`)
-- [x] `POST /api/upload` (logged in): accept only JPEG, PNG and WebP, check the file's actual type not just its name, max 2 MB, rate limit 20 uploads per user per day — stores to disk via a storage adapter (`lib/storage.js`); the Vercel Blob swap lives there
+- [x] `POST /api/upload` (logged in): accept only JPEG, PNG and WebP, check the file's actual type not just its name, max 2 MB, rate limit 20 uploads per user per day — stores to disk via a storage adapter (`lib/storage.js`); Vercel Blob is wired in Phase 8, switched by `BLOB_READ_WRITE_TOKEN`
 - [x] `POST /api/recipes` (logged in): zod validation (title 3–80 chars, 2–40 ingredients, 1–30 steps, time 1–1,440 min, servings 1–50); generate a unique slug from the title (`chicken-adobo`, then `chicken-adobo-2`)
 - [x] Write the recipe, ingredients and steps with `db.batch([...], "write")` so a failure leaves nothing half-saved
 - [x] Rate-limit to 5 submissions per user per day
@@ -385,7 +385,7 @@ Deployment workflow (from Phase 2 onward):
 - [ ] Work on feature branches (`feat/reviews`, `feat/auth`) and open a pull request for each; Vercel posts a preview URL on every PR — **workflow only, no code change**
 - [ ] Use a separate Turso database for previews (`ecb-eats-dev`) so testing never touches real data; set it as the Preview environment variable in Vercel — **needs Turso + Vercel UI**
 - [x] Keep `db/migrations/` numbered and run them against production by hand before merging the PR that needs them
-- [x] ~~Optional: a GitHub Actions workflow that runs a few API tests (Vitest) on every PR~~ — `.github/workflows/ci.yml` runs `npm run test:all` (Node test runner) on every PR
+- [x] ~~Optional: a GitHub Actions workflow that runs a few API tests (Vitest) on every PR~~ — `.github/workflows/ci.yml` runs all 50 tests (Node test runner) on every PR and push to `main`; it writes a CI `.env.local` so the `--env-file` scripts work, and the suite runs serially to stay deterministic
 
 README:
 
