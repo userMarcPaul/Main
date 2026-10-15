@@ -17,6 +17,9 @@ Guiding principles:
 
 ## Tech stack and architecture
 
+> [!NOTE]
+> **Update (post-Phase 8): the database is now Supabase (Postgres), not Turso.** Data access uses `@supabase/supabase-js` with the service-role key; the SQLite-era notes below (Turso, `@libsql/client`, `file:local.db`, `db.batch`) are kept for history. The Postgres schema, views and RPC functions live in `db/supabase/`, and dev/tests now require a Supabase project. See the README for the current setup.
+
 The browser loads static HTML pages from Vercel, which call JSON API routes (Vercel serverless functions in Node.js), which read and write a Turso database.
 
 | Layer | Choice | Why |

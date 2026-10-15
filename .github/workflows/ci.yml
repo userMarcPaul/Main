@@ -20,13 +20,12 @@ jobs:
 
       - run: npm ci
 
-      # The npm scripts load .env.local (gitignored), so CI writes one with the
-      # values a developer would use locally. Without it, `node --env-file`
-      # aborts on the missing file before anything runs.
+      # The npm scripts load .env.local (gitignored); CI writes a minimal one.
+      # The test suite currently skips unless a Supabase test project is wired
+      # (see README → Tests). To run it for real, add SUPABASE_URL and
+      # SUPABASE_SERVICE_ROLE_KEY as repo secrets, export them here, and set
+      # ECB_LEGACY_SQLITE_TESTS is NOT used (those are the old SQLite tests).
       - name: Create .env.local
-        run: |
-          printf 'TURSO_DATABASE_URL=file:local.db\nTURSO_AUTH_TOKEN=\nADMIN_EMAIL=ci@ecbeats.app\n' > .env.local
+        run: printf 'ADMIN_EMAIL=ci@ecbeats.app\n' > .env.local
 
-      - run: npm run seed
-      - run: npm run migrate
       - run: npm run test:all

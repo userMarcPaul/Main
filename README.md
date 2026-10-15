@@ -1,6 +1,6 @@
 # ECB Eats
 
-A full-stack recipe app with real accounts, reviews, saved recipes and user submissions — built with plain HTML, CSS and JavaScript on the frontend, and Vercel serverless functions backed by a Turso (SQLite) database on the backend.
+A full-stack recipe app with real accounts, reviews, saved recipes and user submissions — built with plain HTML, CSS and JavaScript on the frontend, and Vercel serverless functions backed by a Supabase (Postgres) database on the backend.
 
 **Live site:** _not deployed yet_ — will be at `https://ecb-eats.vercel.app` once the repo is imported into Vercel (see [Deployment](#deployment)).
 
@@ -34,9 +34,10 @@ Every feature below is real and backed by the database. If something isn't built
 |-------|--------|
 | Frontend | HTML, CSS (custom design system), vanilla ES modules |
 | Backend | Vercel serverless functions (Node.js), file-based routing |
-| Database | Turso (libSQL / SQLite-compatible) |
+| Database | Supabase (Postgres), via `@supabase/supabase-js` |
 | Auth | `bcryptjs` hashing, `crypto.randomBytes` sessions, SHA-256 stored hashes |
 | Validation | `zod` — one schema per request body |
+| Aggregates & transactions | Postgres **views** (rating/category counts) and **RPC functions** (atomic submission, rate-limit) — PostgREST can't express these from the client |
 | Image uploads | `lib/storage.js` — disk locally, Vercel Blob in production (switched by `BLOB_READ_WRITE_TOKEN`) |
 | CI | GitHub Actions — runs all tests on every PR |
 
@@ -46,7 +47,7 @@ The backend follows a **handler → service → repository → db** layering:
 
 - **`api/`** — thin HTTP handlers. Parse the request, call a service, send JSON. No SQL, no business rules.
 - **`lib/services/`** — the rules: who may do what, validation, rate limits. They take a resolved `actor`, not a request, and throw domain errors (`lib/errors.js`) that the HTTP layer maps to status codes.
-- **`lib/repositories/`** — the only place SQL lives. Returns plain data through `lib/mappers.js`.
+- **`lib/repositories/`** — the only place the database is touched. Uses the Supabase client with the **service-role key** (server-side only; the schema enables RLS with no policies, so the public key can read nothing and never reaches the browser). Aggregate reads come from Postgres views and atomic writes from RPC functions. Returns plain data through `lib/mappers.js`.
 
 The frontend mirrors this separation: **`data/`** talks to the API, **`ui/`** is pure rendering, **`features/`** are self-contained widgets, and **`pages/`** are per-page controllers.
 
@@ -85,33 +86,41 @@ The frontend mirrors this separation: **`data/`** talks to the API, **`ui/`** is
                      └──────────────┘
 ```
 
-Full DDL: [`db/schema.sql`](db/schema.sql). Migrations live in [`db/migrations/`](db/migrations/) and are applied by [`db/migrate.js`](db/migrate.js).
+Full DDL and the views/functions: [`db/supabase/`](db/supabase/) — `01_schema.sql`, `02_views.sql`, `03_functions.sql`, applied once in the Supabase SQL editor. (`db/schema.sql` is the earlier SQLite DDL, kept for reference.)
 
 ## Running it locally
 
-No Turso account needed — `@libsql/client` reads a local SQLite file.
+The app uses Supabase (Postgres), so you need a Supabase project (the free tier
+is fine) — there is no local file-database mode.
 
 ```bash
 git clone https://github.com/MarcPaul/ecb-eats.git
 cd ecb-eats
 npm install
-cp .env.local.example .env.local   # edit ADMIN_EMAIL to your email
-npm run seed                       # creates local.db with 6 published recipes
-npm run migrate                    # apply any pending migrations
-npm run seed:demo                  # create the demo account (demo@ecbeats.app)
-npm run dev                        # http://localhost:3000
+cp .env.local.example .env.local   # set SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY + ADMIN_EMAIL
+```
+
+Create the Supabase project, then in its **SQL editor** run the three files in
+order: `db/supabase/01_schema.sql`, `02_views.sql`, `03_functions.sql`
+(`npm run migrate` just lists them). Then:
+
+```bash
+npm run seed       # insert the 6 published recipes
+npm run seed:demo  # create the demo account (demo@ecbeats.app)
+npm run dev        # http://localhost:3000
 ```
 
 ### Environment variables
 
 | Variable | Local default | Production |
 |----------|--------------|------------|
-| `TURSO_DATABASE_URL` | `file:local.db` | `libsql://<db>.turso.io` |
-| `TURSO_AUTH_TOKEN` | _(empty)_ | Token from Turso dashboard |
+| `SUPABASE_URL` | `https://<project>.supabase.co` | same |
+| `SUPABASE_SERVICE_ROLE_KEY` | service-role key (server-side only) | same |
 | `ADMIN_EMAIL` | Your email | Your email |
 | `DEMO_PASSWORD` | `DemoPass123!` | _(set in Vercel)_ |
 | `SITE_URL` | _(empty)_ | `https://ecb-eats.vercel.app` |
 | `BLOB_READ_WRITE_TOKEN` | _(empty → disk)_ | Set when Vercel Blob is linked |
+| `CRON_SECRET` | _(empty)_ | Random string; gates the cleanup cron |
 
 ### Available scripts
 
@@ -120,10 +129,24 @@ npm run dev                        # http://localhost:3000
 | `npm run dev` | Start the local dev server (mirrors Vercel routing) |
 | `npm run seed` | Apply schema + insert the 6 starter recipes |
 | `npm run seed:demo` | Create the demo account with sample activity |
-| `npm run migrate` | Apply pending migrations from `db/migrations/` |
+| `npm run migrate` | List the `db/supabase/*.sql` files to run in Supabase |
 | `npm run sitemap` | Regenerate `sitemap.xml` and `robots.txt` |
 | `npm run cleanup` | Purge expired sessions and stale rate-limit rows |
-| `npm run test:all` | Run all 50 tests (smoke, auth, reviews, submissions, hardening) |
+| `npm run test:all` | Run the test suite (see note under Tests) |
+
+## Tests
+
+The suite (`npm run test:all`) is 50 Node-test cases across smoke, auth, reviews,
+submissions and hardening. They were written against a throwaway **SQLite**
+database (each file spun up its own `file:` DB), which predates the move to
+Supabase, so they're **skipped by default** rather than run against the wrong
+backend — `npm run test:all` reports them as skipped, not failed.
+
+Re-pointing them at a dedicated Supabase **test** project (resetting state
+between runs) is the outstanding follow-up to this database switch. The
+database-side logic the switch introduced — the schema, the `recipe_cards` /
+`category_counts` views and the `create_submission` / `rl_touch` / `rl_purge`
+functions — was verified on a real Postgres 16 before shipping.
 
 ## Deployment
 
@@ -131,13 +154,13 @@ The site deploys to **Vercel** with every push to `main`.
 
 1. Import the GitHub repo into Vercel — every push to `main` auto-deploys
 2. Work on feature branches (`feat/reviews`, `feat/auth`) and open a PR — Vercel posts a preview URL on every PR
-3. Use a separate Turso database for previews (`ecb-eats-dev`) so testing never touches production data
-4. Keep `db/migrations/` numbered and run them against production before merging the PR that needs them
-5. GitHub Actions runs the full test suite on every PR
+3. Create the Supabase project and run `db/supabase/*.sql` in its SQL editor; use a **separate Supabase project** for previews so testing never touches production data
+4. Apply any new `db/supabase` changes to the project before merging the PR that needs them
+5. GitHub Actions runs the test suite on every PR
 
 ### Vercel environment variables
 
-Set `TURSO_DATABASE_URL`, `TURSO_AUTH_TOKEN`, `ADMIN_EMAIL`, `DEMO_PASSWORD` and `CRON_SECRET` in the Vercel project settings. Link **Vercel Blob** so `BLOB_READ_WRITE_TOKEN` is injected (uploads need it — the serverless filesystem is read-only). For preview environments, point `TURSO_DATABASE_URL` at the dev database. The daily cleanup cron is declared in `vercel.json`.
+Set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `DEMO_PASSWORD` and `CRON_SECRET` in the Vercel project settings. Link **Vercel Blob** so `BLOB_READ_WRITE_TOKEN` is injected (uploads need it — the serverless filesystem is read-only). For preview environments, point `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` at a separate Supabase project. The daily cleanup cron is declared in `vercel.json`.
 
 ## Project layout
 
@@ -160,18 +183,18 @@ lib/
   mappers.js    row → API shape
   errors.js     AppError + factories (notFound, forbidden, …)
   storage.js    image storage adapter (disk → Vercel Blob)
-  db.js         database client singleton
+  db.js         Supabase client (service-role) + unwrap() helper
   http.js       JSON responses, cookies, origin check, body parsing
   auth.js       session adapter: getActor, createSessionFor, cookies
   validate.js   zod schemas
   rateLimit.js  fixed-window limiter
 
 db/
-  schema.sql    full DDL
-  migrations/   numbered SQL files; migrate.js applies them
+  supabase/     01_schema.sql · 02_views.sql · 03_functions.sql  (run in Supabase)
   recipes.js    the 6 starter recipes
-  seed.js       apply schema + seed recipes
+  seed.js       insert the starter recipes (idempotent)
   seed-demo.js  create the demo account
+  schema.sql    earlier SQLite DDL, kept for reference
 
 assets/
   style.css     design system and page styles
@@ -182,21 +205,21 @@ assets/
                 saved.js  submit.js  admin.js
   img/          recipe photography and logo
 
-test/           smoke · auth · reviews · submissions · hardening (42 tests)
+test/           smoke · auth · reviews · submissions · hardening (see Tests)
 
 .github/workflows/ci.yml   runs tests on every PR
 ```
 
 ## Challenges and what I learned
 
-**Why SQLite needed Turso on serverless.**
-Vercel serverless functions are ephemeral — each invocation gets a fresh filesystem. A plain SQLite file would lose writes between requests. Turso gives the same SQL dialect but stores the data on their edge servers, so `@libsql/client` works identically locally (where it reads `file:local.db`) and in production (where it connects over HTTPS).
+**Postgres on serverless, via Supabase.**
+Vercel serverless functions are ephemeral, so a local database file would lose writes between requests. Supabase provides managed Postgres reachable over HTTPS, the same from local dev and production. All access goes through the service-role key on the server; the schema turns on row-level security with no policies, so the public key can read nothing and is never shipped to the browser.
 
 **Session security.**
 Storing the raw session token in the database would mean a leaked database dump lets an attacker log in as anyone. Instead, only the SHA-256 hash of each token is stored; the raw token lives only in the user's HTTP-only cookie. The cookie's `SameSite=Lax` flag and an `Origin` header check on write endpoints together provide CSRF protection without a separate token.
 
-**Transactions for submissions.**
-A recipe submission involves inserting one row in `recipes`, one per ingredient, and one per step. If the server crashes mid-insert, the database could end up with a recipe that has 3 of its 12 ingredients. Using `db.batch([...], "write")` wraps every insert in a single transaction, so a failure leaves nothing half-saved.
+**What the Supabase client can't do — and the fix.**
+The Supabase JS client talks to PostgREST, which can't run a multi-statement transaction or an arbitrary `AVG`/`GROUP BY` from the client. A recipe submission must insert the recipe, its ingredients and its steps atomically, so that became a Postgres function (`create_submission`) called via `rpc()`. The rating averages and category counts became Postgres **views** the client selects from. Pushing that logic into the database keeps each write atomic and each read a single round trip.
 
 **Layered architecture on a static-file frontend.**
 Without a framework, it's tempting to put fetch calls, DOM manipulation and business logic in the same file. Splitting into `data/` → `ui/` → `features/` → `pages/` kept each module small and testable, and made adding reviews and submissions much less error-prone because the rendering and data layers were already separate.

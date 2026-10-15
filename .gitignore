@@ -13,6 +13,14 @@ local.db-journal
 # OS cruft
 .DS_Store
 
+# Credentials / SSH keys — never commit private keys
+id
+id.*
+id_ed25519*
+id_rsa*
+*.pem
+*.key
+
 # Added by code-review-graph
 .code-review-graph/
 .mcp.json

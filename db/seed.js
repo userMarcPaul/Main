@@ -1,80 +1,40 @@
-/**
- * Creates the schema and inserts the starter recipes as `published`.
- *
- * Re-runnable: it drops the recipe content tables first, so `npm run seed`
- * always leaves the same known state. It does NOT touch users, sessions or
- * reviews, so seeding again will not log anyone out or delete their reviews.
- */
-import { readFile } from "node:fs/promises";
-import { db } from "../lib/db.js";
+/* Insert the six starter recipes as `published`. Idempotent: a slug that is
+   already present is skipped, so re-running never duplicates and never touches
+   user data. Requires the Supabase schema (db/supabase/*.sql) to be applied. */
+import { db, unwrap } from "../lib/db.js";
 import { recipes } from "./recipes.js";
 
-const schema = await readFile(new URL("./schema.sql", import.meta.url), "utf8");
-
-// Fresh database: apply the whole schema. Existing one: only reset the
-// recipe tables, so user data survives a re-seed.
-const { rows } = await db.execute(
-  "SELECT name FROM sqlite_master WHERE type = 'table' AND name = 'recipes'"
-);
-
-if (rows.length === 0) {
-  console.log("No schema found — creating all tables.");
-  await db.executeMultiple(schema);
-} else {
-  console.log("Schema already present — clearing recipe content only.");
-  // ingredients and steps cascade from recipes, but Turso/libSQL does not
-  // enable foreign keys by default, so delete the children explicitly.
-  await db.batch(
-    ["DELETE FROM ingredients", "DELETE FROM steps", "DELETE FROM recipes"],
-    "write"
-  );
-}
-
 let inserted = 0;
+let skipped = 0;
 
 for (const [index, recipe] of recipes.entries()) {
+  const existing = unwrap(await db.from("recipes").select("id").eq("slug", recipe.slug).limit(1));
+  if (existing.length) { skipped += 1; continue; }
+
   // Stagger created_at so "latest recipes" has a meaningful order.
-  const createdAt = `datetime('now', '-${recipes.length - index} days')`;
+  const createdAt = new Date(Date.now() - (recipes.length - index) * 86_400_000).toISOString();
 
-  const result = await db.execute({
-    sql: `INSERT INTO recipes
-            (slug, title, category, description, image_url,
-             time_minutes, servings, difficulty, status, featured, created_at)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'published', ?, ${createdAt})`,
-    args: [
-      recipe.slug,
-      recipe.title,
-      recipe.category,
-      recipe.description,
-      recipe.image_url,
-      recipe.time_minutes,
-      recipe.servings,
-      recipe.difficulty,
-      recipe.featured,
-    ],
-  });
+  const row = unwrap(
+    await db.from("recipes").insert({
+      slug: recipe.slug, title: recipe.title, category: recipe.category,
+      description: recipe.description, image_url: recipe.image_url,
+      time_minutes: recipe.time_minutes, servings: recipe.servings,
+      difficulty: recipe.difficulty, status: "published",
+      featured: Boolean(recipe.featured), created_at: createdAt,
+    }).select("id")
+  )[0];
+  const recipeId = Number(row.id);
 
-  const recipeId = Number(result.lastInsertRowid);
-
-  const statements = [
-    ...recipe.ingredients.map(([emoji, name, qty, unit], position) => ({
-      sql: `INSERT INTO ingredients (recipe_id, position, emoji, name, qty, unit)
-            VALUES (?, ?, ?, ?, ?, ?)`,
-      args: [recipeId, position, emoji, name, qty, unit],
-    })),
-    ...recipe.steps.map((text, position) => ({
-      sql: "INSERT INTO steps (recipe_id, position, text) VALUES (?, ?, ?)",
-      args: [recipeId, position, text],
-    })),
-  ];
-
-  // One batch per recipe: a failure leaves no half-written recipe behind.
-  await db.batch(statements, "write");
+  unwrap(await db.from("ingredients").insert(
+    recipe.ingredients.map(([emoji, name, qty, unit], position) =>
+      ({ recipe_id: recipeId, position, emoji, name, qty, unit }))
+  ));
+  unwrap(await db.from("steps").insert(
+    recipe.steps.map((text, position) => ({ recipe_id: recipeId, position, text }))
+  ));
 
   inserted += 1;
-  console.log(
-    `  ${recipe.slug} — ${recipe.ingredients.length} ingredients, ${recipe.steps.length} steps`
-  );
+  console.log(`  ${recipe.slug} — ${recipe.ingredients.length} ingredients, ${recipe.steps.length} steps`);
 }
 
-console.log(`\nSeeded ${inserted} published recipes.`);
+console.log(`\nSeeded ${inserted} recipe(s); skipped ${skipped} already present.`);

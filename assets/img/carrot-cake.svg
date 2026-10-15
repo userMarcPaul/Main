@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-label="Illustration of a slice of carrot cake with cream cheese frosting">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FAF8F5"/>
+      <stop offset="1" stop-color="#EDE6DD"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- plate -->
+  <ellipse cx="400" cy="470" rx="250" ry="48" fill="#FFFFFF"/>
+  <ellipse cx="400" cy="470" rx="250" ry="48" fill="none" stroke="#E2D9CE" stroke-width="3"/>
+  <ellipse cx="400" cy="466" rx="186" ry="32" fill="#F5F0EB"/>
+
+  <!-- cake slice: front face -->
+  <g>
+    <!-- bottom sponge -->
+    <path d="M256 440 L544 440 L544 376 L256 376 Z" fill="#B9793F"/>
+    <!-- frosting -->
+    <path d="M256 376 L544 376 L544 346 L256 346 Z" fill="#FBF3E6"/>
+    <!-- middle sponge -->
+    <path d="M256 346 L544 346 L544 282 L256 282 Z" fill="#C4854A"/>
+    <!-- frosting -->
+    <path d="M256 282 L544 282 L544 252 L256 252 Z" fill="#FBF3E6"/>
+    <!-- top sponge -->
+    <path d="M256 252 L544 252 L544 190 L256 190 Z" fill="#B9793F"/>
+    <!-- top frosting with a soft wave -->
+    <path d="M256 190 C300 164, 348 206, 400 182 C452 158, 500 200, 544 176 L544 190 L256 190 Z" fill="#FFFFFF"/>
+    <path d="M256 190 C300 164, 348 206, 400 182 C452 158, 500 200, 544 176" fill="none" stroke="#EDE6DD" stroke-width="4"/>
+  </g>
+
+  <!-- shredded carrot flecks in the sponge -->
+  <g fill="#E07B5D" opacity="0.75">
+    <rect x="292" y="404" width="26" height="7" rx="3.5" transform="rotate(-9 292 404)"/>
+    <rect x="368" y="418" width="22" height="7" rx="3.5" transform="rotate(7 368 418)"/>
+    <rect x="452" y="398" width="28" height="7" rx="3.5" transform="rotate(-5 452 398)"/>
+    <rect x="500" y="424" width="20" height="7" rx="3.5" transform="rotate(12 500 424)"/>
+    <rect x="300" y="312" width="24" height="7" rx="3.5" transform="rotate(10 300 312)"/>
+    <rect x="382" y="326" width="27" height="7" rx="3.5" transform="rotate(-8 382 326)"/>
+    <rect x="470" y="306" width="21" height="7" rx="3.5" transform="rotate(4 470 306)"/>
+    <rect x="286" y="222" width="25" height="7" rx="3.5" transform="rotate(-6 286 222)"/>
+    <rect x="394" y="232" width="22" height="7" rx="3.5" transform="rotate(9 394 232)"/>
+    <rect x="482" y="218" width="26" height="7" rx="3.5" transform="rotate(-11 482 218)"/>
+  </g>
+
+  <!-- walnut crumbs on top -->
+  <g fill="#8C5A2B">
+    <circle cx="330" cy="178" r="9"/>
+    <circle cx="404" cy="172" r="7"/>
+    <circle cx="478" cy="182" r="8"/>
+  </g>
+
+  <!-- marzipan carrot garnish -->
+  <g transform="translate(400 128)">
+    <path d="M0 0 L-13 -4 L0 46 L13 -4 Z" fill="#E07B5D"/>
+    <path d="M-2 -6 C-18 -30, -8 -40, -2 -34 C4 -44, 16 -32, 2 -6 Z" fill="#5F8A4E"/>
+  </g>
+</svg>
