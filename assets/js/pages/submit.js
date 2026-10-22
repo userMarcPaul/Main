@@ -13,6 +13,28 @@ initChrome();
 const DRAFT_KEY = "ecb-eats:submit-draft";
 const CATEGORIES = ["Pasta", "Stews", "Cakes", "Poultry", "Beef", "Vegetarian", "Seafood", "Soups", "Desserts", "Salads"];
 
+// Curated icons the user picks from, so the field is a choice rather than free
+// emoji entry. Each is [emoji, label]; the label shows in the open dropdown.
+const INGREDIENT_ICONS = [
+  ["🍗", "Poultry"], ["🥩", "Beef / meat"], ["🥓", "Pork / bacon"], ["🐟", "Fish"],
+  ["🦐", "Shellfish"], ["🥚", "Egg"], ["🧀", "Cheese"], ["🥛", "Dairy"],
+  ["🧈", "Butter"], ["🫒", "Oil"], ["🥦", "Vegetable"], ["🥕", "Carrot"],
+  ["🥔", "Potato"], ["🍅", "Tomato"], ["🧅", "Onion"], ["🧄", "Garlic"],
+  ["🌶️", "Chili"], ["🍄", "Mushroom"], ["🌽", "Corn"], ["🍋", "Citrus"],
+  ["🍎", "Fruit"], ["🍚", "Rice / grain"], ["🍝", "Pasta"], ["🍞", "Bread / flour"],
+  ["🌿", "Herb"], ["🧂", "Salt / spice"], ["🍯", "Sweetener"], ["🍫", "Chocolate"],
+  ["🥜", "Nuts"],
+];
+
+/** <option> list for the icon picker, with `selected` restored from a draft. */
+function iconOptions(selected = "") {
+  const none = `<option value=""${selected ? "" : " selected"}>—</option>`;
+  const items = INGREDIENT_ICONS.map(([icon, label]) =>
+    `<option value="${icon}"${icon === selected ? " selected" : ""}>${icon} ${escapeHtml(label)}</option>`
+  ).join("");
+  return none + items;
+}
+
 const root = document.getElementById("submit-root");
 let photoBlob = null; // the resized image to upload
 
@@ -121,7 +143,7 @@ function addIngredient(values = {}) {
   const row = document.createElement("div");
   row.className = "dyn-row";
   row.innerHTML = `
-    <input type="text" class="dyn-emoji" placeholder="🍗" maxlength="8" value="${escapeHtml(values.emoji ?? "")}">
+    <select class="dyn-emoji" aria-label="Ingredient icon">${iconOptions(values.emoji ?? "")}</select>
     <input type="text" class="dyn-name" placeholder="Ingredient" maxlength="80" value="${escapeHtml(values.name ?? "")}">
     <input type="text" class="dyn-qty" placeholder="Qty" maxlength="12" inputmode="decimal" aria-label="Quantity" value="${escapeHtml(values.qty ?? "")}">
     <input type="text" class="dyn-unit" placeholder="Unit" maxlength="40" value="${escapeHtml(values.unit ?? "")}">

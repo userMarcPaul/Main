@@ -1988,6 +1988,9 @@ input:focus-visible {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   background: var(--cream-light);
+  /* Vertical-only: a textarea defaults to resize:both, so it can be dragged wider
+     than its container and overflow. Applies to Description and the step rows. */
+  resize: vertical;
 }
 .submit-form input:focus, .submit-form select:focus, .submit-form textarea:focus {
   outline: none; border-color: var(--coral-text); background: var(--white);
@@ -2003,7 +2006,7 @@ input:focus-visible {
    above (specificity 0,2,1). Scoping each under .submit-form makes them 0,3,0 so they
    win; without this every cell stretches to 100% and the row overflows, pushing Qty and
    Unit off-screen. min-width: 0 lets the name cell shrink instead of forcing overflow. */
-.submit-form .dyn-row .dyn-emoji { width: 56px; text-align: center; flex: none; }
+.submit-form .dyn-row .dyn-emoji { width: 116px; flex: none; padding-left: 10px; }
 .submit-form .dyn-row .dyn-qty { width: 72px; flex: none; }
 .submit-form .dyn-row .dyn-unit { width: 96px; flex: none; }
 .submit-form .dyn-row .dyn-name { flex: 1; width: auto; min-width: 0; }
@@ -2016,9 +2019,8 @@ input:focus-visible {
   background: var(--navy); color: var(--white); display: flex; align-items: center;
   justify-content: center; font-size: 0.75rem; font-weight: 700;
 }
-/* Vertical-only resize: a textarea defaults to resize:both, so it can be dragged
-   wider than the row and overflow. min-width:0 lets it shrink within the flex row. */
-.dyn-row--step .dyn-step { flex: 1; min-width: 0; resize: vertical; }
+/* min-width:0 lets the textarea shrink within the flex row instead of overflowing. */
+.dyn-row--step .dyn-step { flex: 1; min-width: 0; }
 .row-remove {
   flex: none; width: 36px; height: 36px; border: none; cursor: pointer;
   border-radius: var(--radius-md); background: var(--cream-dark); color: var(--text-secondary);
