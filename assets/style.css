@@ -743,8 +743,14 @@ input {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px 16px;
   font-size: 0.8125rem;
   color: rgba(255,255,255,0.4);
+}
+
+.footer-credit {
+  color: rgba(255,255,255,0.55);
 }
 
 .footer-social {
