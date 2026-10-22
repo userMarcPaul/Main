@@ -178,17 +178,18 @@ git push
 ## Part D — Deploy on Render
 
 The project includes a file called `render.yaml` (a "Blueprint") that tells Render exactly
-what to create: the website server **and** a once-a-day cleanup task. You don't configure
-those by hand — Render reads the file.
+what to create: the website server. You don't configure it by hand — Render reads the file.
+
+> The once-a-day cleanup task does **not** run on Render — Render's scheduled jobs have no
+> free plan. It runs for free on GitHub Actions instead; you'll switch it on in Part F.
 
 ### D1. Create the Blueprint
 
 1. Go to **render.com** and sign in (use "Continue with GitHub").
 2. In the dashboard, click **New → Blueprint**.
 3. Connect your GitHub account if asked, then pick this repository.
-4. Render reads `render.yaml` and shows the services it will create:
+4. Render reads `render.yaml` and shows the service it will create:
    - **ecb-eats** — the website (a "Web Service")
-   - **ecb-eats-cleanup** — the daily cleanup (a "Cron Job")
 5. Click **Apply** / **Create** to continue.
 
 ### D2. Fill in the secret environment variables
@@ -208,9 +209,6 @@ Render will prompt you for the values marked as secret in `render.yaml` (it won'
 > `https://ecb-eats.onrender.com` (if the name `ecb-eats` is taken, it adds a few random
 > characters). You can finish deploying first, copy the real URL from the service's page,
 > then update `SITE_URL` and click **Save** / redeploy.
-
-The same two Supabase secrets are also needed by the cleanup Cron Job — enter them there
-too if Render asks separately.
 
 ### D3. Deploy
 
@@ -240,6 +238,26 @@ Open your Render URL and confirm:
 > 15 minutes of no visitors. The next visit then takes ~30–50 seconds to wake it up before
 > the page loads. That's normal on the free tier; Render's paid plan ($7/month) keeps it
 > always awake.
+
+---
+
+## Part F — Turn on the daily cleanup (GitHub Actions)
+
+The app keeps a little housekeeping data (expired login sessions, old rate-limit counters)
+that should be purged once a day. Instead of a Render cron job (not free), this runs for
+free on **GitHub Actions** — the same system that already runs your tests. It's already
+defined in `.github/workflows/cleanup.yml`; you just need to give it the two Supabase
+secrets so it can reach your database.
+
+1. On GitHub, open your repository and go to **Settings → Secrets and variables → Actions**.
+2. Click **New repository secret** and add these two (same values as before):
+   - Name `SUPABASE_URL`, value = your Project URL.
+   - Name `SUPABASE_SERVICE_ROLE_KEY`, value = your `service_role` key.
+3. That's it — it runs automatically every day at 04:00 UTC.
+
+> **Want to test it now?** Go to the **Actions** tab → **Daily cleanup** → **Run workflow**.
+> A green check means it worked. (Secrets are stored encrypted by GitHub and never shown in
+> logs.)
 
 ---
 

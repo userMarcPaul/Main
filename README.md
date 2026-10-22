@@ -159,7 +159,7 @@ The site deploys to **Render** from the `render.yaml` blueprint, with every push
 
 ### Render environment variables
 
-Set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `DEMO_PASSWORD` and `SITE_URL` in the Render dashboard (they're marked `sync: false` in `render.yaml` so they're never committed). `SUPABASE_STORAGE_BUCKET` is set in `render.yaml` to the name of a **public** Supabase Storage bucket, so uploads go there instead of the server's ephemeral disk. The daily cleanup cron is declared in `render.yaml` and runs `db/cleanup.js` directly.
+Set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `DEMO_PASSWORD` and `SITE_URL` in the Render dashboard (they're marked `sync: false` in `render.yaml` so they're never committed). `SUPABASE_STORAGE_BUCKET` is set in `render.yaml` to the name of a **public** Supabase Storage bucket, so uploads go there instead of the server's ephemeral disk. The daily cleanup runs for free on **GitHub Actions** (`.github/workflows/cleanup.yml`), not a Render cron job (Render has no free cron plan); add `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` as repo secrets so it can reach the database.
 
 ## Project layout
 

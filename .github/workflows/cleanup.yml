@@ -1,0 +1,30 @@
+name: Daily cleanup
+
+# Purges expired sessions and stale rate-limit rows once a day. This runs on
+# GitHub Actions (free) rather than a Render cron job, because Render cron jobs
+# have no free plan. Requires two repo secrets: SUPABASE_URL and
+# SUPABASE_SERVICE_ROLE_KEY (see DEPLOYMENT.md).
+
+on:
+  schedule:
+    - cron: "0 4 * * *" # 04:00 UTC daily
+  workflow_dispatch: {} # also runnable by hand from the Actions tab
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Purge expired sessions and stale rate-limit rows
+        run: node db/cleanup.js
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

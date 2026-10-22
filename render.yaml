@@ -25,17 +25,6 @@ services:
       - key: SUPABASE_STORAGE_BUCKET
         value: recipe-images
 
-  # Daily maintenance (expire stale rows, etc.). Runs the script directly, so it
-  # needs no HTTP endpoint and no shared secret.
-  - type: cron
-    name: ecb-eats-cleanup
-    runtime: node
-    plan: free
-    schedule: "0 4 * * *" # 04:00 UTC daily
-    buildCommand: npm install
-    startCommand: node db/cleanup.js
-    envVars:
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_SERVICE_ROLE_KEY
-        sync: false
+# Note: the daily cleanup is NOT a Render cron job — Render cron jobs have no
+# free plan. It runs for free on GitHub Actions instead; see
+# .github/workflows/cleanup.yml and DEPLOYMENT.md.
