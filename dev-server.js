@@ -77,7 +77,7 @@ const server = createServer(async (req, res) => {
     return res.end(JSON.stringify({ error: "No such endpoint" }));
   }
 
-  await serveStatic(pathname, res);
+  await serveStatic(req, pathname, res);
 });
 
 // Belt and braces: one bad request should never kill local development.
@@ -88,7 +88,7 @@ process.on("uncaughtException", (err) => console.error("uncaught:", err));
 
 const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || "uploads");
 
-async function serveStatic(pathname, res) {
+async function serveStatic(req, pathname, res) {
   // Uploaded images live in UPLOAD_DIR (which storage.js writes to and may sit
   // outside the project), served under /uploads. In production this path is a
   // Supabase Storage URL instead, so this mapping is for local disk only.
@@ -110,9 +110,26 @@ async function serveStatic(pathname, res) {
     const info = await stat(filePath);
     if (info.isDirectory()) throw new Error("directory");
 
+    const type = MIME[path.extname(filePath)] ?? "application/octet-stream";
+    // Validation-based caching: the browser reuses assets across page loads so a
+    // navigation doesn't re-download the CSS, JS modules, fonts and images, but
+    // it revalidates with a cheap 304 when needed so a new deploy is picked up
+    // quickly. HTML entry points always revalidate; other assets may sit in the
+    // cache for a few minutes. (ETag is derived from size+mtime — no file read.)
+    const etag = `"${info.size.toString(16)}-${Math.floor(info.mtimeMs).toString(16)}"`;
+    const isHtml = type.startsWith("text/html");
+    res.setHeader("ETag", etag);
+    res.setHeader("Last-Modified", info.mtime.toUTCString());
+    res.setHeader("Cache-Control", isHtml ? "no-cache" : "public, max-age=300");
+
+    if (req.headers["if-none-match"] === etag) {
+      res.statusCode = 304;
+      return res.end();
+    }
+
     const body = await readFile(filePath);
     res.statusCode = 200;
-    res.setHeader("Content-Type", MIME[path.extname(filePath)] ?? "application/octet-stream");
+    res.setHeader("Content-Type", type);
     res.end(body);
   } catch {
     res.statusCode = 404;
