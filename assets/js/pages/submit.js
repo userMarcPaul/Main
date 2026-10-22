@@ -123,7 +123,7 @@ function addIngredient(values = {}) {
   row.innerHTML = `
     <input type="text" class="dyn-emoji" placeholder="🍗" maxlength="8" value="${escapeHtml(values.emoji ?? "")}">
     <input type="text" class="dyn-name" placeholder="Ingredient" maxlength="80" value="${escapeHtml(values.name ?? "")}">
-    <input type="text" class="dyn-qty" placeholder="Qty" maxlength="12" value="${escapeHtml(values.qty ?? "")}">
+    <input type="text" class="dyn-qty" placeholder="Qty" maxlength="12" inputmode="decimal" aria-label="Quantity" value="${escapeHtml(values.qty ?? "")}">
     <input type="text" class="dyn-unit" placeholder="Unit" maxlength="40" value="${escapeHtml(values.unit ?? "")}">
     <button type="button" class="row-remove" aria-label="Remove ingredient"><i class="fas fa-xmark"></i></button>`;
   row.querySelector(".row-remove").addEventListener("click", () => { row.remove(); saveDraft(); });
@@ -220,6 +220,25 @@ function clientErrors(data, hasPhoto) {
   return e;
 }
 
+/**
+ * Flag any Qty cell the server would reject. Qty is optional ("to taste"), but
+ * if given it must be a positive number up to 100000 — the same rule the server
+ * enforces. Catching it here marks the exact row and avoids a wasted photo
+ * upload followed by a vague, section-wide error. Returns true if any are bad.
+ */
+function markQtyErrors() {
+  let bad = false;
+  document.querySelectorAll("#ingredient-rows .dyn-row").forEach((row) => {
+    const input = row.querySelector(".dyn-qty");
+    const raw = input.value.trim();
+    const n = Number(raw);
+    const ok = raw === "" || (Number.isFinite(n) && n > 0 && n <= 100000);
+    input.setAttribute("aria-invalid", ok ? "false" : "true");
+    if (!ok) bad = true;
+  });
+  return bad;
+}
+
 function showErrors(errors) {
   document.querySelectorAll(".field-error").forEach((el) => { el.hidden = true; el.textContent = ""; });
   for (const [field, message] of Object.entries(errors)) {
@@ -235,6 +254,11 @@ async function onSubmit(event) {
 
   const data = collect();
   const errors = clientErrors(data, Boolean(photoBlob));
+  // A bad amount must not slip past to a wasted upload; the length check is more
+  // fundamental, so it keeps priority for the shared ingredients error slot.
+  if (markQtyErrors() && !errors.ingredients) {
+    errors.ingredients = "Each amount must be a positive number (e.g. 2 or 0.5), or left blank";
+  }
   if (Object.keys(errors).length) {
     showErrors(errors);
     return;
@@ -253,7 +277,11 @@ async function onSubmit(event) {
     localStorage.removeItem(DRAFT_KEY);
     root.innerHTML = `
       <div class="state-panel">
-        <div class="state-icon">✅</div>
+        <div class="state-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#2E7D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle><path d="m8 12 3 3 5-6"></path>
+          </svg>
+        </div>
         <p class="state-message">Thanks! Your recipe is pending review. You'll see it below once an admin approves it.</p>
         <a href="submit.html" class="state-retry">Submit another</a>
       </div>`;

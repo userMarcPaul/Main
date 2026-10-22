@@ -1286,6 +1286,7 @@ input {
 
 .state-panel--page { padding: 80px 24px; }
 .state-icon { font-size: 2.5rem; margin-bottom: 12px; }
+.state-icon svg { display: inline-block; vertical-align: middle; }
 
 .state-title {
   font-family: var(--font-heading);
@@ -2000,6 +2001,7 @@ input:focus-visible {
 .dyn-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
 .dyn-row .dyn-emoji { width: 56px; text-align: center; flex: none; }
 .dyn-row .dyn-qty { width: 72px; flex: none; }
+.dyn-row input[aria-invalid="true"] { border-color: #C0392B; }
 .dyn-row .dyn-unit { width: 96px; flex: none; }
 .dyn-row .dyn-name { flex: 1; }
 .dyn-row--step { align-items: center; }
