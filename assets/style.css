@@ -1998,12 +1998,16 @@ input:focus-visible {
 .photo-preview { margin-top: 12px; }
 .photo-preview img { max-width: 220px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); }
 
-.dyn-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
-.dyn-row .dyn-emoji { width: 56px; text-align: center; flex: none; }
-.dyn-row .dyn-qty { width: 72px; flex: none; }
+.dyn-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+/* These fixed widths must out-specify `.submit-form input[type="text"] { width: 100% }`
+   above (specificity 0,2,1). Scoping each under .submit-form makes them 0,3,0 so they
+   win; without this every cell stretches to 100% and the row overflows, pushing Qty and
+   Unit off-screen. min-width: 0 lets the name cell shrink instead of forcing overflow. */
+.submit-form .dyn-row .dyn-emoji { width: 56px; text-align: center; flex: none; }
+.submit-form .dyn-row .dyn-qty { width: 72px; flex: none; }
+.submit-form .dyn-row .dyn-unit { width: 96px; flex: none; }
+.submit-form .dyn-row .dyn-name { flex: 1; width: auto; min-width: 0; }
 .dyn-row input[aria-invalid="true"] { border-color: #C0392B; }
-.dyn-row .dyn-unit { width: 96px; flex: none; }
-.dyn-row .dyn-name { flex: 1; }
 .dyn-row--step { align-items: center; }
 .dyn-row--step .step-num {
   width: 26px; height: 26px; flex: none; border-radius: var(--radius-full);
