@@ -6,6 +6,17 @@
 import { listRecipes, me, logout } from "../data/api.js";
 import { escapeHtml, recipeUrl } from "../ui/render.js";
 
+// The chrome initialises on every page view, and the client-side router runs
+// initChrome() again after each in-page navigation. Listeners that live on
+// `document`/`window` (not on page elements, which are replaced on a body swap)
+// are therefore bound once, guarded by these flags, and re-query the current
+// elements — otherwise one copy would accumulate per navigation.
+let stickyNavBound = false;
+let authDocBound = false;
+let authClose = () => {};
+let searchDocBound = false;
+let searchClose = () => {};
+
 export function initChrome() {
   initMobileMenu();
   initScrollAnimations();
@@ -37,6 +48,7 @@ async function initAuthArea() {
   const user = await me().catch(() => null);
 
   if (!user) {
+    authClose = () => {};
     const next = encodeURIComponent(location.pathname + location.search);
     area.innerHTML = `<a class="auth-login-link" href="login.html?next=${next}">Log in</a>`;
     area.hidden = false;
@@ -67,10 +79,17 @@ async function initAuthArea() {
 
   const close = () => { dropdown.hidden = true; trigger.setAttribute("aria-expanded", "false"); };
   const open = () => { dropdown.hidden = false; trigger.setAttribute("aria-expanded", "true"); };
+  authClose = close; // the document-level listeners below act on the current menu
 
   trigger.addEventListener("click", () => (dropdown.hidden ? open() : close()));
-  document.addEventListener("click", (event) => { if (!area.contains(event.target)) close(); });
-  document.addEventListener("keydown", (event) => { if (event.key === "Escape") close(); });
+  if (!authDocBound) {
+    authDocBound = true;
+    document.addEventListener("click", (event) => {
+      const current = document.getElementById("auth-area");
+      if (current && !current.contains(event.target)) authClose();
+    });
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") authClose(); });
+  }
 
   area.querySelector(".auth-logout").addEventListener("click", async () => {
     try {
@@ -125,14 +144,15 @@ export function initScrollAnimations(root = document) {
 
 /* --- Sticky Nav Shadow --- */
 function initStickyNav() {
-  const nav = document.querySelector('.main-nav');
-  if (!nav) return;
+  if (stickyNavBound || !document.querySelector('.main-nav')) return;
+  stickyNavBound = true;
 
   let ticking = false;
   window.addEventListener('scroll', () => {
     if (ticking) return;
     window.requestAnimationFrame(() => {
-      nav.style.boxShadow = window.scrollY > 10
+      const current = document.querySelector('.main-nav'); // re-query: the body may have been swapped
+      if (current) current.style.boxShadow = window.scrollY > 10
         ? '0 4px 16px rgba(27, 42, 74, 0.25)'
         : '0 2px 8px rgba(27, 42, 74, 0.2)';
       ticking = false;
@@ -179,6 +199,7 @@ function initHeaderSearch() {
     dropdown.hidden = true;
     dropdown.innerHTML = '';
   }
+  searchClose = closeDropdown; // the document-level listener below closes the current dropdown
 
   let timer;
   let sequence = 0;
@@ -215,7 +236,16 @@ function initHeaderSearch() {
     }, 300);
   });
 
-  document.addEventListener('click', (event) => {
-    if (!bar.contains(event.target)) closeDropdown();
-  });
+  if (!searchDocBound) {
+    searchDocBound = true;
+    document.addEventListener('click', (event) => {
+      const current = document.querySelector('.search-bar');
+      if (current && !current.contains(event.target)) searchClose();
+    });
+  }
 }
+
+// Boot the client-side router once (first page load evaluates this module). It
+// makes in-page navigation swap the body instead of a full reload, and falls
+// back to a normal navigation on any error. See ui/router.js.
+import("./router.js").catch(() => {});
