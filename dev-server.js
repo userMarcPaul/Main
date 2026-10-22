@@ -1,10 +1,10 @@
 /**
- * Local development server.
+ * The HTTP server, used for both local development (`npm run dev`) and
+ * production on Render (`npm start`).
  *
- * Vercel builds the routes under api/ from the filenames; this script does the
- * same mapping by hand so the site runs with plain `npm run dev` and no Vercel
- * CLI. It mounts the *same* handler modules, so what you test here is what
- * deploys. Not used in production — Vercel never runs this file.
+ * It serves the static site and maps the routes under api/ to their handler
+ * modules by filename. It reads PORT from the environment (Render sets it), so
+ * the same file runs in both places and what you test locally is what deploys.
  */
 import { createServer } from "node:http";
 import { readFile, stat } from "node:fs/promises";
@@ -91,7 +91,7 @@ const UPLOAD_DIR = path.resolve(process.env.UPLOAD_DIR || "uploads");
 async function serveStatic(pathname, res) {
   // Uploaded images live in UPLOAD_DIR (which storage.js writes to and may sit
   // outside the project), served under /uploads. In production this path is a
-  // Vercel Blob URL instead, so this mapping is dev-only.
+  // Supabase Storage URL instead, so this mapping is for local disk only.
   let filePath;
   if (pathname.startsWith("/uploads/")) {
     const name = path.basename(pathname); // no traversal past the filename

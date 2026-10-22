@@ -1,0 +1,41 @@
+# Render Blueprint — defines the services Render creates for this app.
+# See DEPLOYMENT.md for the full walkthrough.
+#
+# Secret values (marked `sync: false`) are NOT stored here — you type them into
+# the Render dashboard once. Never put real keys in this file.
+
+services:
+  # The website + its /api endpoints, run as one long-lived Node server.
+  - type: web
+    name: ecb-eats
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: SITE_URL
+        sync: false
+      # Name of the PUBLIC Supabase Storage bucket for uploaded recipe photos.
+      - key: SUPABASE_STORAGE_BUCKET
+        value: recipe-images
+
+  # Daily maintenance (expire stale rows, etc.). Runs the script directly, so it
+  # needs no HTTP endpoint and no shared secret.
+  - type: cron
+    name: ecb-eats-cleanup
+    runtime: node
+    plan: free
+    schedule: "0 4 * * *" # 04:00 UTC daily
+    buildCommand: npm install
+    startCommand: node db/cleanup.js
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false

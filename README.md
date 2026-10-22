@@ -1,8 +1,8 @@
 # ECB Eats
 
-A full-stack recipe app with real accounts, reviews, saved recipes and user submissions — built with plain HTML, CSS and JavaScript on the frontend, and Vercel serverless functions backed by a Supabase (Postgres) database on the backend.
+A full-stack recipe app with real accounts, reviews, saved recipes and user submissions — built with plain HTML, CSS and JavaScript on the frontend, and a Node.js server (the same `/api` handlers run locally and in production) backed by a Supabase (Postgres) database on the backend.
 
-**Live site:** _not deployed yet_ — will be at `https://ecb-eats.vercel.app` once the repo is imported into Vercel (see [Deployment](#deployment)).
+**Live site:** _not deployed yet_ — will be at `https://ecb-eats.onrender.com` once the repo is deployed on Render (see [Deployment](#deployment)).
 
 **Demo account:** `demo@ecbeats.app` / `DemoPass123!`
 Log in to try reviewing a recipe, saving favourites and submitting your own — all without signing up.
@@ -33,12 +33,12 @@ Every feature below is real and backed by the database. If something isn't built
 | Layer | Choice |
 |-------|--------|
 | Frontend | HTML, CSS (custom design system), vanilla ES modules |
-| Backend | Vercel serverless functions (Node.js), file-based routing |
+| Backend | Node.js HTTP server, file-based `/api` routing (runs on Render) |
 | Database | Supabase (Postgres), via `@supabase/supabase-js` |
 | Auth | `bcryptjs` hashing, `crypto.randomBytes` sessions, SHA-256 stored hashes |
 | Validation | `zod` — one schema per request body |
 | Aggregates & transactions | Postgres **views** (rating/category counts) and **RPC functions** (atomic submission, rate-limit) — PostgREST can't express these from the client |
-| Image uploads | `lib/storage.js` — disk locally, Vercel Blob in production (switched by `BLOB_READ_WRITE_TOKEN`) |
+| Image uploads | `lib/storage.js` — disk locally, Supabase Storage in production (switched by `SUPABASE_STORAGE_BUCKET`) |
 | CI | GitHub Actions — runs all tests on every PR |
 
 ## Architecture
@@ -117,16 +117,15 @@ npm run dev        # http://localhost:3000
 | `SUPABASE_URL` | `https://<project>.supabase.co` | same |
 | `SUPABASE_SERVICE_ROLE_KEY` | service-role key (server-side only) | same |
 | `ADMIN_EMAIL` | Your email | Your email |
-| `DEMO_PASSWORD` | `DemoPass123!` | _(set in Vercel)_ |
-| `SITE_URL` | _(empty)_ | `https://ecb-eats.vercel.app` |
-| `BLOB_READ_WRITE_TOKEN` | _(empty → disk)_ | Set when Vercel Blob is linked |
-| `CRON_SECRET` | _(empty)_ | Random string; gates the cleanup cron |
+| `DEMO_PASSWORD` | `DemoPass123!` | _(set in Render)_ |
+| `SITE_URL` | _(empty)_ | `https://ecb-eats.onrender.com` |
+| `SUPABASE_STORAGE_BUCKET` | _(empty → disk)_ | Name of the public Supabase Storage bucket |
 
 ### Available scripts
 
 | Script | Purpose |
 |--------|---------|
-| `npm run dev` | Start the local dev server (mirrors Vercel routing) |
+| `npm run dev` | Start the local dev server (same server that runs in production) |
 | `npm run seed` | Apply schema + insert the 6 starter recipes |
 | `npm run seed:demo` | Create the demo account with sample activity |
 | `npm run migrate` | List the `db/supabase/*.sql` files to run in Supabase |
@@ -150,17 +149,17 @@ functions — was verified on a real Postgres 16 before shipping.
 
 ## Deployment
 
-The site deploys to **Vercel** with every push to `main`.
+The site deploys to **Render** from the `render.yaml` blueprint, with every push to `main`. See **[DEPLOYMENT.md](DEPLOYMENT.md)** for the full beginner-friendly walkthrough.
 
-1. Import the GitHub repo into Vercel — every push to `main` auto-deploys
-2. Work on feature branches (`feat/reviews`, `feat/auth`) and open a PR — Vercel posts a preview URL on every PR
-3. Create the Supabase project and run `db/supabase/*.sql` in its SQL editor; use a **separate Supabase project** for previews so testing never touches production data
-4. Apply any new `db/supabase` changes to the project before merging the PR that needs them
+1. Create the Supabase project and run `db/supabase/*.sql` in its SQL editor, then create a public **Storage bucket** for uploaded photos
+2. Seed the database from your laptop (`npm run seed`, `npm run seed:demo`)
+3. Push to GitHub, then create a Render **Blueprint** from the repo — it reads `render.yaml` and provisions the web service and the daily cleanup cron
+4. Set the secret env vars in the Render dashboard (below); every push to `main` auto-deploys
 5. GitHub Actions runs the test suite on every PR
 
-### Vercel environment variables
+### Render environment variables
 
-Set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `DEMO_PASSWORD` and `CRON_SECRET` in the Vercel project settings. Link **Vercel Blob** so `BLOB_READ_WRITE_TOKEN` is injected (uploads need it — the serverless filesystem is read-only). For preview environments, point `SUPABASE_URL`/`SUPABASE_SERVICE_ROLE_KEY` at a separate Supabase project. The daily cleanup cron is declared in `vercel.json`.
+Set `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `ADMIN_EMAIL`, `DEMO_PASSWORD` and `SITE_URL` in the Render dashboard (they're marked `sync: false` in `render.yaml` so they're never committed). `SUPABASE_STORAGE_BUCKET` is set in `render.yaml` to the name of a **public** Supabase Storage bucket, so uploads go there instead of the server's ephemeral disk. The daily cleanup cron is declared in `render.yaml` and runs `db/cleanup.js` directly.
 
 ## Project layout
 
@@ -182,7 +181,7 @@ lib/
   repositories/ recipes.js  reviews.js  saved.js  users.js  sessions.js
   mappers.js    row → API shape
   errors.js     AppError + factories (notFound, forbidden, …)
-  storage.js    image storage adapter (disk → Vercel Blob)
+  storage.js    image storage adapter (disk → Supabase Storage)
   db.js         Supabase client (service-role) + unwrap() helper
   http.js       JSON responses, cookies, origin check, body parsing
   auth.js       session adapter: getActor, createSessionFor, cookies
@@ -212,8 +211,8 @@ test/           smoke · auth · reviews · submissions · hardening (see Tests)
 
 ## Challenges and what I learned
 
-**Postgres on serverless, via Supabase.**
-Vercel serverless functions are ephemeral, so a local database file would lose writes between requests. Supabase provides managed Postgres reachable over HTTPS, the same from local dev and production. All access goes through the service-role key on the server; the schema turns on row-level security with no policies, so the public key can read nothing and is never shipped to the browser.
+**Managed Postgres, via Supabase.**
+A hosted server's filesystem is ephemeral (reset on each deploy), so a local database file would lose writes. Supabase provides managed Postgres reachable over HTTPS, the same from local dev and production. All access goes through the service-role key on the server; the schema turns on row-level security with no policies, so the public key can read nothing and is never shipped to the browser.
 
 **Session security.**
 Storing the raw session token in the database would mean a leaked database dump lets an attacker log in as anyone. Instead, only the SHA-256 hash of each token is stored; the raw token lives only in the user's HTTP-only cookie. The cookie's `SameSite=Lax` flag and an `Origin` header check on write endpoints together provide CSRF protection without a separate token.
